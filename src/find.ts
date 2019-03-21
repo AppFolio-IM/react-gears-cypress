@@ -11,7 +11,7 @@ export class Finders {
   }
 
   blockPanel = (title:string) =>
-    this.cy.contains(sel.cardTitle, title).should('not.exist')
+    this.cy.contains(sel.cardTitle, title)
 
   button = (label:string) => this.cy.contains('button', label);
 

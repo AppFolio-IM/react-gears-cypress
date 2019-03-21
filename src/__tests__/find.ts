@@ -3,7 +3,8 @@ import {Finders, NegativeFinders} from '../index';
 // TODO: turn this into a beforeEach
 function setup() {
   const fn = jest.fn();
-  const then = jest.fn(cb => cb())
+  const should = jest.fn();
+  const then = jest.fn(cb => cb())  
   const within = jest.fn(cb => cb())
   const wrap = jest.fn(cb => cb())
   const cy = {
@@ -15,7 +16,7 @@ function setup() {
     find: fn,
     get: fn,
     parent: fn,
-    should: fn,
+    should,
     then,
     within,
     wrap,
@@ -34,6 +35,7 @@ describe('finders', () => {
     test(`'${name}' finds by label`, () => {
       gears[name]('Some Label');
       expect(cy._).toHaveBeenCalledWith(expect.anything(), 'Some Label')
+      expect(cy.should).not.toHaveBeenCalled()
     })
   })
 
