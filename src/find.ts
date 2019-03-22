@@ -11,7 +11,7 @@ export class Finders {
   }
 
   blockPanel = (title:string) =>
-    this.cy.contains(sel.cardTitle, title)
+    this.cy.contains(sel.cardTitle, title).closest('.card')
 
   button = (label:string) => this.cy.contains('button', label);
 
