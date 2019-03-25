@@ -1,6 +1,6 @@
 {
   "name": "react-gears-cypress",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "bundle": "webpack",
     "clean:build": "rimraf lib",
     "clean:bundle": "rimraf dist",
-    "lint": "eslint src",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts",
     "test": "jest --maxWorkers ${JEST_MAX_WORKERS:-0}",
     "type-check": "tsc --noEmit"
   },
@@ -38,7 +39,8 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.123"
+    "@types/lodash": "^4.14.123",
+    "lodash": "^4.17.11"
   },
   "publishConfig": {
     "registry": "https://nexus.dev.appf.io/repository/npm-hosted/"

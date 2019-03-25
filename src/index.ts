@@ -1,4 +1,9 @@
 
+import {Commands} from './commands'
+import {Finders, NegativeFinders} from './find'
+import * as match from './match'
+import * as sel from './sel'
+
 type Callback = (cb:any)=>any
 type Text = RegExp | string
 export interface Chainable {
@@ -15,9 +20,4 @@ export interface Chainable {
   wrap(f0: Callback): Chainable,
   within(f0: Callback): Chainable,
 }
-
-import {Commands} from './commands'
-import {Finders, NegativeFinders} from './find'
-import * as match from './match'
-import * as sel from './sel'
 export {Commands, Finders, NegativeFinders, match, sel}
