@@ -10,7 +10,7 @@ import escape from 'lodash/escapeRegExp'
 // against the WHOLE text of the label/button/etc. We also allow punctuation at
 // the end in order to cope with the "*" feedback chars that gears inserts for
 // required fields.
-export const exact = (label:string, flags='i') => new RegExp(`^${escape(label)}[\s\W]*$`, flags);
+export const exact = (label:string, flags='i') => new RegExp(`^${escape(label)}[\\s\\W]*$`, flags);
 
 // Match text contents that begin with first and end with last, but may have lots of
 // stuff in between e.g. "very incredibly mega long" matches ("very", "long")
@@ -21,4 +21,4 @@ export const fuzzyFirstLast = (first:string, last:string) => new RegExp(`^${esca
 //
 // Good for dealing with HTML elements that have a multi-line value, but need to be matched with a
 // value from single-line Gherkin table cell. (cucumber-js doesn't grok \n unfortunately!)
-export const fuzzyMultiline = (value:string) => new RegExp(escape(value).replace(/\s+/g, '\\s+'));
+export const fuzzyMultiline = (value:string) => new RegExp(`^${escape(value)}$`.replace(/\s+/g, '\\s+'), 'm');
