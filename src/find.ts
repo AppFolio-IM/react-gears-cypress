@@ -13,6 +13,14 @@ export class NegativeFinders {
     this.cy = cy
   }
 
+  alert = (title:string, color?:string) => {
+    let combo = sel.alert;
+    if(color)
+      combo = `${combo}${combo}-${color}`
+
+    this.cy.contains(combo, title).should('not.exist')
+  }  
+
   blockPanel = (title:string) =>
     this.cy.contains(sel.cardTitle, title).should('not.exist')
 }

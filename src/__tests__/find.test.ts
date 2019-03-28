@@ -41,7 +41,7 @@ describe('all finders', () => {
     })
   })
 
-  describe('all negative assertions', () => {
+  describe('negative assertions', () => {
     Object.keys(new NegativeFinders()).forEach(name => {
       const {cy, gears} = setup();
       const fn = gears.assertNo[name]
@@ -98,5 +98,16 @@ describe('specific finders', () => {
       expect(cy.contains).toHaveBeenCalledWith('label',someLabel)
       expect(rabbit.mockReactComponent).toBe(true)
     })
+  })
+
+  describe('negative assertions', () => {
+    describe('alert', () => {
+      it('takes an optional color', () => {
+        const {cy, gears} = setup();
+        gears.assertNo.alert(someLabel, 'danger')
+        expect(cy._).toHaveBeenCalledWith('.alert.alert-danger', someLabel)
+        expect(cy.should).toHaveBeenCalledWith('not.exist')
+      })  
+      })
   })
 })

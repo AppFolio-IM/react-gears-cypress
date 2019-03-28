@@ -3,6 +3,8 @@
 
 Added finders for Alert, Card, and others.
 
+Added negative finder for Alert.
+
 Added protocol documentation for Finders (overall).
 
 Fixed corner cases w/inconsistent use of match by Finders.
