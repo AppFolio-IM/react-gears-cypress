@@ -21,8 +21,16 @@ export class NegativeFinders {
     this.cy.contains(combo, title).should('not.exist')
   }  
 
+  button = (label:string) => this.cy.contains(sel.button, label).should('not.exist');
+
   blockPanel = (title:string) =>
     this.cy.contains(sel.cardTitle, title).should('not.exist')
+
+  link = (label:string) =>
+    this.cy.contains(sel.link, label).should('not.exist')
+
+  modal = (title:string) => 
+    this.cy.contains(sel.modalTitle, title).should('not.exist')
 }
 
 /**
@@ -109,4 +117,9 @@ export class Finders {
         if (vanilla.length) return vanilla;
         throw new Error(`react-gears-cypress: cannot determine select type for '${label}'`);
       });
+
+  summaryBoxItem = (label:string) =>
+    this.cy
+      .contains(sel.summaryBoxItemLabel, label)
+      .closest(sel.summaryBoxItem)
 }

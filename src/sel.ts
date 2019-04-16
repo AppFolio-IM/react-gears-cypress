@@ -10,3 +10,5 @@ export const modalTitle = '.modal-title'
 export const modal = '.modal-dialog'
 export const select = 'select'
 export const selectControl = '.Select-control'
+export const summaryBoxItem = '.card.border-secondary'
+export const summaryBoxItemLabel = `.card.border-secondary > .card-body > small`

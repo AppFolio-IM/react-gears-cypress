@@ -65,15 +65,17 @@ describe('specific finders', () => {
   })
   
   describe('select', () => {    
-    function setupSelectChain(cy, vanilla:boolean):any {
+    function setupSelectChain(cy, flavor: 'react' | 'vanilla' | 'unknown'):any {
       const find = jest.fn(selector => {
         switch(selector) {
           case '.Select-control':
-            return vanilla ? {} : {length: 1, mockReactComponent: true}
+            return (flavor === 'react') ? {length: 1, mockReactComponent: true} : {}
           case 'select':
-          return vanilla ? {length: 1, mockHtmlTag: true} : {}
+            return (flavor === 'vanilla') ? {length: 1, mockHtmlTag: true} : {}
           default:
-            throw new Error('bad test mocks; please look at Finders.select and update me')
+          if(flavor === 'unknown')
+            return {}
+          throw new Error(`bad test mocks; please look at Finders.select and update me to handle its query for '${selector}'`)
         }
       })
       const then = jest.fn(callback => callback({find}))
@@ -83,7 +85,7 @@ describe('specific finders', () => {
     
     it('works with vanilla HTML select', () => {
       const {cy, gears} = setup();
-      setupSelectChain(cy, true);
+      setupSelectChain(cy, 'vanilla');
 
       const rabbit = gears.select(someLabel)
 
@@ -92,11 +94,20 @@ describe('specific finders', () => {
 
     it('works with react-select-plus', () => {
       const {cy, gears} = setup();
-      setupSelectChain(cy, false);
+      setupSelectChain(cy, 'react');
 
       const rabbit = gears.select(someLabel)
-      expect(cy.contains).toHaveBeenCalledWith('label',someLabel)
+      expect(cy.contains).toHaveBeenCalledWith('label', someLabel)
       expect(rabbit.mockReactComponent).toBe(true)
+    })
+
+    it('throws with unknown components', () => {
+      const {cy, gears} = setup();
+      setupSelectChain(cy, 'unknown');
+
+      expect(() => {
+        gears.select(someLabel)
+      }).toThrow("react-gears-cypress: cannot determine select type for 'Some Label'")
     })
   })
 
