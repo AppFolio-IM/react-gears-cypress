@@ -24,6 +24,29 @@ describe('exact', () => {
   })
 })
 
+describe('glob', () => {
+  it('allows leading wildcard', () => {
+    const target = match.glob('* First')
+    expect('First Things First').toMatch(target)
+    expect('People First').toMatch(target)
+    expect('irst').not.toMatch(target)
+  })
+
+  it('allows inline wildcard', () => {
+    const target = match.glob('In * Time')
+    expect('In Good Time').toMatch(target)
+    expect('In Good Spirits').not.toMatch(target)
+  })
+
+  it('allows trailing wildcard', () => {
+    const target = match.glob('First *')
+    expect('First Class Compartment').toMatch(target)
+    expect('First Grade').toMatch(target)
+    expect('First Name').toMatch(target)
+    expect('First').not.toMatch(target)
+  })
+})
+
 describe('fuzzyFirstLast', () => {
   const target = match.fuzzyFirstLast('Alex', 'Kono')
   
