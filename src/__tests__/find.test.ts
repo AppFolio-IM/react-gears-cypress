@@ -1,8 +1,12 @@
-import {Finders, NegativeFinders} from '../index';
+import {Chainable, Finders, NegativeFinders} from '../index';
 
 // TODO: turn this into a beforeEach
 function setup():any {
+  // shared mock for ordinary commands
   const fn = jest.fn();
+
+  // commands that have special verification
+  const contains = jest.fn();
   const should = jest.fn();
   const then = jest.fn(cb => cb())  
   const within = jest.fn(cb => cb())
@@ -22,7 +26,10 @@ function setup():any {
     wrap,
     type: fn,
   };
-  ([fn, then, within, wrap]).forEach(fn2 => fn2.mockReturnValue(cy))
+
+  // make everything chainable
+  ([contains, fn, should, then, within, wrap]).forEach(fn2 => fn2.mockReturnValue(cy))
+
   const gears = new Finders(cy)
   return {cy, gears}
 }
@@ -30,26 +37,40 @@ function setup():any {
 const someLabel = 'Some Label'
 
 describe('all finders', () => {
-  Object.keys(new Finders()).forEach(name => {
-    const {cy, gears} = setup();
-    const fn = gears[name]
-    if(typeof fn !== 'function') return;
-    test(`'${name}' finds by label`, () => {
-      gears[name](someLabel);
-      expect(cy._).toHaveBeenCalledWith(expect.anything(), someLabel)
-      expect(cy.should).not.toHaveBeenCalled()
+  const template = new Finders({} as Chainable);
+  const methods = Object.keys(template).filter(key => typeof template[key] === 'function')
+  methods.forEach(name => {
+    describe(name, () => {      
+      test('finds by label', () => {
+        const {cy, gears} = setup();
+        gears[name](someLabel);
+        expect(cy.contains).toHaveBeenCalledWith(expect.anything(), someLabel)
+        expect(cy.should).not.toHaveBeenCalled()
+      })
+      test('avoids https://github.com/cypress-io/cypress/issues/2407', () => {
+        const {cy, gears} = setup();
+        gears[name](someLabel);
+        expect(cy.contains).not.toHaveBeenCalledWith(expect.stringMatching(','), expect.anything())
+      })  
     })
   })
 
   describe('negative assertions', () => {
-    Object.keys(new NegativeFinders()).forEach(name => {
-      const {cy, gears} = setup();
-      const fn = gears.assertNo[name]
-      if(typeof fn !== 'function') return;
-      test(`${fn.name} finds by label`, () => {
-        fn(someLabel)
-        expect(cy._).toHaveBeenCalledWith(expect.anything(), someLabel)
-        expect(cy.should).toHaveBeenCalledWith('not.exist')
+    const template = new NegativeFinders({} as Chainable);
+    const methods = Object.keys(template).filter(key => typeof template[key] === 'function')
+    methods.forEach(name => {
+      describe(name, () => {
+        test('finds by label', () => {
+          const {cy, gears} = setup();
+          gears.assertNo[name](someLabel);
+          expect(cy.contains).toHaveBeenCalledWith(expect.anything(), someLabel)
+          expect(cy.should).toHaveBeenCalledWith('not.exist')
+        })  
+        test('avoids https://github.com/cypress-io/cypress/issues/2407', () => {
+          const {cy, gears} = setup();
+          gears.assertNo[name](someLabel);
+          expect(cy.contains).not.toHaveBeenCalledWith(expect.stringMatching(','), expect.anything())
+        })    
       })
     })
   })

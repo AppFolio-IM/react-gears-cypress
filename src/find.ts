@@ -97,6 +97,7 @@ export class Finders {
     .closest(sel.formGroup)
     .find(sel.input)
 
+  // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
   link = (label:string) =>
     this.cy.contains(sel.link, label)
 
