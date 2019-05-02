@@ -26,8 +26,24 @@ export class NegativeFinders {
   blockPanel = (title:string) =>
     this.cy.contains(sel.cardTitle, title).should('not.exist')
 
-  link = (label:string) =>
-    this.cy.contains(sel.link, label).should('not.exist')
+  // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
+  // link = (label:string) =>
+  //   this.cy.contains(sel.link, label).should('not.exist')
+
+  // Horrid workaround for https://github.com/cypress-io/cypress/issues/2407
+  link = (label:string|RegExp) => {
+    this.cy.get(sel.link).then($candidates => {
+      for (let i = 0; i < $candidates.length; i += 1) {
+        const $ci = $candidates.eq(i)
+        const tagName = $ci.prop('tagName').toLowerCase()
+        const text = $ci.text();
+        if (label instanceof RegExp && text.match(label))
+          return this.cy.wrap($ci).contains(label).should('not.exist');
+        if (text.includes(label)) return this.cy.wrap($ci).contains(label).should('not.exist');
+      }
+      throw new Error(`No link found with content ${label}`);
+    });
+  }
 
   modal = (title:string) => 
     this.cy.contains(sel.modalTitle, title).should('not.exist')
@@ -98,8 +114,22 @@ export class Finders {
     .find(sel.input)
 
   // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
-  link = (label:string) =>
-    this.cy.contains(sel.link, label)
+  // link = (label:string) =>
+  //   this.cy.contains(sel.link, label)
+
+  // Horrid workaround for https://github.com/cypress-io/cypress/issues/2407
+  link = (label:string|RegExp) => {
+    this.cy.get(sel.link).then($candidates => {
+      for (let i = 0; i < $candidates.length; i += 1) {
+        const $ci = $candidates.eq(i)
+        const text = $ci.text();
+        if (label instanceof RegExp && text.match(label))
+          return this.cy.wrap($ci).contains(label);
+        if (text.includes(label)) return this.cy.wrap($ci).contains(label);
+      }
+      throw new Error(`No link found with content ${label}`);
+    });
+  }
 
   modal = (title:string) => 
     this.cy.contains(sel.modalTitle, title).closest(sel.modal)
