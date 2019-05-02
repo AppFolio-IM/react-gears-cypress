@@ -1,4 +1,4 @@
-import {Chainable} from '.'
+import {Chainable, Color, Text} from '.'
 import * as sel from './sel'
 
 /**
@@ -13,7 +13,7 @@ export class NegativeFinders {
     this.cy = cy
   }
 
-  alert = (title:string, color?:string) => {
+  alert = (title:Text, color?:Color) => {
     let combo = sel.alert;
     if(color)
       combo = `${combo}${combo}-${color}`
@@ -21,15 +21,31 @@ export class NegativeFinders {
     this.cy.contains(combo, title).should('not.exist')
   }  
 
-  button = (label:string) => this.cy.contains(sel.button, label).should('not.exist');
+  button = (label:Text) => this.cy.contains(sel.button, label).should('not.exist');
 
-  blockPanel = (title:string) =>
+  blockPanel = (title:Text) =>
     this.cy.contains(sel.cardTitle, title).should('not.exist')
 
-  link = (label:string) =>
-    this.cy.contains(sel.link, label).should('not.exist')
+  // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
+  // link = (label:string) =>
+  //   this.cy.contains(sel.link, label).should('not.exist')
 
-  modal = (title:string) => 
+  // Horrid workaround for https://github.com/cypress-io/cypress/issues/2407
+  link = (label:Text) => {
+    this.cy.get(sel.link).then($candidates => {
+      for (let i = 0; i < $candidates.length; i += 1) {
+        const $ci = $candidates.eq(i)
+        const tagName = $ci.prop('tagName').toLowerCase()
+        const text = $ci.text();
+        if (label instanceof RegExp && text.match(label))
+          return this.cy.wrap($ci).contains(label).should('not.exist');
+        if (text.includes(label)) return this.cy.wrap($ci).contains(label).should('not.exist');
+      }
+      throw new Error(`No link found with content ${label}`);
+    });
+  }
+
+  modal = (title:Text) => 
     this.cy.contains(sel.modalTitle, title).should('not.exist')
 }
 
@@ -70,7 +86,7 @@ export class Finders {
     this.cy = cy
   }
 
-  alert = (title:string, color?:string) => {
+  alert = (title:Text, color?:Color) => {
     let combo = sel.alert;
     if(color)
       combo = `${combo}${combo}-${color}`
@@ -78,35 +94,50 @@ export class Finders {
     this.cy.contains(combo, title)
   }
 
-  blockPanel = (title:string) =>
+  blockPanel = (title:Text) =>
     this.cy.contains(sel.cardTitle, title).closest(sel.card)
 
-  button = (label:string) => this.cy.contains(sel.button, label);
+  button = (label:Text) => this.cy.contains(sel.button, label);
 
-  card = (title:string) =>
+  card = (title:Text) =>
   this.cy.contains(sel.cardTitle, title).closest(sel.card)
 
-  cardTitle = (title:string) =>
+  cardTitle = (title:Text) =>
     this.cy.contains(sel.cardTitle, title)
 
-  datapair = (label:string) => this.cy.contains(sel.label, label).parent();
+  datapair = (label:Text) => this.cy.contains(sel.label, label).parent();
 
-  input = (label:string) =>
+  input = (label:Text) =>
   this.cy
     .contains(sel.label, label)
     .closest(sel.formGroup)
     .find(sel.input)
 
-  link = (label:string) =>
-    this.cy.contains(sel.link, label)
+  // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
+  // link = (label:string) =>
+  //   this.cy.contains(sel.link, label)
 
-  modal = (title:string) => 
+  // Horrid workaround for https://github.com/cypress-io/cypress/issues/2407
+  link = (label:Text) => {
+    return this.cy.get(sel.link).then($candidates => {
+      for (let i = 0; i < $candidates.length; i += 1) {
+        const $ci = $candidates.eq(i)
+        const text = $ci.text();
+        if (label instanceof RegExp && text.match(label))
+          return this.cy.wrap($ci).contains(label);
+        if (text.includes(label)) return this.cy.wrap($ci).contains(label);
+      }
+      throw new Error(`No link found with content ${label}`);
+    });
+  }
+
+  modal = (title:Text) => 
     this.cy.contains(sel.modalTitle, title).closest(sel.modal)
 
-  modalTitle = (title:string) =>
+  modalTitle = (title:Text) =>
     this.cy.contains(sel.modalTitle, title)
 
-  select = (label:string) =>
+  select = (label:Text) =>
     this.cy
       .contains(sel.label, label)
       .closest(sel.formGroup)
@@ -118,7 +149,7 @@ export class Finders {
         throw new Error(`react-gears-cypress: cannot determine select type for '${label}'`);
       });
 
-  summaryBoxItem = (label:string) =>
+  summaryBoxItem = (label:Text) =>
     this.cy
       .contains(sel.summaryBoxItemLabel, label)
       .closest(sel.summaryBoxItem)
