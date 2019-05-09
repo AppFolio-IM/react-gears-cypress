@@ -111,7 +111,12 @@ export class Finders {
   this.cy
     .contains(sel.label, label)
     .closest(sel.formGroup)
-    .find(sel.input)
+    .find(sel.input).then($input => {
+      if($input.attr('role') === 'combobox') {
+        throw new Error(`Please use gears.select to interact with the "${label}" input`);
+      }
+      return $input
+    })
 
   // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
   // link = (label:string) =>
