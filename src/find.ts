@@ -130,7 +130,7 @@ export class Finders {
         const text = $ci.text();
         if (label instanceof RegExp && text.match(label))
           return this.cy.wrap($ci).contains(label);
-        if (label instanceof String && text.includes(label))
+        if (typeof label === 'string' && text.includes(label))
           return this.cy.wrap($ci).contains(label);
       }
       throw new Error(`No link found with content ${label}`);
