@@ -1,9 +1,8 @@
 import {Chainable} from '.'
 import * as match from './match'
 
-type Original  =(subject: any, value:string, options:any)=>any
-
-
+type Cmd  =(subject: any, options:any)=>any
+type ValCmd  =(subject: any, value:string, options:any)=>any
 
 export class Commands {
   cy:Chainable
@@ -12,7 +11,15 @@ export class Commands {
     this.cy = cy
   }
 
-  select = (originalSelect: Original, subject:any, value:string, options:any) => {
+  clear = (originalClear: Cmd, subject: any, options:any) => {
+    if(subject.hasClass('Select-control')) {
+      subject = subject.find('input')
+      options = Object.assign(options || {}, {force: true})
+    }
+    return originalClear(subject, options);
+  }
+
+  select = (originalSelect: ValCmd, subject:any, value:string, options:any) => {
     if(subject.hasClass('Select-control')) {
       if(Array.isArray(value))
         throw new Error('gears Select multi not yet supported; have fun implementing!')
