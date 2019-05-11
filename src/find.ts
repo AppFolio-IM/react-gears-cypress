@@ -111,7 +111,12 @@ export class Finders {
   this.cy
     .contains(sel.label, label)
     .closest(sel.formGroup)
-    .find(sel.input)
+    .find(sel.input).then($input => {
+      if($input.attr('role') === 'combobox') {
+        throw new Error(`Please use gears.select to interact with the "${label}" input`);
+      }
+      return $input
+    })
 
   // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
   // link = (label:string) =>
@@ -125,7 +130,7 @@ export class Finders {
         const text = $ci.text();
         if (label instanceof RegExp && text.match(label))
           return this.cy.wrap($ci).contains(label);
-        if (label instanceof String && text.includes(label))
+        if (typeof label === 'string' && text.includes(label))
           return this.cy.wrap($ci).contains(label);
       }
       throw new Error(`No link found with content ${label}`);
