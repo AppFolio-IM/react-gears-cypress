@@ -118,24 +118,24 @@ export class Finders {
       return $input
     })
 
-  // Disabled pending resolution of https://github.com/cypress-io/cypress/issues/2407
-  // link = (label:string) =>
-  //   this.cy.contains(sel.link, label)
+  link = (label:string) =>
+    this.cy.contains(sel.link, label)
 
   // Horrid workaround for https://github.com/cypress-io/cypress/issues/2407
-  link = (label:Text) => {
-    return this.cy.get(sel.link).then($candidates => {
-      for (let i = 0; i < $candidates.length; i += 1) {
-        const $ci = $candidates.eq(i)
-        const text = $ci.text();
-        if (label instanceof RegExp && text.match(label))
-          return this.cy.wrap($ci).contains(label);
-        if (typeof label === 'string' && text.includes(label))
-          return this.cy.wrap($ci).contains(label);
-      }
-      throw new Error(`No link found with content ${label}`);
-    });
-  }
+  // (fixed in Cypress 3.3)
+  // link = (label:Text) => {
+  //   return this.cy.get(sel.link).then($candidates => {
+  //     for (let i = 0; i < $candidates.length; i += 1) {
+  //       const $ci = $candidates.eq(i)
+  //       const text = $ci.text();
+  //       if (label instanceof RegExp && text.match(label))
+  //         return this.cy.wrap($ci).contains(label);
+  //       if (typeof label === 'string' && text.includes(label))
+  //         return this.cy.wrap($ci).contains(label);
+  //     }
+  //     throw new Error(`No link found with content ${label}`);
+  //   });
+  // }
 
   modal = (title:Text) => 
     this.cy.contains(sel.modalTitle, title).closest(sel.modal)

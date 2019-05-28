@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.123",
+    "cypress": "^3.3.0",
     "lodash": "^4.17.11"
   },
   "publishConfig": {

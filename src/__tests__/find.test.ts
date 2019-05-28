@@ -41,22 +41,12 @@ describe('all finders', () => {
     const methods = Object.keys(fTmpl).filter(key => typeof fTmpl[key] === 'function')
     methods.forEach(name => {
         describe(name, () => {
-            if(name === 'link') {
-                // too complex to unit test :()
-                it.skip('works pending resolution of cypress/issues/2407', () => true)
-                return;
-            }
             it('finds by label', () => {
                 const {cy, gears} = setup();
                 gears[name](someLabel);
                 expect(cy.contains).toHaveBeenCalledWith(expect.anything(), someLabel)
                 expect(cy.should).not.toHaveBeenCalled()
             })
-            it('avoids https://github.com/cypress-io/cypress/issues/2407', () => {
-                const {cy, gears} = setup();
-                gears[name](someLabel);
-                expect(cy.contains).not.toHaveBeenCalledWith(expect.stringMatching(','), expect.anything())
-            })  
         })
     })
 
