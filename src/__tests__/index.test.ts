@@ -1,15 +1,12 @@
-import {Commands, Finders, NegativeFinders, match, sel} from '../index';
+import indexDefault, {find, match, sel} from '../index';
 
-it('exports commands', () => {  
-    expect(Commands).not.toBeNull()
+it('exports finders as default', () => {  
+    expect(indexDefault).toEqual(find)
 })
 
 it('exports finders', () => {  
-    expect(Finders).not.toBeNull()
-})
-
-it('exports negative finders', () => {  
-    expect(NegativeFinders).not.toBeNull()
+    expect(find).not.toBeNull()
+    expect(find.assertNo).not.toBeNull();
 })
 
 it('exports regexp helpers', () => {  

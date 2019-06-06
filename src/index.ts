@@ -1,6 +1,4 @@
-
-import {Commands} from './commands'
-import {Finders, NegativeFinders} from './find'
+import * as find from './find'
 import * as match from './match'
 import * as sel from './sel'
 
@@ -29,4 +27,8 @@ export interface Chainable {
   within(f0: Callback): Chainable,
 }
 
-export {Commands, Finders, NegativeFinders, match, sel}
+// Allow easy default import of the finders, which are the most useful and
+// frequently-imported part of this package.
+export default find
+
+export {find, match, sel}

@@ -1,7 +1,15 @@
-import {Chainable, Finders, NegativeFinders} from '../index';
+import {Chainable} from '../index';
+import * as gears from '../find';
+
+interface MockCy {
+    _(): () => any;
+}
+
+declare var global: any;
+declare var cy: Chainable & MockCy;
 
 // TODO: turn this into a beforeEach
-function setup(): any {
+beforeEach(() => {
     // shared mock for ordinary commands
     const fn = jest.fn();
 
@@ -30,19 +38,16 @@ function setup(): any {
     // make everything chainable
     ([contains, fn, should, then, within, wrap]).forEach(fn2 => fn2.mockReturnValue(cy))
 
-    const gears = new Finders(cy)
-    return {cy, gears}
-}
+    global.cy = cy;
+})
 
 const someLabel = 'Some Label'
 
 describe('all finders', () => {
-    const fTmpl =new Finders({} as Chainable)
-    const methods = Object.keys(fTmpl).filter(key => typeof fTmpl[key] === 'function')
+    const methods = Object.keys(gears).filter(key => typeof gears[key] === 'function')
     methods.forEach(name => {
         describe(name, () => {
             it('finds by label', () => {
-                const {cy, gears} = setup();
                 gears[name](someLabel);
                 expect(cy.contains).toHaveBeenCalledWith(expect.anything(), someLabel)
                 expect(cy.should).not.toHaveBeenCalled()
@@ -51,26 +56,14 @@ describe('all finders', () => {
     })
 
     describe('negative assertions', () => {
-        const nfTmpl = new NegativeFinders({} as Chainable)
-        const methods = Object.keys(nfTmpl).filter(key => typeof nfTmpl[key] === 'function')
+        const methods = Object.keys(gears.assertNo).filter(key => typeof gears.assertNo[key] === 'function')
         methods.forEach(name => {
             describe(name, () => {
-                if(name === 'link') {
-                    // too complex to unit test :()
-                    it.skip('works pending resolution of cypress/issues/2407', () => true)
-                    return;
-                }
                 it('finds by label', () => {
-                    const {cy, gears} = setup();
                     gears.assertNo[name](someLabel);
                     expect(cy.contains).toHaveBeenCalledWith(expect.anything(), someLabel)
                     expect(cy.should).toHaveBeenCalledWith('not.exist')
                 })  
-                it('avoids https://github.com/cypress-io/cypress/issues/2407', () => {
-                    const {cy, gears} = setup();
-                    gears.assertNo[name](someLabel);
-                    expect(cy.contains).not.toHaveBeenCalledWith(expect.stringMatching(','), expect.anything())
-                })    
             })
         })
     })
@@ -79,7 +72,6 @@ describe('all finders', () => {
 describe('specific finders', () => {
     describe('alert', () => {
         it('takes an optional color', () => {
-            const {cy, gears} = setup();
             gears.alert(someLabel, 'danger')
             expect(cy._).toHaveBeenCalledWith('.alert.alert-danger', someLabel)    
         })  
@@ -115,16 +107,14 @@ describe('specific finders', () => {
         }
 
         it('finds input fields', () => {
-            const {cy, gears} = setup();
             setupInputChain(cy, 'vanilla')
 
             const rabbit = gears.input(someLabel)
             expect(cy.contains).toHaveBeenCalledWith('label', someLabel)
-            expect(rabbit.mockHtmlTag).toBe(true)
+            expect((rabbit as any).mockHtmlTag).toBe(true)
         })
 
         it('throws when finding a react-select-plus', () => {
-            const {cy, gears} = setup();
             setupInputChain(cy, 'reactSelect')
 
             expect(() => {
@@ -153,25 +143,22 @@ describe('specific finders', () => {
         }
     
         it('works with vanilla HTML select', () => {
-            const {cy, gears} = setup();
             setupSelectChain(cy, 'vanilla');
 
             const rabbit = gears.select(someLabel)
 
-            expect(rabbit.mockHtmlTag).toBe(true)
+            expect((rabbit as any).mockHtmlTag).toBe(true)
         })
 
         it('works with react-select-plus', () => {
-            const {cy, gears} = setup();
             setupSelectChain(cy, 'react');
 
             const rabbit = gears.select(someLabel)
             expect(cy.contains).toHaveBeenCalledWith('label', someLabel)
-            expect(rabbit.mockReactComponent).toBe(true)
+            expect((rabbit as any).mockReactComponent).toBe(true)
         })
 
         it('throws with unknown components', () => {
-            const {cy, gears} = setup();
             setupSelectChain(cy, 'unknown');
 
             expect(() => {
@@ -183,7 +170,6 @@ describe('specific finders', () => {
     describe('negative assertions', () => {
         describe('alert', () => {
             it('takes an optional color', () => {
-                const {cy, gears} = setup();
                 gears.assertNo.alert(someLabel, 'danger')
                 expect(cy._).toHaveBeenCalledWith('.alert.alert-danger', someLabel)
                 expect(cy.should).toHaveBeenCalledWith('not.exist')
