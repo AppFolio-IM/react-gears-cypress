@@ -1,3 +1,4 @@
+import * as commands from './commands'
 import * as find from './find'
 import * as match from './match'
 import * as sel from './sel'
@@ -31,4 +32,4 @@ export interface Chainable {
 // frequently-imported part of this package.
 export default find
 
-export {find, match, sel}
+export {commands, find, match, sel}
