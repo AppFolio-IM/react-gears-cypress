@@ -3,8 +3,6 @@
   "eslint.autoFixOnSave": true,
   "eslint.options": {
     "rules": {
-      "jest/no-focused-tests": "off",
-      "jest/no-disabled-tests": "off",
       "no-console": "off",
       "no-debugger": "off"
     }

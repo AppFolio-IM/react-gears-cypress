@@ -1,4 +1,4 @@
-import escape from 'lodash/escapeRegExp'
+import escape from 'lodash/escapeRegExp';
 
 // Simulate the `match: :prefer_exact` option of Capybara, which is
 // the key to avoiding false positives on a page with lots of clickable
@@ -10,20 +10,24 @@ import escape from 'lodash/escapeRegExp'
 // against the WHOLE text of the label/button/etc. We also allow punctuation at
 // the end in order to cope with the "*" feedback chars that gears inserts for
 // required fields.
-export const exact = (value:string, flags='i') => new RegExp(`^${escape(value)}[\\s\\W]*$`, flags);
+export const exact = (value: string, flags = 'i') =>
+  new RegExp(`^${escape(value)}[\\s\\W]*$`, flags);
 
 // Match strings that contain value, but allow a simple `*` character to act as a
 // wildcard to ignore parts of the value. Multiple wildcards can be used and they
 // match the empty string; try not to go too wild.
-export const glob = (value:string, flags='i') => new RegExp(`^${escape(value).replace(/\\\*/, '.*')}[\\s\\W]*$`, flags);
+export const glob = (value: string, flags = 'i') =>
+  new RegExp(`^${escape(value).replace(/\\\*/, '.*')}[\\s\\W]*$`, flags);
 
 // Match text contents that begin with first and end with last, but may have lots of
 // stuff in between e.g. "very incredibly mega long" matches ("very", "long")
-export const fuzzyFirstLast = (first:string, last:string) => new RegExp(`^${escape(first)}.+${escape(last)}$`)
+export const fuzzyFirstLast = (first: string, last: string) =>
+  new RegExp(`^${escape(first)}.+${escape(last)}$`);
 
 // Given a string of words separated by simple spaces, match those words, butt with
 // any amount of whitespace, including newlines, between the words.
 //
 // Good for dealing with HTML elements that have a multi-line value, but need to be matched with a
 // value from single-line Gherkin table cell. (cucumber-js doesn't grok \n unfortunately!)
-export const fuzzyMultiline = (value:string) => new RegExp(`^${escape(value)}$`.replace(/\s+/g, '\\s+'), 'm');
+export const fuzzyMultiline = (value: string) =>
+  new RegExp(`^${escape(value)}$`.replace(/\s+/g, '\\s+'), 'm');
