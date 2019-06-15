@@ -35,8 +35,6 @@ export interface Chainable {
   within(f0: Callback): Chainable;
 }
 
-// Allow easy default import of the finders, which are the most useful and
-// frequently-imported part of this package.
-export default find;
-
+// Allow utility functions to be imported, plus bonus finders for those
+// who find default exports distasteful.
 export { commands, find, match, sel };
