@@ -8,31 +8,58 @@ Cypress.
 
 # How do I use it?
 
-First, install the commands in support/commands.js
+Install the commands at startup by adding a line to `cypress/support/commands.js`:
 
 ```javascript
-import {Commands} from 'react-gears-cypress'
-const gears = new Commands(cy)
+import {commands} from 'react-gears-cypress'
 
-Cypress.Commands.overwrite('select', gears.select)
+Cypress.Commands.overwrite('clear', { prevSubject: true }, commands.clear);
+Cypress.Commands.add('fill', { prevSubject: true }, commands.fill);
+Cypress.Commands.overwrite('select', { prevSubject: true }, commands.select);
 ```
 
-Then, in each test file where you want to interact with gears:
+Then, in each test where you want to interact with react-gears components:
 
 ```javascript
-import {Finders} from 'react-gears-cypress'
-const gears = new Finders(cy)
+import {find as gears} from 'react-gears-cypress'
 
 gears.blockPanel('Personal Information').within(() => {
   gears.datapair('First Name').contains('Alice')
   gears.input('Last Name').clear().type('Liddel')
-
-  # Finds either an HTML <select> or a gears component.
-  # Must redefine the `select` command to interact with gears components.
+  # Finds either HTML <select> or a gears component.
   gears.select('Favorite Color').select('red')
 })
+```
+
+Inputs and other components are always identified by their label/title. The
+intended usage is with the form-labelling components, which provide a
+`<label>` element for basically any nested component(s).
 
 ```
+import {FormLabelGroup, Input} from 'react-gears';
+
+...
+const TestableComponent = () => (
+  <FormLabelGroup label="foo"><Input/></FormLabelGroup>
+)
+```
+
+To deal with labels, values and other text whose whitespace varies, you
+can use the `match` helpers which return a RegExp that can be passed
+instead of a string for more precise or relaxed matching.
+
+```
+import {match} from 'react-gears-cypress
+
+// Matches "Name" or "Name *" but not "First Name"
+cy.contains(match.exact('Name'))
+// Matches "foo bar", "foo badger bar", "foo badger badger mushroom bar", etc
+cy.contains(match.fuzzyFirstLast('foo', 'bar'))
+// Matches "foo\nbar baz", "foo     bar\nbaz", etc
+cy.contains(match.fuzzyMultiline('foo bar baz'))
+```
+
+# Contributing
 
 ## Building the repo
 

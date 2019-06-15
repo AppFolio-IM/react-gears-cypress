@@ -1,5 +1,5 @@
-import * as gears from '../../src/commands';
+import * as commands from '../../src/commands';
 
-Cypress.Commands.overwrite('clear', gears.clear);
-Cypress.Commands.add('fill', { prevSubject: true }, gears.fill);
-Cypress.Commands.overwrite('select', gears.select);
+Cypress.Commands.overwrite('clear', commands.clear);
+Cypress.Commands.add('fill', { prevSubject: true }, commands.fill);
+Cypress.Commands.overwrite('select', commands.select);
