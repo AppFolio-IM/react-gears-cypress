@@ -40,6 +40,7 @@ module.exports = {
     'no-empty': 'warn',
     'no-extra-boolean-cast': 'warn',
     'prettier/prettier': ['error', {singleQuote: true, trailingComma: 'es5'}],
+    'react/prop-types': 'off'
   },
   overrides: [
     {
