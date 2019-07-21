@@ -60,12 +60,12 @@ export function cardTitle(title: Text) {
 }
 
 export function datapair(label: Text) {
-  return cy.contains(sel.label, label).parent();
+  return cy.contains(sel.datapairLabel, label).closest(sel.formGroup);
 }
 
 export function input(label: Text) {
   return cy
-    .contains(sel.label, label)
+    .contains(sel.inputLabel, label)
     .closest(sel.formGroup)
     .find(sel.input)
     .then($input => {
