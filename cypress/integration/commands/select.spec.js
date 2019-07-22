@@ -3,11 +3,10 @@ import { Card, FormLabelGroup, Select } from 'react-gears';
 import * as gears from '../../../src/find';
 
 function eventually(cb, timeout = 32) {
+  if (timeout > 1024) throw new Error(`Condition did not become true`);
   cy.wait(timeout).then(() => {
-    try {
-    } catch (err) {
-      cy.wait(timeout).then(() => eventually(cb, timeout * 2));
-    }
+    if (cb()) return null;
+    eventually(cb, timeout * 2);
   });
 }
 
