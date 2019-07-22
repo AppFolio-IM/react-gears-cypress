@@ -6,16 +6,26 @@ declare var cy: Chainable;
 type Cmd = (subject: any, options: any) => any;
 type ValCmd = (subject: any, value: string, options: any) => any;
 
+/**
+ * Clear an input or a gears Select component.
+ */
 export function clear(originalClear: Cmd, subject: any, options: any) {
   if (subject.hasClass('Select-control')) {
-    return cy
-      .wrap(subject)
-      .find('button.close')
-      .click({ force: true });
+    const btn = subject.find('button.close');
+    if (btn.length === 1)
+      return cy
+        .wrap(btn)
+        .click({ force: true })
+        .then(() => subject);
+    return subject;
   }
   return originalClear(subject, options);
 }
 
+/**
+ * Replace a form component's existing value. Works on
+ * input, textarea, or fancy input (e.g. calendar).
+ */
 export function fill(subject: any, value: string) {
   if (subject.is('input')) {
     const dismissPopup = subject
@@ -34,6 +44,9 @@ export function fill(subject: any, value: string) {
   }
 }
 
+/**
+ * Choose a value from a select (either vanilla HTML or gears).
+ */
 export function select(
   originalSelect: ValCmd,
   subject: any,

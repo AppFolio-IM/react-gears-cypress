@@ -54,26 +54,6 @@ describe('cy.clear', () => {
     );
   });
 
-  it.skip('clears <select>', () => {
-    cy.mount(
-      <Card>
-        <FormLabelGroup label="some label">
-          <select>
-            <option value="alpha">alpha</option>
-            <option value="bravo">bravo</option>
-            <option value="charlie">charlie</option>
-          </select>
-        </FormLabelGroup>
-      </Card>
-    );
-
-    cy.get('select').select('alpha');
-    cy.get('select').should('have.value', 'alpha');
-
-    gears.select('some label').clear();
-    cy.get('select').should('have.value', '');
-  });
-
   it('clears Select', () => {
     const options = ['alpha', 'bravo', 'charlie'].map(o => ({
       label: o,
@@ -98,5 +78,8 @@ describe('cy.clear', () => {
 
     gears.select('some label').clear();
     eventually(() => selected === null);
+
+    // clearing is idempotent; should not raise
+    gears.select('some label').clear();
   });
 });
