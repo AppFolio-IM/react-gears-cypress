@@ -1,10 +1,6 @@
 import indexDefault, { find, match, sel } from '../../src/index';
 
 describe('react-gears-cypress', () => {
-  it('exports finders as default', () => {
-    expect(indexDefault).to.eq(find);
-  });
-
   it('exports finders', () => {
     expect(find).not.to.be.null;
     expect(find.assertNo).not.to.be.null;

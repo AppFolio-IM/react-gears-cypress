@@ -66,6 +66,24 @@ describe('find by label', () => {
       );
       gears.input('some label');
     });
+
+    it('checkbox', () => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <Input type="checkbox" />
+        </FormLabelGroup>
+      );
+      gears.checkboxInput('some label');
+    });
+
+    it('radioInput button', () => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <Input type="radioInput" />
+        </FormLabelGroup>
+      );
+      gears.radioInput('some label');
+    });
   });
 
   describe('link', () => {

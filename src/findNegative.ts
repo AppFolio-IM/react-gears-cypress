@@ -24,12 +24,17 @@ export function blockPanel(title: Text) {
   cy.contains(sel.cardTitle, title).should('not.exist');
 }
 
+// TODO: delete when bumping to react-gears v5
+export function checkboxInput(label: Text) {
+  cy.contains(sel.checkboxInputLabel, label).should('not.exist');
+}
+
 export function datapair(label: Text) {
-  cy.contains(sel.label, label).should('not.exist');
+  cy.contains(sel.datapairLabel, label).should('not.exist');
 }
 
 export function input(label: Text) {
-  cy.contains(sel.label, label).should('not.exist');
+  cy.contains(sel.inputLabel, label).should('not.exist');
 }
 
 export function link(label: string) {
@@ -38,4 +43,9 @@ export function link(label: string) {
 
 export function modal(title: Text) {
   cy.contains(sel.modalTitle, title).should('not.exist');
+}
+
+// TODO: delete when bumping to react-gears v5
+export function radioInput(label: Text) {
+  cy.contains(sel.radioInputLabel, label).should('not.exist');
 }

@@ -34,13 +34,42 @@ describe('assert-no', () => {
     gears.assertNo.datapair('oranges');
   });
 
-  it('input', () => {
-    cy.mount(
-      <FormLabelGroup label="apples">
-        <Input />
-      </FormLabelGroup>
-    );
-    gears.assertNo.input('oranges');
+  context('input', () => {
+    it('single-line', () => {
+      cy.mount(
+        <FormLabelGroup label="apples">
+          <Input />
+        </FormLabelGroup>
+      );
+      gears.assertNo.input('oranges');
+    });
+
+    it('multiline', () => {
+      cy.mount(
+        <FormLabelGroup label="apples">
+          <Input type="textarea" />
+        </FormLabelGroup>
+      );
+      gears.assertNo.input('oranges');
+    });
+
+    it('checkbox', () => {
+      cy.mount(
+        <FormLabelGroup label="apples">
+          <Input type="checkbox" />
+        </FormLabelGroup>
+      );
+      gears.assertNo.checkboxInput('oranges');
+    });
+
+    it('radioInput', () => {
+      cy.mount(
+        <FormLabelGroup label="apples">
+          <Input type="radioInput" />
+        </FormLabelGroup>
+      );
+      gears.assertNo.radioInput('oranges');
+    });
   });
 
   it('link', () => {
