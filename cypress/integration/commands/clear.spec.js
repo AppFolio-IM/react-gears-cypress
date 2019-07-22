@@ -3,11 +3,10 @@ import { Card, DateInput, FormLabelGroup, Input, Select } from 'react-gears';
 import * as gears from '../../../src/find';
 
 function eventually(cb, timeout = 32) {
+  if (timeout > 1024) throw new Error(`Condition did not become true`);
   cy.wait(timeout).then(() => {
-    try {
-    } catch (err) {
-      cy.wait(timeout).then(() => eventually(cb, timeout * 2));
-    }
+    if (cb()) return null;
+    eventually(cb, timeout * 2);
   });
 }
 
@@ -82,7 +81,9 @@ describe('cy.clear', () => {
     }));
 
     let selected;
-    const onChange = o => (selected = o && o.value);
+    const onChange = o => {
+      selected = o && o.value;
+    };
 
     cy.mount(
       <Card>
@@ -93,9 +94,9 @@ describe('cy.clear', () => {
     );
 
     gears.select('some label').select('alpha');
-    eventually(() => expect(selected).to.eq('alpha'));
+    eventually(() => selected === 'alpha');
 
     gears.select('some label').clear();
-    eventually(() => expect(selected).to.be.null);
+    eventually(() => selected === null);
   });
 });

@@ -8,8 +8,10 @@ type ValCmd = (subject: any, value: string, options: any) => any;
 
 export function clear(originalClear: Cmd, subject: any, options: any) {
   if (subject.hasClass('Select-control')) {
-    subject = subject.find('input');
-    options = Object.assign(options || {}, { force: true });
+    return cy
+      .wrap(subject)
+      .find('button.close')
+      .click({ force: true });
   }
   return originalClear(subject, options);
 }
