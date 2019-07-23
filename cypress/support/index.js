@@ -1,3 +1,3 @@
-import 'cypress-react-unit-test'
+import 'cypress-react-unit-test';
 
-import './commands'
+import './commands';

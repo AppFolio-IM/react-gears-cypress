@@ -59,13 +59,21 @@ export function cardTitle(title: Text) {
   return cy.contains(sel.cardTitle, title);
 }
 
+// TODO: delete when bumping to react-gears v5
+export function checkboxInput(title: Text) {
+  return cy
+    .contains(sel.checkboxInputLabel, title)
+    .closest(sel.formGroup)
+    .find(sel.checkboxInput);
+}
+
 export function datapair(label: Text) {
-  return cy.contains(sel.label, label).parent();
+  return cy.contains(sel.datapairLabel, label).closest(sel.formGroup);
 }
 
 export function input(label: Text) {
   return cy
-    .contains(sel.label, label)
+    .contains(sel.inputLabel, label)
     .closest(sel.formGroup)
     .find(sel.input)
     .then($input => {
@@ -88,6 +96,14 @@ export function modal(title: Text) {
 
 export function modalTitle(title: Text) {
   return cy.contains(sel.modalTitle, title);
+}
+
+// TODO: delete when bumping to react-gears v5
+export function radioInput(title: Text) {
+  return cy
+    .contains(sel.radioInputLabel, title)
+    .closest(sel.formGroup)
+    .find(sel.radioInput);
 }
 
 export function select(label: Text) {

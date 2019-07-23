@@ -48,13 +48,42 @@ describe('find by label', () => {
     gears.datapair('some label');
   });
 
-  it('input', () => {
-    cy.mount(
-      <FormLabelGroup label="some label">
-        <Input />
-      </FormLabelGroup>
-    );
-    gears.input('some label');
+  context('input', () => {
+    it('single-line', () => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <Input />
+        </FormLabelGroup>
+      );
+      gears.input('some label');
+    });
+
+    it('multiline', () => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <Input type="textarea" />
+        </FormLabelGroup>
+      );
+      gears.input('some label');
+    });
+
+    it('checkbox', () => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <Input type="checkbox" />
+        </FormLabelGroup>
+      );
+      gears.checkboxInput('some label');
+    });
+
+    it('radioInput button', () => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <Input type="radioInput" />
+        </FormLabelGroup>
+      );
+      gears.radioInput('some label');
+    });
   });
 
   describe('link', () => {
