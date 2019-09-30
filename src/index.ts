@@ -21,6 +21,8 @@ type Callback = (cb: any) => any;
 
 // Subset of the Cypress chainable interface used by this package.
 export interface Chainable {
+  select(options?: any): Chainable;
+  fill(options?: any): Chainable;
   clear(options?: any): Chainable;
   click(options?: any): Chainable;
   closest(s0: string): Chainable;
