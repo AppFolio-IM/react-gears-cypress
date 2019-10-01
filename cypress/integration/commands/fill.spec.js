@@ -93,6 +93,25 @@ describe('cy.fill', () => {
     cy.get('select').should('have.value', 'natasha romanov');
   });
 
+  it('fills a select without a type=Select', () => {
+    cy.mount(
+      <Card>
+        <FormLabelGroup label="best avenger">
+          <select name="avengers">
+            <option value="">Select</option>
+            <option>steve rogers</option>
+            <option>tony stark</option>
+            <option>natasha romanov</option>
+          </select>
+        </FormLabelGroup>
+      </Card>
+    );
+    gears.select('best avenger').fill('steve rogers');
+    cy.get('select').should('have.value', 'steve rogers');
+    gears.select('best avenger').fill('natasha romanov');
+    cy.get('select').should('have.value', 'natasha romanov');
+  });
+
   it('dismisses DateInput popup', () => {
     cy.mount(
       <Card>

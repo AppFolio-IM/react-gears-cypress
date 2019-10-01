@@ -4,7 +4,7 @@
  * they must be custom written for each component.
  */
 
-import 'cypress';
+/// <reference types="cypress" />
 
 import { Color, Text } from '.';
 import * as sel from './sel';
@@ -33,6 +33,10 @@ export function checkboxInput(label: Text) {
 
 export function datapair(label: Text) {
   cy.contains(sel.datapairLabel, label).should('not.exist');
+}
+
+export function hasMany(label: Text) {
+  cy.contains(label).should('not.exist');
 }
 
 export function input(label: Text) {

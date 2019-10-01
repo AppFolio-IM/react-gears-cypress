@@ -28,7 +28,7 @@
  *   6) MAY take a 1th parameter with additional matching context (e.g. theme color)
  */
 
-import 'cypress';
+/// <reference types="cypress" />
 
 import { Color, Text } from '.';
 import * as sel from './sel';
@@ -71,6 +71,10 @@ export function checkboxInput(title: Text) {
 
 export function datapair(label: Text) {
   return cy.contains(sel.datapairLabel, label).closest(sel.formGroup);
+}
+
+export function hasMany(label: Text) {
+  cy.contains(label).parent();
 }
 
 export function input(label: Text) {
