@@ -28,13 +28,15 @@
  *   6) MAY take a 1th parameter with additional matching context (e.g. theme color)
  */
 
-import { Chainable, Color, Text } from '.';
+import 'cypress';
+
+import { Color, Text } from '.';
 import * as sel from './sel';
 
 import * as assertNo from './findNegative';
 export { assertNo };
 
-declare var cy: Chainable;
+declare var cy: Cypress.Chainable;
 
 export function alert(title: Text, color?: Color) {
   let combo = sel.alert;

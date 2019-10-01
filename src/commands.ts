@@ -1,7 +1,8 @@
-import { Chainable } from '.';
+import 'cypress';
+
 import * as match from './match';
 
-declare var cy: Chainable;
+declare var cy: Cypress.Chainable;
 
 type Cmd = (subject: any, options: any) => any;
 type ValCmd = (subject: any, value: string, options: any) => any;
@@ -94,4 +95,13 @@ export function select(
   }
 
   return originalSelect(subject, value, options);
+}
+
+declare global {
+  /* eslint-disable-next-line @typescript-eslint/no-namespace */
+  namespace Cypress {
+    interface Chainable<Subject = any> {
+      fill: (value: string) => Chainable<Subject>;
+    }
+  }
 }
