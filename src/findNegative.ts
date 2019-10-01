@@ -4,10 +4,12 @@
  * they must be custom written for each component.
  */
 
-import { Chainable, Color, Text } from '.';
+import 'cypress';
+
+import { Color, Text } from '.';
 import * as sel from './sel';
 
-declare var cy: Chainable;
+declare var cy: Cypress.Chainable;
 
 export function alert(title: Text, color?: Color) {
   let combo = sel.alert;
