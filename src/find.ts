@@ -74,7 +74,7 @@ export function datapair(label: Text) {
 }
 
 export function hasMany(label: Text) {
-  cy.contains(label).parent();
+  return cy.contains(label).parent();
 }
 
 export function input(label: Text) {
