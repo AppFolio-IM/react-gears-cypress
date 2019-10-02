@@ -1,7 +1,8 @@
-import { Chainable } from '.';
+import 'cypress';
+
 import * as match from './match';
 
-declare var cy: Chainable;
+declare var cy: Cypress.Chainable;
 
 type Cmd = (subject: any, options: any) => any;
 type ValCmd = (subject: any, value: string, options: any) => any;
@@ -27,7 +28,27 @@ export function clear(originalClear: Cmd, subject: any, options: any) {
  * input, textarea, or fancy input (e.g. calendar).
  */
 export function fill(subject: any, value: string) {
-  if (subject.is('input')) {
+  const fancy = subject.hasClass('Select-control');
+  const textInput = subject.is('input');
+  const textArea = subject.is('textarea');
+  const vanillaSelect = subject.is('Select');
+  if (fancy) {
+    if (Array.isArray(value))
+      throw new Error(
+        'gears Select multi not yet supported; have fun implementing!'
+      );
+    cy.wrap(subject).within(() => {
+      cy.get('input')
+        .clear({ force: true })
+        .type(value, { force: true });
+    });
+    return cy
+      .wrap(subject)
+      .parent()
+      .get('.Select-menu')
+      .contains('button', match.exact(value))
+      .click();
+  } else if (textInput) {
     const dismissPopup = subject
       .parents('div')
       .eq(1)
@@ -35,10 +56,12 @@ export function fill(subject: any, value: string) {
     cy.wrap(subject)
       .clear()
       .type(value + (dismissPopup ? '\t' : ''));
-  } else if (subject.is('textarea')) {
+  } else if (textArea) {
     cy.wrap(subject)
       .clear()
       .type(value);
+  } else if (vanillaSelect) {
+    cy.wrap(subject).select(value);
   } else {
     throw new Error(`cy.fill: unknown tag ${subject[0].tagName.toLowerCase()}`);
   }
@@ -72,4 +95,13 @@ export function select(
   }
 
   return originalSelect(subject, value, options);
+}
+
+declare global {
+  /* eslint-disable-next-line @typescript-eslint/no-namespace */
+  namespace Cypress {
+    interface Chainable<Subject = any> {
+      fill: (value: string) => Chainable<Subject>;
+    }
+  }
 }
