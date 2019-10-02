@@ -73,10 +73,6 @@ export function datapair(label: Text) {
   return cy.contains(sel.datapairLabel, label).closest(sel.formGroup);
 }
 
-export function hasMany(label: Text) {
-  return cy.contains(label).parent();
-}
-
 export function input(label: Text) {
   return cy
     .contains(sel.inputLabel, label)
