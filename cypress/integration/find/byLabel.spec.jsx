@@ -79,7 +79,7 @@ describe('find by label', () => {
     it('radioInput button', () => {
       cy.mount(
         <FormLabelGroup label="some label">
-          <Input type="radioInput" />
+          <Input type="radio" />
         </FormLabelGroup>
       );
       gears.radioInput('some label');
