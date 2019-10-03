@@ -17,9 +17,9 @@ export const link = 'a,button.btn-link';
 export const modalTitle = '.modal-title';
 export const modal = '.modal-dialog';
 // TODO: delete when bumping to react-gears v5
-export const radioInput = 'input[type="radioInput"]';
+export const radioInput = 'input[type="radio"]';
 // TODO: delete when bumping to react-gears v5
-export const radioInputLabel = '.form-group:has(input[type="radioInput"]) label';
+export const radioInputLabel = '.form-group:has(input[type="radio"]) label';
 export const select = 'select';
 export const selectControl = '.Select-control';
 export const summaryBoxItem = '.card.border-secondary';

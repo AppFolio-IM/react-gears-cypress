@@ -1,4 +1,4 @@
-import 'cypress';
+/// <reference types="cypress" />
 
 import * as match from './match';
 
@@ -31,7 +31,7 @@ export function fill(subject: any, value: string) {
   const fancy = subject.hasClass('Select-control');
   const textInput = subject.is('input');
   const textArea = subject.is('textarea');
-  const vanillaSelect = subject.is('Select');
+  const vanillaSelect = subject.is('select');
   if (fancy) {
     if (Array.isArray(value))
       throw new Error(

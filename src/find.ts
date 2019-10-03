@@ -28,7 +28,7 @@
  *   6) MAY take a 1th parameter with additional matching context (e.g. theme color)
  */
 
-import 'cypress';
+/// <reference types="cypress" />
 
 import { Color, Text } from '.';
 import * as sel from './sel';
