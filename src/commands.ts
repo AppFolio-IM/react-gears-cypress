@@ -40,7 +40,7 @@ export function fill(subject: any, value: string) {
     cy.wrap(subject).within(() => {
       cy.get('input')
         .clear({ force: true })
-        .type(value, { force: true });
+        .type(value, { force: true, delay: 1 });
     });
     return cy
       .wrap(subject)
@@ -55,11 +55,11 @@ export function fill(subject: any, value: string) {
       .attr('aria-haspopup');
     cy.wrap(subject)
       .clear()
-      .type(value + (dismissPopup ? '\t' : ''));
+      .type(value + (dismissPopup ? '\t' : ''), { delay: 1 });
   } else if (textArea) {
     cy.wrap(subject)
       .clear()
-      .type(value);
+      .type(value, { delay: 1 });
   } else if (vanillaSelect) {
     cy.wrap(subject).select(value);
   } else {
