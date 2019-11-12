@@ -78,3 +78,27 @@ And to run in `--watch` mode:
 ```sh
 npm run type-check:watch
 ```
+
+## Releasing a new version
+
+This repository is currently private (because `react-gears` is private); therefore, we publish it to Appfolio's internal [Nexus](https://nexus.dev.appf.io/) repository. You will need Nexus
+credentials to release new versions.
+
+No `npm adduser` step is required because an `.npmrc` is committed to this repository with
+a shared API token (as is standard practice in our GitHub org).
+
+To release a new version:
+
+1) Merge your work to master.
+
+2) Check `package.json` for the previously released version X.Y.Z.
+
+3) Run `git log vX.Y.Z..HEAD` to review new work from yourself and others. Decide on a new version number according to semver guidelines.
+
+4) Edit `package.json` to your new version (let's say it is X.Y.W). Commit your change.
+
+5) Create a git tag for `vX.Y.W` and push the tag make things easier for future maintainers.
+
+6) `npm publish` to share your new version with the world.
+
+TODO: ask Hillary about the npm shortcuts she learned which should simplify this workflow (but might not help with the Git tagging).
