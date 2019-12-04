@@ -1,12 +1,11 @@
 coverage
+cypress/**/*
 src
 test
 .browserslistrc
 .eslintrc
 .prettierignore
-jest.config.js
 tsconfig.json
 yarn.lock
 .vscode
-**/__tests__/**/*
 *.log
