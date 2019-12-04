@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * Finder functions for react-gears components. These functions use the `cy` global
  * to issue Cypress commands and find the DOM elements that correspond to gears
@@ -36,71 +37,71 @@ export {assertNo};
 
 declare var cy: Chainable;
 
-export function alert(title:Text, color?:Color)  {
-  let combo = sel.alert;
-  if(color)
-    combo = `${combo}${combo}-${color}`
+export function alert(title: Text, color?: Color)  {
+    let combo = sel.alert;
+    if(color)
+        combo = `${combo}${combo}-${color}`
 
-  return cy.contains(combo, title)
+    return cy.contains(combo, title)
 }
 
-export function blockPanel(title:Text) {
-  return cy.contains(sel.cardTitle, title).closest(sel.card)
+export function blockPanel(title: Text) {
+    return cy.contains(sel.cardTitle, title).closest(sel.card)
 }
 
-export function button(label:Text) {
-  return cy.contains(sel.button, label);
+export function button(label: Text) {
+    return cy.contains(sel.button, label);
 }
 
-export function card(title:Text) {
-  return cy.contains(sel.cardTitle, title).closest(sel.card)
+export function card(title: Text) {
+    return cy.contains(sel.cardTitle, title).closest(sel.card)
 }
 
-export function cardTitle(title:Text) {
-  return cy.contains(sel.cardTitle, title)
+export function cardTitle(title: Text) {
+    return cy.contains(sel.cardTitle, title)
 }
 
-export function datapair(label:Text) { return cy.contains(sel.label, label).parent(); }
+export function datapair(label: Text) { return cy.contains(sel.label, label).parent(); }
 
-export function input(label:Text) {
-  return cy
-    .contains(sel.label, label)
-    .closest(sel.formGroup)
-    .find(sel.input).then($input => {
-      if($input.attr('role') === 'combobox') {
-        throw new Error(`Please use gears.select to interact with the "${label}" input`);
-      }
-      return $input
-    })
+export function input(label: Text) {
+    return cy
+        .contains(sel.label, label)
+        .closest(sel.formGroup)
+        .find(sel.input).then($input => {
+            if($input.attr('role') === 'combobox') {
+                throw new Error(`Please use gears.select to interact with the "${label}" input`);
+            }
+            return $input
+        })
 }
 
-export function link(label:string) {
-  return cy.contains(sel.link, label)
+export function link(label: string) {
+    return cy.contains(sel.link, label)
 }
 
-export function modal(title:Text) {
-  return cy.contains(sel.modalTitle, title).closest(sel.modal)
+export function modal(title: Text) {
+    return cy.contains(sel.modalTitle, title).closest(sel.modal)
 }
 
-export function modalTitle(title:Text) {
-  return cy.contains(sel.modalTitle, title)
+export function modalTitle(title: Text) {
+    return cy.contains(sel.modalTitle, title)
 }
 
-export function select(label:Text) {
-  return cy
-    .contains(sel.label, label)
-    .closest(sel.formGroup)
-    .then(formGroup => {
-      const fancy = formGroup.find(sel.selectControl);
-      if (fancy.length) return fancy;
-      const vanilla = formGroup.find(sel.select);
-      if (vanilla.length) return vanilla;
-      throw new Error(`react-gears-cypress: cannot determine select type for '${label}'`);
-    });
+export function select(label: Text) {
+    return cy
+        .contains(sel.label, label)
+        .closest(sel.formGroup)
+        .then(formGroup => {
+            const fancy = formGroup.find(sel.selectControl);
+            if (fancy.length) return fancy;
+            const vanilla = formGroup.find(sel.select);
+            if (vanilla.length) return vanilla;
+            throw new Error(`react-gears-cypress: cannot determine select type for '${label}'`);
+        });
 }
 
-export function summaryBoxItem(label:Text) {
-  return cy
-    .contains(sel.summaryBoxItemLabel, label)
-    .closest(sel.summaryBoxItem)
+export function summaryBoxItem(label: Text) {
+    return cy
+        .contains(sel.summaryBoxItemLabel, label)
+        .closest(sel.summaryBoxItem)
 }

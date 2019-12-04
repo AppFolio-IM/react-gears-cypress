@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * Helper functions that assert nonexistence of react-gears components.
  * These vary from Finders because negative assertions cannot backtrack;
