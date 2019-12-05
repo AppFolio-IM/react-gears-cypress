@@ -51,7 +51,7 @@
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "cypress": "^3.3.0",
+    "cypress": "^3.7.0",
     "lodash": "^4.17.11"
   },
   "publishConfig": {
