@@ -1,6 +1,6 @@
 {
   "name": "react-gears-cypress",
-  "version": "1.2.2",
+  "version": "1.2.3-0",
   "license": "MIT",
   "files": [
     "lib"
