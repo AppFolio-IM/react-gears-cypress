@@ -29,6 +29,7 @@ module.exports = {
     ecmaVersion: 2018, // aka ECMAScript 9
     sourceType: 'module' // allow `import` statement
   },
+  ignorePatterns: ["node_modules/"],
   rules: {
     '@typescript-eslint/array-type': 'warn',
     '@typescript-eslint/camelcase': 'off',
