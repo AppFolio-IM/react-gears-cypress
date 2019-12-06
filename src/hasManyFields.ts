@@ -52,18 +52,18 @@ export function removeAll($parent: any): Cypress.Chainable<boolean> {
  * @param {wide DataTable} table one row per item; column names are input placeholders
  */
 export function add($parent: any, dataTable: any) {
+  debugger;
   cy.wrap($parent, QUIET).within(() => {
     dataTable.forEach((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
       cy.contains('button.text-success', /^Add/)
         .click()
         .then(() => {
           Object.entries(row).forEach(([placeholder, value]) => {
-            debugger;
+            console.log(row);
             const name = placeholder.toLowerCase();
-            // cy.get(
-            //   `input[placeholder="${placeholder}"],input[label="${placeholder}"],select[name="${name}"]`
-            // )
-            cy.get(`input[label="${placeholder}"]]`)
+            cy.get(
+              `input[placeholder="${placeholder}"],input[label="${placeholder}"],select[name="${name}"]`
+            )
               .last()
               .then($formField => {
                 if ($formField.is('select'))
