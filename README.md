@@ -4,18 +4,24 @@
 
 This is a collection of helpers for testing
 [react-gears](https://github.com/appfolio/react-gears) browser UIs with
-Cypress.
+Cypress. It provides "finder" functions for finding `react-gears` components
+in the DOM, Cypress commands for interacting with compomnents, and some fuzzy
+text-matching functions to promote more reliable tests.
 
 # How do I use it?
 
-Install the commands at startup by adding a line to `cypress/support/commands.js`:
+Install the commands at startup by adding a few lines to `cypress/support/commands.js`:
 
 ```javascript
 import {commands} from 'react-gears-cypress'
 
+// Augment Cypress builtins to interact with Select, DateInput, etc
 Cypress.Commands.overwrite('clear', commands.clear);
-Cypress.Commands.add('fill', { prevSubject: true }, commands.fill);
 Cypress.Commands.overwrite('select', commands.select);
+
+// Add a super-convenient new command that clears an input and fills it
+// with a new value (e.g. for speedy form filling).
+Cypress.Commands.add('fill', { prevSubject: true }, commands.fill);
 ```
 
 Then, in each test where you want to interact with react-gears components:
@@ -26,7 +32,6 @@ import {find as gears} from 'react-gears-cypress'
 gears.blockPanel('Personal Information').within(() => {
   gears.datapair('First Name').contains('Alice')
   gears.input('Last Name').clear().type('Liddel')
-  # Finds either HTML <select> or a gears component.
   gears.select('Favorite Color').select('red')
 })
 ```
@@ -35,7 +40,7 @@ Inputs and other components are always identified by their label/title. The
 intended usage is with the form-labelling components, which provide a
 `<label>` element for basically any nested component(s).
 
-```
+```javascript
 import {FormLabelGroup, Input} from 'react-gears';
 
 ...
@@ -48,7 +53,7 @@ To deal with labels, values and other text whose whitespace varies, you
 can use the `match` helpers which return a RegExp that can be passed
 instead of a string for more precise or relaxed matching.
 
-```
+```javascript
 import {match} from 'react-gears-cypress
 
 // Matches "Name" or "Name *" but not "First Name"
@@ -96,13 +101,16 @@ To release a new version:
 
 2) Check `package.json` for the previously released version X.Y.Z.
 
-3) Run `git log vX.Y.Z..HEAD` to review new work from yourself and others. Decide on a new version number according to semver guidelines.
+3) Run `git log vX.Y.Z..HEAD` to review new work from yourself and others. Decide on a new version number according to semver guidelines; for the sake of this example, let's say
+you decide the new version will be `X.Y.W`.
+  - if you want a prerelease version, the preferred format is `X.Y.Z-rc.0` (then `rc.1`, etc)
 
-4) Edit `package.json` to your new version (let's say it is X.Y.W). 
-Commit your change. Run `npm build` to produce distributables.
+4) Run `npm run build` to produce distributables and `npm version X.Y.W` to bump to the new version.
+you decided on above.
 
-5) Create a git tag for `vX.Y.W` and push the tag make things easier for future maintainers.
+5) `git push` and `git push --tags` to ensure that the npm version bump is preserved
+for posterity.
 
 6) `npm publish` to share your distributables with the world.
-
-TODO: ask Hillary about the npm shortcuts she learned which should simplify this workflow (but might not help with the Git tagging).
+  - if publishing a prerelease version you _must_ add `--tags=beta` to the `npm publish` command!
+  - otherwise, people will accidentally upgrade to your prerelease and you will be forced to support them

@@ -26,7 +26,6 @@ export function blockPanel(title: Text) {
   cy.contains(sel.cardTitle, title).should('not.exist');
 }
 
-// TODO: delete when bumping to react-gears v5
 export function checkboxInput(label: Text) {
   cy.contains(sel.checkboxInputLabel, label).should('not.exist');
 }
@@ -51,7 +50,6 @@ export function modal(title: Text) {
   cy.contains(sel.modalTitle, title).should('not.exist');
 }
 
-// TODO: delete when bumping to react-gears v5
 export function radioInput(label: Text) {
   cy.contains(sel.radioInputLabel, label).should('not.exist');
 }

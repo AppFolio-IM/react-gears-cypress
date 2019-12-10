@@ -61,7 +61,6 @@ export function cardTitle(title: Text) {
   return cy.contains(sel.cardTitle, title);
 }
 
-// TODO: delete when bumping to react-gears v5
 export function checkboxInput(title: Text) {
   return cy
     .contains(sel.checkboxInputLabel, title)
@@ -100,7 +99,6 @@ export function modalTitle(title: Text) {
   return cy.contains(sel.modalTitle, title);
 }
 
-// TODO: delete when bumping to react-gears v5
 export function radioInput(title: Text) {
   return cy
     .contains(sel.radioInputLabel, title)

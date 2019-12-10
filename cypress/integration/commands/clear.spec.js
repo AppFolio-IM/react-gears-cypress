@@ -38,7 +38,7 @@ describe('cy.clear', () => {
 
     cy.get('input')
       .focus()
-      .type('04/02/2018\t');
+      .type('04/02/2018{enter}');
     cy.get('div[aria-haspopup="true"]').should(
       'have.attr',
       'aria-expanded',

@@ -130,7 +130,6 @@ describe('cy.fill', () => {
 
     gears.input('some label').fill('04/02/2018');
 
-    // TODO: get popup/styles working so we can verify more thoroughly
     cy.get('div[aria-haspopup="true"]').should(
       'have.attr',
       'aria-expanded',

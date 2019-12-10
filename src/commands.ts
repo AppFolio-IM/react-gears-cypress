@@ -55,7 +55,7 @@ export function fill(subject: any, value: string) {
       .attr('aria-haspopup');
     cy.wrap(subject)
       .clear()
-      .type(value + (dismissPopup ? '\t' : ''), { delay: 1 });
+      .type(value + (dismissPopup ? '{enter}' : ''), { delay: 1 });
   } else if (textArea) {
     cy.wrap(subject)
       .clear()
