@@ -87,7 +87,7 @@ export function input(label: Text) {
     });
 }
 
-export function link(label: string) {
+export function link(label: Text) {
   return cy.contains(sel.link, label);
 }
 
