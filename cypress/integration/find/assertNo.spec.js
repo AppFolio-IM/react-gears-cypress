@@ -14,12 +14,14 @@ import {
 import * as gears from '../../../src/find';
 
 describe('assert-no', () => {
-  it('alert', () => {
+  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
+  it.skip('alert', () => {
     cy.mount(<Alert>apples</Alert>);
     gears.assertNo.alert('oranges');
   });
 
-  it('blockPanel', () => {
+  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
+  it.skip('blockPanel', () => {
     cy.mount(<BlockPanel title="apples">some content</BlockPanel>);
     gears.assertNo.alert('oranges');
   });
@@ -62,10 +64,10 @@ describe('assert-no', () => {
       gears.assertNo.checkboxInput('oranges');
     });
 
-    it('radioInput', () => {
+    it('radio button', () => {
       cy.mount(
         <FormLabelGroup label="apples">
-          <Input type="radioInput" />
+          <Input type="radio" />
         </FormLabelGroup>
       );
       gears.assertNo.radioInput('oranges');
@@ -81,6 +83,7 @@ describe('assert-no', () => {
     gears.assertNo.link('oranges');
   });
 
+  // TODO: figure out the magic CSS needed to make modals render
   it.skip('modal', () => {
     cy.mount(
       <Modal backdrop isOpen size="lg">

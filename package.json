@@ -1,13 +1,13 @@
 {
   "name": "react-gears-cypress",
-  "version": "1.2.3-2",
+  "version": "5.0.0",
   "license": "MIT",
   "files": [
     "lib"
   ],
   "main": "lib/index.js",
   "scripts": {
-    "build": "yarn clean:build && yarn build:types && yarn build:js",
+    "build": "npm run clean:build && npm run build:types && npm run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".js,.jsx,.ts,.tsx\" --config-file ./.prod.babelrc",
     "bundle": "webpack",
@@ -42,18 +42,17 @@
     "eslint-plugin-react": "^7.12.4",
     "fork-ts-checker-webpack-plugin": "^0.5.2",
     "prettier": "^1.18.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-gears": "^4.22.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-gears": "^5.0.0",
     "tsify": "^4.0.1",
     "typescript": "^3.2.2",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
   },
   "dependencies": {
-    "cypress": "3.4.1",
-    "lodash": "^4.17.11",
-    "trim-right": "^1.0.1"
+    "cypress": "~3, <3.6.0",
+    "lodash": "~4"
   },
   "publishConfig": {
     "registry": "https://nexus.dev.appf.io/repository/npm-hosted/"

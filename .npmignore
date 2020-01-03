@@ -6,6 +6,5 @@ test
 .eslintrc
 .prettierignore
 tsconfig.json
-yarn.lock
 .vscode
 *.log

@@ -18,12 +18,14 @@ import {
 import * as gears from '../../../src/find';
 
 describe('find by label', () => {
-  it('alert', () => {
+  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
+  it.skip('alert', () => {
     cy.mount(<Alert>some label</Alert>);
     gears.alert('some label');
   });
 
-  it('blockPanel', () => {
+  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
+  it.skip('blockPanel', () => {
     cy.mount(<BlockPanel title="some label">some content</BlockPanel>);
     gears.blockPanel('some label');
   });
