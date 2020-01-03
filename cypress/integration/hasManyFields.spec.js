@@ -6,31 +6,26 @@ import {
   Input,
   Select,
 } from 'react-gears';
+import * as gears from '../../src/find';
 import * as hasManyFields from '../../src/hasManyFields';
 
 function Squirrel() {
   return (
     <div>
-      <FormLabelGroup label="Nickname">
-        <Input />
-      </FormLabelGroup>
-      <FormLabelGroup label="Color">
-        <Select
-          name="color"
-          options={[
-            { label: 'Red', value: 'red' },
-            { label: 'Green', value: 'green' },
-            { label: 'Grey', value: 'boring' },
-          ]}
-        />
-        <FormLabelGroup>
-          <select>
-            <option value="animated">Animated</option>
-            <option value="bravo">bravo</option>
-            <option value="charlie">charlie</option>
-          </select>
-        </FormLabelGroup>
-      </FormLabelGroup>
+      <Input placeholder="Nickname" />
+      <Select
+        name="color"
+        options={[
+          { label: 'Red', value: 'red' },
+          { label: 'Green', value: 'green' },
+          { label: 'Grey', value: 'boring' },
+        ]}
+      />
+      <select name="type">
+        <option value="animated">Animated</option>
+        <option value="bravo">bravo</option>
+        <option value="charlie">charlie</option>
+      </select>
     </div>
   );
 }
@@ -69,7 +64,7 @@ describe('hasManyFields', () => {
 
       const values = [{ Nickname: 'Rocky' }, { Nickname: 'Sandy Cheeks' }];
 
-      hasManyFields.find('Squirrels').then($datapair => {
+      gears.hasManyFields('Squirrels').then($datapair => {
         hasManyFields.add($datapair, values);
       });
     });

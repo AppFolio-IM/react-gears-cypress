@@ -1,20 +1,8 @@
 /// <reference types="cypress" />
 
-import * as match from './match';
-
 declare var cy: Cypress.Chainable;
 
 const QUIET = { log: false };
-
-type FillValues = Record<string, any>[];
-
-/**
- * Finds a HasMany by a label
- * @param {*} $parent
- */
-export function find(label: string) {
-  return cy.contains('label', match.exact(label)).parent();
-}
 
 /**
  * Remove the last deletable item from a HasManyFields.
@@ -49,21 +37,19 @@ export function removeAll($parent: any): Cypress.Chainable<boolean> {
  * a <select> (identified by lower-case name).
  *
  * @param {jQuery} $parent element that contains the entire HasManyFields
- * @param {wide DataTable} table one row per item; column names are input placeholders
+ * @param {wide DataTable} table one row per item; column names are either input placeholders, or select names (but NOT labels; sorry!)
  */
 export function add($parent: any, dataTable: any) {
   debugger;
   cy.wrap($parent, QUIET).within(() => {
     dataTable.forEach((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
-      cy.contains('button.text-success', /^Add/)
+      cy.contains('button.btn', /^Add/)
         .click()
         .then(() => {
           Object.entries(row).forEach(([placeholder, value]) => {
             console.log(row);
             const name = placeholder.toLowerCase();
-            cy.get(
-              `input[placeholder="${placeholder}"],input[label="${placeholder}"],select[name="${name}"]`
-            )
+            cy.get(`input[placeholder="${placeholder}"],select[name="${name}"]`)
               .last()
               .then($formField => {
                 if ($formField.is('select'))
