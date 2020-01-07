@@ -9,6 +9,10 @@ export const checkboxInputLabel =
 export const datapair = '.form-control-plaintext';
 export const datapairLabel = '.form-group:has(.form-control-plaintext) label';
 export const formGroup = '.form-group';
+// TODO: some day, ask react-gears maintainers to add a distinct CSS class to the outermost div of a HasManyFields
+//export const hasManyFields = undefined;
+// TODO: some day, be more precise here (once we have a hasManyFields selector)
+// export const hasManyFieldsLabel = undefined;
 export const input = 'input,textarea';
 // TODO: some day, eliminate magic :has() using react-gears v5 label classes
 export const inputLabel = '.form-group:has(.form-control) label';

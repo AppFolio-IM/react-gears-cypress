@@ -2,6 +2,7 @@ import * as commands from './commands';
 import * as find from './find';
 import * as match from './match';
 import * as sel from './sel';
+import * as hasManyFields from './hasManyFields'
 
 // Bootstrap-color parameter used as an optional argument to some finders.
 export type Color =
@@ -21,4 +22,4 @@ type Callback = (cb: any) => any;
 
 // Allow utility functions to be imported, plus bonus finders for those
 // who find default exports distasteful.
-export { commands, find, match, sel };
+export { commands, find, match, sel, hasManyFields };

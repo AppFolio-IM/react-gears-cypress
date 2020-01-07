@@ -72,6 +72,12 @@ export function datapair(label: Text) {
   return cy.contains(sel.datapairLabel, label).closest(sel.formGroup);
 }
 
+export function hasManyFields(label: Text) {
+  // HACK: this is imprecise and bound to break in numerous circumstances ...
+  // once we have a sel.hasManyFields and friends we can do closest(sel.hasManyFields)
+  return cy.contains('label', label).parent();
+}
+
 export function input(label: Text) {
   return cy
     .contains(sel.inputLabel, label)
