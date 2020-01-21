@@ -48,10 +48,10 @@
     "tsify": "^4.0.1",
     "typescript": "^3.2.2",
     "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "cypress": ">3.8.0"
   },
   "dependencies": {
-    "cypress": "~3, <3.6.0",
     "lodash": "~4"
   },
   "publishConfig": {
