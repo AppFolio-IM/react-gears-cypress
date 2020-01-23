@@ -46,7 +46,6 @@ export function add($parent: any, dataTable: any) {
         .click()
         .then(() => {
           Object.entries(row).forEach(([placeholder, value]) => {
-            console.log(row);
             const name = placeholder.toLowerCase();
             cy.get(`input[placeholder="${placeholder}"],select[name="${name}"]`)
               .last()

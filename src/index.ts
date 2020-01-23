@@ -2,7 +2,7 @@ import * as commands from './commands';
 import * as find from './find';
 import * as match from './match';
 import * as sel from './sel';
-import * as hasManyFields from './hasManyFields'
+import * as hasManyFields from './hasManyFields';
 
 // Bootstrap-color parameter used as an optional argument to some finders.
 export type Color =
