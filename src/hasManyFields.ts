@@ -40,14 +40,12 @@ export function removeAll($parent: any): Cypress.Chainable<boolean> {
  * @param {wide DataTable} table one row per item; column names are either input placeholders, or select names (but NOT labels; sorry!)
  */
 export function add($parent: any, dataTable: any) {
-  debugger;
   cy.wrap($parent, QUIET).within(() => {
     dataTable.forEach((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
       cy.contains('button.btn', /^Add/)
         .click()
         .then(() => {
           Object.entries(row).forEach(([placeholder, value]) => {
-            console.log(row);
             const name = placeholder.toLowerCase();
             cy.get(`input[placeholder="${placeholder}"],select[name="${name}"]`)
               .last()
