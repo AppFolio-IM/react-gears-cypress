@@ -19,14 +19,12 @@ import {
 import * as gears from '../../../src/find';
 
 describe('find by label', () => {
-  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
-  it.skip('alert', () => {
+  it('alert', () => {
     mount(<Alert>some label</Alert>);
     gears.alert('some label');
   });
 
-  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
-  it.skip('blockPanel', () => {
+  it('blockPanel', () => {
     mount(<BlockPanel title="some label">some content</BlockPanel>);
     gears.blockPanel('some label');
   });
@@ -104,8 +102,7 @@ describe('find by label', () => {
     });
   });
 
-  // TODO: figure out the magic CSS needed to make modals render
-  it.skip('modal', () => {
+  it('modal', () => {
     mount(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>some label</ModalHeader>

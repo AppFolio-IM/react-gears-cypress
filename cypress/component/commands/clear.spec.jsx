@@ -28,7 +28,7 @@ describe('cy.clear', () => {
     cy.get('input').should('have.value', '');
   });
 
-  it.only('clears DateInput', () => {
+  it('clears DateInput', () => {
     mount(
       <Card>
         <FormLabelGroup label="some label">

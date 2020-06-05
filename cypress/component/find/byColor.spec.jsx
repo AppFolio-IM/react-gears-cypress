@@ -5,8 +5,7 @@ import { Alert, Card } from 'react-gears';
 import * as gears from '../../../src/find';
 
 describe('find by color', () => {
-  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
-  it.skip('alert', () => {
+  it('alert', () => {
     mount(
       <Card>
         <Alert color="warning">Will Robinson</Alert>

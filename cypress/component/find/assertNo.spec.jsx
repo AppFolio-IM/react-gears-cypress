@@ -15,14 +15,12 @@ import {
 import * as gears from '../../../src/find';
 
 describe('assert-no', () => {
-  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
-  it.skip('alert', () => {
+  it('alert', () => {
     mount(<Alert>apples</Alert>);
     gears.assertNo.alert('oranges');
   });
 
-  // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
-  it.skip('blockPanel', () => {
+  it('blockPanel', () => {
     mount(<BlockPanel title="apples">some content</BlockPanel>);
     gears.assertNo.alert('oranges');
   });
@@ -84,8 +82,7 @@ describe('assert-no', () => {
     gears.assertNo.link('oranges');
   });
 
-  // TODO: figure out the magic CSS needed to make modals render
-  it.skip('modal', () => {
+  it('modal', () => {
     mount(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>apples</ModalHeader>
