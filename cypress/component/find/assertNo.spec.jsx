@@ -1,3 +1,4 @@
+import { mount } from 'cypress-react-unit-test';
 import React from 'react';
 import {
   Alert,
@@ -16,29 +17,29 @@ import * as gears from '../../../src/find';
 describe('assert-no', () => {
   // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
   it.skip('alert', () => {
-    cy.mount(<Alert>apples</Alert>);
+    mount(<Alert>apples</Alert>);
     gears.assertNo.alert('oranges');
   });
 
   // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
   it.skip('blockPanel', () => {
-    cy.mount(<BlockPanel title="apples">some content</BlockPanel>);
+    mount(<BlockPanel title="apples">some content</BlockPanel>);
     gears.assertNo.alert('oranges');
   });
 
   it('button', () => {
-    cy.mount(<Button>apples</Button>);
+    mount(<Button>apples</Button>);
     gears.assertNo.button('oranges');
   });
 
   it('datapair', () => {
-    cy.mount(<Datapair label="apples" value="fuji" />);
+    mount(<Datapair label="apples" value="fuji" />);
     gears.assertNo.datapair('oranges');
   });
 
   context('input', () => {
     it('single-line', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="apples">
           <Input />
         </FormLabelGroup>
@@ -47,7 +48,7 @@ describe('assert-no', () => {
     });
 
     it('multiline', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="apples">
           <Input type="textarea" />
         </FormLabelGroup>
@@ -56,7 +57,7 @@ describe('assert-no', () => {
     });
 
     it('checkbox', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="apples">
           <Input type="checkbox" />
         </FormLabelGroup>
@@ -65,7 +66,7 @@ describe('assert-no', () => {
     });
 
     it('radio button', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="apples">
           <Input type="radio" />
         </FormLabelGroup>
@@ -75,7 +76,7 @@ describe('assert-no', () => {
   });
 
   it('link', () => {
-    cy.mount(
+    mount(
       <Card>
         <a href="about:blank">apples</a>
       </Card>
@@ -85,7 +86,7 @@ describe('assert-no', () => {
 
   // TODO: figure out the magic CSS needed to make modals render
   it.skip('modal', () => {
-    cy.mount(
+    mount(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>apples</ModalHeader>
       </Modal>

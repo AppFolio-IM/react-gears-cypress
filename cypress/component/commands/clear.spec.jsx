@@ -1,3 +1,4 @@
+import { mount } from 'cypress-react-unit-test';
 import React from 'react';
 import { Card, DateInput, FormLabelGroup, Input, Select } from 'react-gears';
 import * as gears from '../../../src/find';
@@ -12,7 +13,7 @@ function eventually(cb, timeout = 32) {
 
 describe('cy.clear', () => {
   it('clears Input', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="some label">
           <Input />
@@ -28,7 +29,7 @@ describe('cy.clear', () => {
   });
 
   it('clears DateInput', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="some label">
           <DateInput />
@@ -65,7 +66,7 @@ describe('cy.clear', () => {
       selected = o && o.value;
     };
 
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="some label">
           <Select options={options} onChange={onChange} />

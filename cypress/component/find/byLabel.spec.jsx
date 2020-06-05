@@ -1,3 +1,4 @@
+import { mount } from 'cypress-react-unit-test';
 import React from 'react';
 import {
   Alert,
@@ -20,23 +21,23 @@ import * as gears from '../../../src/find';
 describe('find by label', () => {
   // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
   it.skip('alert', () => {
-    cy.mount(<Alert>some label</Alert>);
+    mount(<Alert>some label</Alert>);
     gears.alert('some label');
   });
 
   // TODO: pending resolution of https://github.com/bahmutov/cypress-react-unit-test/issues/15
   it.skip('blockPanel', () => {
-    cy.mount(<BlockPanel title="some label">some content</BlockPanel>);
+    mount(<BlockPanel title="some label">some content</BlockPanel>);
     gears.blockPanel('some label');
   });
 
   it('button', () => {
-    cy.mount(<Button>some label</Button>);
+    mount(<Button>some label</Button>);
     gears.button('some label');
   });
 
   it('card', () => {
-    cy.mount(
+    mount(
       <Card>
         <CardTitle>some label</CardTitle>
       </Card>
@@ -46,13 +47,13 @@ describe('find by label', () => {
   });
 
   it('datapair', () => {
-    cy.mount(<Datapair label="some label" value="some content" />);
+    mount(<Datapair label="some label" value="some content" />);
     gears.datapair('some label');
   });
 
   context('input', () => {
     it('single-line', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="some label">
           <Input />
         </FormLabelGroup>
@@ -61,7 +62,7 @@ describe('find by label', () => {
     });
 
     it('multiline', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="some label">
           <Input type="textarea" />
         </FormLabelGroup>
@@ -70,7 +71,7 @@ describe('find by label', () => {
     });
 
     it('checkbox', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="some label">
           <Input type="checkbox" />
         </FormLabelGroup>
@@ -79,7 +80,7 @@ describe('find by label', () => {
     });
 
     it('radioInput button', () => {
-      cy.mount(
+      mount(
         <FormLabelGroup label="some label">
           <Input type="radio" />
         </FormLabelGroup>
@@ -90,7 +91,7 @@ describe('find by label', () => {
 
   describe('link', () => {
     it('vanilla HTML', () => {
-      cy.mount(
+      mount(
         <Card>
           <a href="about:blank">some label</a>
         </Card>
@@ -98,14 +99,14 @@ describe('find by label', () => {
       gears.link('some label');
     });
     it('link-colored button', () => {
-      cy.mount(<Button color="link">some label</Button>);
+      mount(<Button color="link">some label</Button>);
       gears.link('some label');
     });
   });
 
   // TODO: figure out the magic CSS needed to make modals render
   it.skip('modal', () => {
-    cy.mount(
+    mount(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>some label</ModalHeader>
       </Modal>
@@ -115,7 +116,7 @@ describe('find by label', () => {
   });
 
   it('select', () => {
-    cy.mount(
+    mount(
       <FormLabelGroup label="some label">
         <Select />
       </FormLabelGroup>
@@ -124,7 +125,7 @@ describe('find by label', () => {
   });
 
   it('summaryBoxItem', () => {
-    cy.mount(
+    mount(
       <SummaryBox>
         <SummaryBoxItem label="some label" value="some content" />
       </SummaryBox>

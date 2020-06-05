@@ -1,3 +1,4 @@
+import { mount } from 'cypress-react-unit-test';
 import React from 'react';
 import {
   Card,
@@ -33,7 +34,7 @@ function Squirrel() {
 describe('hasManyFields', () => {
   describe('add', () => {
     it('can fill in text and select hasManyFields', () => {
-      cy.mount(
+      mount(
         <Card>
           <FormLabelGroup label="Squirrels">
             <HasManyFields

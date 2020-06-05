@@ -1,3 +1,4 @@
+import { mount } from 'cypress-react-unit-test';
 import React from 'react';
 import { Card, DateInput, FormLabelGroup, Input, Select } from 'react-gears';
 import * as gears from '../../../src/find';
@@ -12,7 +13,7 @@ function eventually(cb, timeout = 32) {
 
 describe('cy.fill', () => {
   it('fills Input', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="some label">
           <Input />
@@ -30,7 +31,7 @@ describe('cy.fill', () => {
     gears.input('some label').should('have.value', 'after');
   });
   it('fills textarea', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="some label">
           <Input type="textarea" />
@@ -60,7 +61,7 @@ describe('cy.fill', () => {
     let selected;
     const onChange = o => (selected = o && o.value);
 
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="best avenger">
           <Select options={options} onChange={onChange} />
@@ -75,7 +76,7 @@ describe('cy.fill', () => {
   });
 
   it('fills a regular select', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="best avenger">
           <select id="avengers" name="avengers" type="select">
@@ -94,7 +95,7 @@ describe('cy.fill', () => {
   });
 
   it('fills a select without a type=Select', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="best avenger">
           <select name="avengers">
@@ -113,7 +114,7 @@ describe('cy.fill', () => {
   });
 
   it('dismisses DateInput popup', () => {
-    cy.mount(
+    mount(
       <Card>
         <FormLabelGroup label="some label">
           <DateInput />
