@@ -1,16 +1,13 @@
-// This function is called when a project is opened or re-opened (e.g. due to
-// the project's config changing)
+/* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-const browserify = require('@cypress/browserify-preprocessor');
+const webpack = require('@cypress/webpack-preprocessor');
 
-// Reconfigure browserify to process typescript source files.
-module.exports = on => {
-  const options = {
-    browserifyOptions: {
-      extensions: ['.js', '.ts'],
-      plugin: [['tsify']],
-    },
-  };
+module.exports = async (on, config) => {
+  on(
+    'file:preprocessor',
+    webpack({ webpackOptions: require('../webpack.config') })
+  );
 
-  on('file:preprocessor', browserify(options));
+  return config;
 };
