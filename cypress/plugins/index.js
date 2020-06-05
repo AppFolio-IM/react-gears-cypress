@@ -1,13 +1,9 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const webpack = require('@cypress/webpack-preprocessor');
-
 module.exports = async (on, config) => {
-  on(
-    'file:preprocessor',
-    webpack({ webpackOptions: require('../webpack.config') })
-  );
+  config.env.webpackFilename = 'webpack.config.js';
+  require('cypress-react-unit-test/plugins/load-webpack')(on, config);
 
   return config;
 };

@@ -1,4 +1,5 @@
 {
+  "experimentalComponentTesting": true,
   "viewportWidth": 640,
   "viewportHeight": 480
 }
