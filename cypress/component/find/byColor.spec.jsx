@@ -6,6 +6,7 @@ import * as gears from '../../../src/find';
 
 describe('find by color', () => {
   it('alert', () => {
+    // NB: not using cy.mountGears due to hooks issue
     mount(
       <Card>
         <Alert color="warning">Will Robinson</Alert>

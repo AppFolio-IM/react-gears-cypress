@@ -16,28 +16,30 @@ import * as gears from '../../../src/find';
 
 describe('assert-no', () => {
   it('alert', () => {
+    // NB: not using cy.mountGears due to hooks issue
     mount(<Alert>apples</Alert>);
     gears.assertNo.alert('oranges');
   });
 
   it('blockPanel', () => {
+    // NB: not using cy.mountGears due to hooks issue
     mount(<BlockPanel title="apples">some content</BlockPanel>);
     gears.assertNo.alert('oranges');
   });
 
   it('button', () => {
-    mount(<Button>apples</Button>);
+    cy.mountGears(<Button>apples</Button>);
     gears.assertNo.button('oranges');
   });
 
   it('datapair', () => {
-    mount(<Datapair label="apples" value="fuji" />);
+    cy.mountGears(<Datapair label="apples" value="fuji" />);
     gears.assertNo.datapair('oranges');
   });
 
   context('input', () => {
     it('single-line', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="apples">
           <Input />
         </FormLabelGroup>
@@ -46,7 +48,7 @@ describe('assert-no', () => {
     });
 
     it('multiline', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="apples">
           <Input type="textarea" />
         </FormLabelGroup>
@@ -55,7 +57,7 @@ describe('assert-no', () => {
     });
 
     it('checkbox', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="apples">
           <Input type="checkbox" />
         </FormLabelGroup>
@@ -64,7 +66,7 @@ describe('assert-no', () => {
     });
 
     it('radio button', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="apples">
           <Input type="radio" />
         </FormLabelGroup>
@@ -74,7 +76,7 @@ describe('assert-no', () => {
   });
 
   it('link', () => {
-    mount(
+    cy.mountGears(
       <Card>
         <a href="about:blank">apples</a>
       </Card>
@@ -83,7 +85,7 @@ describe('assert-no', () => {
   });
 
   it('modal', () => {
-    mount(
+    cy.mountGears(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>apples</ModalHeader>
       </Modal>

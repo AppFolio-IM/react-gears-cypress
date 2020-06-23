@@ -1,6 +1,5 @@
-import { mount } from 'cypress-react-unit-test';
 import React from 'react';
-import { Card, DateInput, FormLabelGroup, Input, Select } from 'react-gears';
+import { DateInput, FormLabelGroup, Input, Select } from 'react-gears';
 import * as gears from '../../../src/find';
 
 function eventually(cb, timeout = 32) {
@@ -13,12 +12,10 @@ function eventually(cb, timeout = 32) {
 
 describe('cy.fill', () => {
   it('fills Input', () => {
-    mount(
-      <Card>
-        <FormLabelGroup label="some label">
-          <Input />
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="some label">
+        <Input />
+      </FormLabelGroup>
     );
 
     cy.get('input')
@@ -31,12 +28,10 @@ describe('cy.fill', () => {
     gears.input('some label').should('have.value', 'after');
   });
   it('fills textarea', () => {
-    mount(
-      <Card>
-        <FormLabelGroup label="some label">
-          <Input type="textarea" />
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="some label">
+        <Input type="textarea" />
+      </FormLabelGroup>
     );
 
     cy.get('textarea')
@@ -61,12 +56,10 @@ describe('cy.fill', () => {
     let selected;
     const onChange = o => (selected = o && o.value);
 
-    mount(
-      <Card>
-        <FormLabelGroup label="best avenger">
-          <Select options={options} onChange={onChange} />
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="best avenger">
+        <Select options={options} onChange={onChange} />
+      </FormLabelGroup>
     );
 
     gears.select('best avenger').fill('steve rogers');
@@ -76,17 +69,15 @@ describe('cy.fill', () => {
   });
 
   it('fills a regular select', () => {
-    mount(
-      <Card>
-        <FormLabelGroup label="best avenger">
-          <select id="avengers" name="avengers" type="select">
-            <option value="">Select</option>
-            <option>steve rogers</option>
-            <option>tony stark</option>
-            <option>natasha romanov</option>
-          </select>
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="best avenger">
+        <select id="avengers" name="avengers" type="select">
+          <option value="">Select</option>
+          <option>steve rogers</option>
+          <option>tony stark</option>
+          <option>natasha romanov</option>
+        </select>
+      </FormLabelGroup>
     );
     gears.select('best avenger').fill('steve rogers');
     cy.get('select').should('have.value', 'steve rogers');
@@ -95,17 +86,15 @@ describe('cy.fill', () => {
   });
 
   it('fills a select without a type=Select', () => {
-    mount(
-      <Card>
-        <FormLabelGroup label="best avenger">
-          <select name="avengers">
-            <option value="">Select</option>
-            <option>steve rogers</option>
-            <option>tony stark</option>
-            <option>natasha romanov</option>
-          </select>
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="best avenger">
+        <select name="avengers">
+          <option value="">Select</option>
+          <option>steve rogers</option>
+          <option>tony stark</option>
+          <option>natasha romanov</option>
+        </select>
+      </FormLabelGroup>
     );
     gears.select('best avenger').fill('steve rogers');
     cy.get('select').should('have.value', 'steve rogers');
@@ -114,12 +103,10 @@ describe('cy.fill', () => {
   });
 
   it('dismisses DateInput popup', () => {
-    mount(
-      <Card>
-        <FormLabelGroup label="some label">
-          <DateInput />
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="some label">
+        <DateInput />
+      </FormLabelGroup>
     );
 
     cy.get('input').focus();

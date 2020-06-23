@@ -1,4 +1,4 @@
-import indexDefault, { find, match, sel } from '../../src/index';
+import { find, match, sel } from '../../src/index';
 
 describe('react-gears-cypress', () => {
   it('exports finders', () => {

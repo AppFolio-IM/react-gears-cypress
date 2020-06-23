@@ -1,6 +1,5 @@
-import { mount } from 'cypress-react-unit-test';
 import React from 'react';
-import { Card, FormLabelGroup, Select } from 'react-gears';
+import { FormLabelGroup, Select } from 'react-gears';
 import * as gears from '../../../src/find';
 
 function eventually(cb, timeout = 32) {
@@ -13,16 +12,14 @@ function eventually(cb, timeout = 32) {
 
 describe('cy.select', () => {
   it('handles <select>', () => {
-    mount(
-      <Card>
-        <FormLabelGroup label="some label">
-          <select>
-            <option value="alpha">alpha</option>
-            <option value="bravo">bravo</option>
-            <option value="charlie">charlie</option>
-          </select>
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="some label">
+        <select>
+          <option value="alpha">alpha</option>
+          <option value="bravo">bravo</option>
+          <option value="charlie">charlie</option>
+        </select>
+      </FormLabelGroup>
     );
 
     cy.get('select').select('alpha');
@@ -40,12 +37,10 @@ describe('cy.select', () => {
     let selected;
     const onChange = o => (selected = o && o.value);
 
-    mount(
-      <Card>
-        <FormLabelGroup label="some label">
-          <Select options={options} onChange={onChange} />
-        </FormLabelGroup>
-      </Card>
+    cy.mountGears(
+      <FormLabelGroup label="some label">
+        <Select options={options} onChange={onChange} />
+      </FormLabelGroup>
     );
 
     gears.select('some label').select('alpha');

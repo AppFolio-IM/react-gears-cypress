@@ -20,22 +20,24 @@ import * as gears from '../../../src/find';
 
 describe('find by label', () => {
   it('alert', () => {
+    // NB: not using cy.mountGears due to hooks issue
     mount(<Alert>some label</Alert>);
     gears.alert('some label');
   });
 
   it('blockPanel', () => {
+    // NB: not using cy.mountGears due to hooks issue
     mount(<BlockPanel title="some label">some content</BlockPanel>);
     gears.blockPanel('some label');
   });
 
   it('button', () => {
-    mount(<Button>some label</Button>);
+    cy.mountGears(<Button>some label</Button>);
     gears.button('some label');
   });
 
   it('card', () => {
-    mount(
+    cy.mountGears(
       <Card>
         <CardTitle>some label</CardTitle>
       </Card>
@@ -45,13 +47,13 @@ describe('find by label', () => {
   });
 
   it('datapair', () => {
-    mount(<Datapair label="some label" value="some content" />);
+    cy.mountGears(<Datapair label="some label" value="some content" />);
     gears.datapair('some label');
   });
 
   context('input', () => {
     it('single-line', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="some label">
           <Input />
         </FormLabelGroup>
@@ -60,7 +62,7 @@ describe('find by label', () => {
     });
 
     it('multiline', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="some label">
           <Input type="textarea" />
         </FormLabelGroup>
@@ -69,7 +71,7 @@ describe('find by label', () => {
     });
 
     it('checkbox', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="some label">
           <Input type="checkbox" />
         </FormLabelGroup>
@@ -78,7 +80,7 @@ describe('find by label', () => {
     });
 
     it('radioInput button', () => {
-      mount(
+      cy.mountGears(
         <FormLabelGroup label="some label">
           <Input type="radio" />
         </FormLabelGroup>
@@ -89,7 +91,7 @@ describe('find by label', () => {
 
   describe('link', () => {
     it('vanilla HTML', () => {
-      mount(
+      cy.mountGears(
         <Card>
           <a href="about:blank">some label</a>
         </Card>
@@ -97,13 +99,13 @@ describe('find by label', () => {
       gears.link('some label');
     });
     it('link-colored button', () => {
-      mount(<Button color="link">some label</Button>);
+      cy.mountGears(<Button color="link">some label</Button>);
       gears.link('some label');
     });
   });
 
   it('modal', () => {
-    mount(
+    cy.mountGears(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>some label</ModalHeader>
       </Modal>
@@ -113,7 +115,7 @@ describe('find by label', () => {
   });
 
   it('select', () => {
-    mount(
+    cy.mountGears(
       <FormLabelGroup label="some label">
         <Select />
       </FormLabelGroup>
@@ -122,7 +124,7 @@ describe('find by label', () => {
   });
 
   it('summaryBoxItem', () => {
-    mount(
+    cy.mountGears(
       <SummaryBox>
         <SummaryBoxItem label="some label" value="some content" />
       </SummaryBox>
