@@ -44,12 +44,12 @@ describe('cy.clear', () => {
     gears.input('some label').clear();
     gears.input('some label').should('have.value', '');
 
-    // TODO: figure out source of flake (sometimes popup is still expanded; sometimes not)
-    // cy.get('div[aria-haspopup="true"]').should(
-    //   'have.attr',
-    //   'aria-expanded',
-    //   'false'
-    // );
+    cy.wait(100);
+    cy.get('div[aria-haspopup="true"]').should(
+      'have.attr',
+      'aria-expanded',
+      'false'
+    );
   });
 
   it('clears Select', () => {

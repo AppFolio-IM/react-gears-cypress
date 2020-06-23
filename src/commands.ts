@@ -7,10 +7,19 @@ declare var cy: Cypress.Chainable;
 type Cmd = (subject: any, options: any) => any;
 type ValCmd = (subject: any, value: string, options: any) => any;
 
+function dismissPopupIfNeeded(subject: any) {
+  const popupParent = subject.parents('div').eq(1);
+  const dismissPopup =
+    popupParent && popupParent.attr('aria-expanded') === 'true';
+  if (dismissPopup) popupParent.find('.input-group-append > button').click();
+  return subject;
+}
+
 /**
  * Clear an input or a gears Select component.
  */
 export function clear(originalClear: Cmd, subject: any, options: any) {
+  // Use the "X" button to clear Select components.
   if (subject.hasClass('Select-control')) {
     const btn = subject.find('button.close');
     if (btn.length === 1)
@@ -20,7 +29,8 @@ export function clear(originalClear: Cmd, subject: any, options: any) {
         .then(() => subject);
     return subject;
   }
-  return originalClear(subject, options);
+  // For other inputs, use original cy.clear but also dismiss popups (e.g. DateInput).
+  return originalClear(subject, options).then(dismissPopupIfNeeded);
 }
 
 /**
@@ -48,13 +58,10 @@ export function fill(subject: any, value: string) {
       .contains('button', match.exact(value))
       .click();
   } else if (textInput) {
-    const dismissPopup = subject
-      .parents('div')
-      .eq(1)
-      .attr('aria-haspopup');
     cy.wrap(subject)
       .clear()
-      .type(value + (dismissPopup ? '{enter}' : ''), { delay: 1 });
+      .type(value, { delay: 1 })
+      .then(dismissPopupIfNeeded);
   } else if (textArea) {
     cy.wrap(subject)
       .clear()
