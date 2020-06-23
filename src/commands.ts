@@ -37,11 +37,10 @@ export function fill(subject: any, value: string) {
       throw new Error(
         'gears Select multi not yet supported; have fun implementing!'
       );
-    cy.wrap(subject).within(() => {
-      cy.get('input')
-        .clear({ force: true })
-        .type(value, { force: true, delay: 1 });
-    });
+    cy.wrap(subject)
+      .clear()
+      .find('input')
+      .type(value, { force: true, delay: 1 });
     return cy
       .wrap(subject)
       .parent()
