@@ -58,8 +58,5 @@
   },
   "peerDependencies": {
     "cypress": "^6.1.0"
-  },
-  "publishConfig": {
-    "registry": "https://nexus.dev.appf.io/repository/npm-hosted/"
   }
 }
