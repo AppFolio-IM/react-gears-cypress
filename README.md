@@ -36,7 +36,7 @@ Inputs and other components are always identified by their label/title. The
 intended usage is with the form-labelling component `FormLabelGroup`, which provides a `<label>` element for basically any nested component(s).
 
 ```javascript
-import { FormLabelGroup, Input } from 'react-gears';
+import { FormLabelGroup, Input } from '@appfolio/react-gears';
 
 ...
 const TestableComponent = () => (

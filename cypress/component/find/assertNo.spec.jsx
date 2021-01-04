@@ -9,7 +9,7 @@ import {
   Input,
   Modal,
   ModalHeader,
-} from 'react-gears';
+} from '@appfolio/react-gears';
 
 import mount from '../../support/mount';
 import * as gears from '../../../src/find';

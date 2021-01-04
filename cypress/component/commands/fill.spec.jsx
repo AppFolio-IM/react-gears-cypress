@@ -1,5 +1,10 @@
 import React from 'react';
-import { DateInput, FormLabelGroup, Input, Select } from 'react-gears';
+import {
+  DateInput,
+  FormLabelGroup,
+  Input,
+  Select,
+} from '@appfolio/react-gears';
 
 import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';
@@ -134,11 +139,11 @@ describe('cy.fill', () => {
       );
 
       cy.gears(comp.Select, 'first').fill('natasha romanov');
-      cy.gears(comp.Select, 'first').find('.icon-caret-down');
+      cy.gears(comp.Select, 'first').find('.fa-caret-down');
       cy.gears(comp.Select, 'second').fill('steve rogers');
-      cy.gears(comp.Select, 'second').find('.icon-caret-down');
+      cy.gears(comp.Select, 'second').find('.fa-caret-down');
       cy.gears(comp.Select, 'third').fill('tony stark');
-      cy.gears(comp.Select, 'third').find('.icon-caret-down');
+      cy.gears(comp.Select, 'third').find('.fa-caret-down');
     });
   });
 

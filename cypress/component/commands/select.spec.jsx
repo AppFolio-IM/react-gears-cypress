@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormLabelGroup, Select } from 'react-gears';
+import { FormLabelGroup, Select } from '@appfolio/react-gears';
 
 import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';

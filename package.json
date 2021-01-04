@@ -1,5 +1,5 @@
 {
-  "name": "react-gears-cypress",
+  "name": "@appfolio/react-gears-cypress",
   "version": "5.14.0-rc.0",
   "license": "MIT",
   "repository": {
@@ -18,7 +18,7 @@
     "build:bundle": "webpack --mode production",
     "clean": "rm -Rf dist lib",
     "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix cypress/integration/**/*.* src/**/*.ts",
+    "lint:fix": "eslint --fix cypress/**/*.js cypress/**/*.jsx src/**/*.ts",
     "start": "cypress open",
     "test": "cypress run",
     "type-check": "tsc --noEmit"
@@ -47,7 +47,7 @@
     "prettier": "^1.18.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-gears": "^5.0.0",
+    "@appfolio/react-gears": "^5.0.0",
     "tsify": "^4.0.2",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0",

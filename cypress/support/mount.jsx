@@ -1,6 +1,6 @@
 import { mount as realMount } from '@cypress/react';
 import React from 'react';
-import { Container, Row, Col } from 'react-gears';
+import { Container, Row, Col } from '@appfolio/react-gears';
 
 /**
  * Mount a React component, but inject a reasonable Gears stylesheet &

@@ -5,10 +5,9 @@ import {
   FormLabelGroup,
   Input,
   Select,
-} from 'react-gears';
+} from '@appfolio/react-gears';
 
 import mount from '../support/mount';
-import * as comp from '../../src/components';
 import * as hasManyFields from '../../src/hasManyFields';
 
 function Squirrel() {

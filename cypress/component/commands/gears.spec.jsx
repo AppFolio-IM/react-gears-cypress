@@ -13,7 +13,7 @@ import {
   Select,
   SummaryBox,
   SummaryBoxItem,
-} from 'react-gears';
+} from '@appfolio/react-gears';
 
 import mount from '../../support/mount';
 import * as comp from '../../../src/components';
