@@ -1,0 +1,10 @@
+coverage
+cypress/**/*
+src
+test
+.browserslistrc
+.eslintrc
+.prettierignore
+tsconfig.json
+.vscode
+*.log

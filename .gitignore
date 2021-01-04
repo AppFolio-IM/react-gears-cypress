@@ -1,0 +1,10 @@
+.nyc_output
+.DS_Store
+lib
+dist
+node_modules
+coverage
+*.log
+
+cypress/videos/*
+cypress/screenshots/*

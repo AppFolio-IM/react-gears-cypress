@@ -1,0 +1,65 @@
+{
+  "name": "react-gears-cypress",
+  "version": "5.14.0-rc.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/appfolio/react-gears-cypress"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".js,.jsx,.ts,.tsx\" --config-file ./.prod.babelrc",
+    "build:bundle": "webpack --mode production",
+    "clean": "rm -Rf dist lib",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint --fix cypress/integration/**/*.* src/**/*.ts",
+    "start": "cypress open",
+    "test": "cypress run",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-typescript": "^7.10.1",
+    "@cypress/react": "^4.16.1",
+    "@cypress/webpack-preprocessor": "^4.1.3",
+    "@typescript-eslint/eslint-plugin": "^1.4.0",
+    "@typescript-eslint/parser": "^1.4.0",
+    "babel-loader": "^8.1.0",
+    "cypress": "^6.1.0",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-cypress": "^2.11.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.20.0",
+    "prettier": "^1.18.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-gears": "^5.0.0",
+    "tsify": "^4.0.2",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "core-js": "^3.0"
+  },
+  "peerDependencies": {
+    "cypress": "^6.1.0"
+  },
+  "publishConfig": {
+    "registry": "https://nexus.dev.appf.io/repository/npm-hosted/"
+  }
+}
