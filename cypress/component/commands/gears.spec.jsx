@@ -5,8 +5,11 @@ import {
   Button,
   Card,
   CardTitle,
+  CheckboxInput,
   Datapair,
+  FormGroup,
   FormLabelGroup,
+  FormRow,
   Input,
   Modal,
   ModalHeader,
@@ -18,6 +21,7 @@ import {
 import mount from '../../support/mount';
 import * as comp from '../../../src/components';
 
+// Hide/show something after dt has elapsed.
 function Timed({ children, init = false, dt = 2000 }) {
   const [isVisible, setIsVisible] = React.useState(init);
   if (dt) setTimeout(() => setIsVisible(!isVisible), dt);
@@ -26,26 +30,26 @@ function Timed({ children, init = false, dt = 2000 }) {
 
 describe('cy.gears', () => {
   context('by label', () => {
-    it('alert', () => {
+    it('Alert', () => {
       mount(<Alert>some label</Alert>);
       cy.gears(comp.Alert, 'some label');
       cy.gears(comp.Alert, /some label/);
       cy.gears(comp.Alert, 'other label').should('not.exist');
     });
 
-    it('blockPanel', () => {
+    it('BlockPanel', () => {
       mount(<BlockPanel title="some label">some content</BlockPanel>);
       cy.gears(comp.BlockPanel, 'some label');
       cy.gears(comp.BlockPanel, 'other label').should('not.exist');
     });
 
-    it('button', () => {
+    it('Button', () => {
       mount(<Button>some label</Button>);
       cy.gears(comp.Button, 'some label');
       cy.gears(comp.Button, 'other label').should('not.exist');
     });
 
-    it('card', () => {
+    it('Card', () => {
       mount(
         <Card>
           <CardTitle>some label</CardTitle>
@@ -55,13 +59,13 @@ describe('cy.gears', () => {
       cy.gears(comp.Card, 'other label').should('not.exist');
     });
 
-    it('datapair', () => {
+    it('Datapair', () => {
       mount(<Datapair label="some label" value="some content" />);
       cy.gears(comp.Datapair, 'some label');
       cy.gears(comp.Datapair, 'other label').should('not.exist');
     });
 
-    context('input', () => {
+    context('Input', () => {
       it('single-line', () => {
         mount(
           <FormLabelGroup label="some label">
@@ -98,12 +102,23 @@ describe('cy.gears', () => {
 
       it('checkbox', () => {
         mount(
-          <FormLabelGroup label="some label">
-            <Input type="checkbox" />
-          </FormLabelGroup>
+          <>
+            <FormLabelGroup label="some label">
+              <Input id="cb1" type="checkbox" />
+            </FormLabelGroup>
+            <FormGroup>
+              <FormRow stacked label="irrelevant" />
+              <CheckboxInput id="cb2" checkboxLabel="ambiguous" />
+            </FormGroup>
+          </>
         );
-        cy.gears(comp.Input, 'some label');
+        cy.gears(comp.Input, 'some label')
+          .invoke('attr', 'id')
+          .should('eq', 'cb1');
         cy.gears(comp.Input, 'other label').should('not.exist');
+        cy.gears(comp.Input, 'ambiguous')
+          .invoke('attr', 'id')
+          .should('eq', 'cb2');
       });
 
       it('radio button', () => {
@@ -117,7 +132,7 @@ describe('cy.gears', () => {
       });
     });
 
-    context('link', () => {
+    context('Link', () => {
       it('vanilla HTML', () => {
         mount(
           <Card>
@@ -134,7 +149,7 @@ describe('cy.gears', () => {
       });
     });
 
-    it('modal', () => {
+    it('Modal', () => {
       mount(
         <Modal backdrop isOpen size="lg">
           <ModalHeader>some label</ModalHeader>
@@ -144,7 +159,7 @@ describe('cy.gears', () => {
       cy.gears(comp.Modal, 'other label').should('not.exist');
     });
 
-    it('select', () => {
+    it('Select', () => {
       mount(
         <FormLabelGroup label="some label">
           <Select />
@@ -154,7 +169,7 @@ describe('cy.gears', () => {
       cy.gears(comp.Select, 'other label').should('not.exist');
     });
 
-    it('summaryBoxItem', () => {
+    it('SummaryBoxItem', () => {
       mount(
         <SummaryBox>
           <SummaryBoxItem label="some label" value="some content" />

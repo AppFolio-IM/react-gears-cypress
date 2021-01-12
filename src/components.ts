@@ -39,6 +39,8 @@ export const Input: Component = {
       throw new Error(
         `Please use cy.gears(Select) to interact with this input`
       );
+    const forId = $el.eq(0).attr('for');
+    if (forId) return Cypress.$(`#${forId}`);
     return $el.closest('.form-group').find('input,textarea');
   },
 };
