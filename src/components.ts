@@ -31,16 +31,14 @@ export const Datapair: Component = {
 };
 
 export const Input: Component = {
-  // TODO: stop relying on .js-datapair and just use :has(input,textarea)?
-  labelSelector: '.form-group:not(.js-datapair):not(:has(.Select)) label',
+  labelSelector: ':not(:has(.Select)) label',
   name: 'Input',
   traverseViaLabel: $el => {
-    if ($el.attr('role') === 'combobox')
-      throw new Error(
-        `Please use cy.gears(Select) to interact with this input`
-      );
-    const forId = $el.eq(0).attr('for');
-    if (forId) return Cypress.$(`#${forId}`);
+    const forId = $el.attr('for');
+    if (forId) {
+      const $for = Cypress.$(`#${forId}`);
+      if ($for.length) return $for;
+    }
     return $el.closest('.form-group').find('input,textarea');
   },
 };

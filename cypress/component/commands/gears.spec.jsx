@@ -76,20 +76,6 @@ describe('cy.gears', () => {
         cy.gears(comp.Input, 'other label').should('not.exist');
       });
 
-      it('excepting Select', () => {
-        mount(
-          <>
-            <FormLabelGroup label="some label">
-              <Select />
-            </FormLabelGroup>
-            <FormLabelGroup label="some label">
-              <Input value="some value" />
-            </FormLabelGroup>
-          </>
-        );
-        cy.gears(comp.Input, 'some label').should('have.value', 'some value');
-      });
-
       it('multiline', () => {
         mount(
           <FormLabelGroup label="some label">
@@ -100,25 +86,24 @@ describe('cy.gears', () => {
         cy.gears(comp.Input, 'other label').should('not.exist');
       });
 
-      it('checkbox', () => {
-        mount(
-          <>
+      context('checkboxes', () => {
+        it('as Input', () => {
+          mount(
             <FormLabelGroup label="some label">
-              <Input id="cb1" type="checkbox" />
+              <Input type="checkbox" />
             </FormLabelGroup>
-            <FormGroup>
-              <FormRow stacked label="irrelevant" />
-              <CheckboxInput id="cb2" checkboxLabel="ambiguous" />
-            </FormGroup>
-          </>
-        );
-        cy.gears(comp.Input, 'some label')
-          .invoke('attr', 'id')
-          .should('eq', 'cb1');
-        cy.gears(comp.Input, 'other label').should('not.exist');
-        cy.gears(comp.Input, 'ambiguous')
-          .invoke('attr', 'id')
-          .should('eq', 'cb2');
+          );
+          cy.gears(comp.Input, 'some label');
+          cy.gears(comp.Input, 'other label').should('not.exist');
+        });
+
+        it('as CheckboxInput', () => {
+          mount(<CheckboxInput id="cb1" checkboxLabel="some label" />);
+          cy.gears(comp.Input, 'some label')
+            .invoke('attr', 'id')
+            .should('eq', 'cb1');
+          cy.gears(comp.Input, 'other label').should('not.exist');
+        });
       });
 
       it('radio button', () => {
@@ -129,6 +114,40 @@ describe('cy.gears', () => {
         );
         cy.gears(comp.Input, 'some label');
         cy.gears(comp.Input, 'other label').should('not.exist');
+      });
+
+      context('corner cases', () => {
+        it('conflicting Select', () => {
+          mount(
+            <>
+              <FormLabelGroup label="some label">
+                <Select />
+              </FormLabelGroup>
+              <FormLabelGroup label="some label">
+                <Input value="some value" />
+              </FormLabelGroup>
+            </>
+          );
+          cy.gears(comp.Input, 'some label').should('have.value', 'some value');
+        });
+
+        it('multi-input FormGroup', () => {
+          mount(
+            <>
+              <FormGroup>
+                <FormRow stacked id="i1" label="irrelevant" />
+                <CheckboxInput id="cb2" checkboxLabel="ambiguous" />
+              </FormGroup>
+            </>
+          );
+          cy.gears(comp.Input, 'irrelevant')
+            .invoke('attr', 'id')
+            .should('eq', 'i1');
+          cy.gears(comp.Input, 'other label').should('not.exist');
+          cy.gears(comp.Input, 'ambiguous')
+            .invoke('attr', 'id')
+            .should('eq', 'cb2');
+        });
       });
     });
 
