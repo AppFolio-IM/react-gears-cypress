@@ -31,7 +31,7 @@ export const Datapair: Component = {
 };
 
 export const Input: Component = {
-  labelSelector: ':not(:has(.Select)) label',
+  labelSelector: ':not(:has(select,.Select)) label',
   name: 'Input',
   traverseViaLabel: $el => {
     const forId = $el.attr('for');
@@ -55,7 +55,7 @@ export const Modal: Component = {
 };
 
 export const Select: Component = {
-  labelSelector: 'label',
+  labelSelector: ':has(select,.Select) label',
   name: 'Select',
   traverseViaLabel: ($el: JQuery) => {
     $el = $el.closest('.form-group');
