@@ -10,33 +10,38 @@ import { Color, Text } from './interfaces';
 
 export { assertNo };
 
+// @deprecated please use cy.gears() with Component definitions
 export function alert(text: Text, color?: Color) {
   return cy.gears(components.Alert, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function blockPanel(text: Text) {
   return cy.gears(components.BlockPanel, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function button(text: Text) {
   return cy.gears(components.Button, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function card(text: Text) {
   return cy.gears(components.Card, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function cardTitle(text: Text) {
   return cy.gears(components.Card, text).find('.card-title');
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function checkboxInput(text: Text) {
-  // TODO: type option
   return cy.gears(components.Input, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function datapair(text: Text) {
-  // TODO: type option
   return cy.gears(components.Datapair, text);
 }
 
@@ -46,31 +51,38 @@ export function hasManyFields(text: Text) {
   return cy.contains('label', text).parent();
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function input(text: Text) {
   return cy.gears(components.Input, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function link(text: Text) {
   return cy.gears(components.Link, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function modal(text: Text) {
   return cy.gears(components.Modal, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function modalTitle(text: Text) {
   return cy.gears(components.Modal, text).find('.modal-title');
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function radioInput(text: Text) {
   // TODO: type option
   return cy.gears(components.Input, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function select(text: Text) {
   return cy.gears(components.Select, text);
 }
 
+// @deprecated please use cy.gears() with Component definitions
 export function summaryBoxItem(text: Text) {
   return cy.gears(components.SummaryBoxItem, text);
 }
