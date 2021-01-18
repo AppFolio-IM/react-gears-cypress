@@ -81,6 +81,7 @@ export function fill(
     cy.wrap(subject, QUIET).clear(QUIET);
     cy.wrap(subject, QUIET)
       .find('input', QUIET)
+      .focus(QUIET)
       .type(value, FORCE_QUICK_QUIET);
     cy.wrap(subject, QUIET)
       .parent(QUIET)
@@ -93,8 +94,7 @@ export function fill(
       cy
         .wrap(subject, QUIET)
         .clear(QUIET)
-        // anti DOM churn
-        .should('be.visible')
+        .focus(QUIET)
         .type(value, FORCE_QUICK_QUIET)
         // try to ensure that React on-change callbacks fire
         .then(blurIfNecessary)
@@ -106,8 +106,7 @@ export function fill(
       cy
         .wrap(subject, QUIET)
         .clear(QUIET)
-        // anti DOM churn
-        .should('be.visible')
+        .focus(QUIET)
         .type(value, FORCE_QUICK_QUIET)
         // try to ensure that React on-change callbacks fire
         .then(blurIfNecessary)
