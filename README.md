@@ -25,10 +25,10 @@ Then, in each test where you want to interact with react-gears components:
 ```javascript
 import { BlockPanel, Datapair, Input, Select } from 'react-gears-cypress';
 
-cy.gears(BlockPanel, 'Personal Information').within(() => {
-  cy.gears(Datapair, 'First Name').contains('Alice')
-  cy.gears(Input, 'Last Name').clear().type('Liddel')
-  cy.gears(Select, 'Favorite Color').select('red')
+cy.component(BlockPanel, 'Personal Information').within(() => {
+  cy.component(Datapair, 'First Name').contains('Alice')
+  cy.component(Input, 'Last Name').clear().type('Liddel')
+  cy.component(Select, 'Favorite Color').select('red')
 })
 ```
 
@@ -52,11 +52,11 @@ instead of a string for more precise or relaxed matching.
 import {Datapair, match} from 'react-gears-cypress
 
 // Matches "Name" or "Name *" but not "First Name"
-cy.gears(Datapair, match.exact('Name'))
+cy.component(Datapair, match.exact('Name'))
 // Matches "foo bar", "foo badger bar", "foo badger badger mushroom bar", etc
-cy.gears(Datapair, match.fuzzyFirstLast('foo', 'bar'))
+cy.component(Datapair, match.fuzzyFirstLast('foo', 'bar'))
 // Matches "foo\nbar baz", "foo     bar\nbaz", etc
-cy.gears(Datapair, match.fuzzyMultiline('foo bar baz'))
+cy.component(Datapair, match.fuzzyMultiline('foo bar baz'))
 ```
 
 # Contributing
@@ -81,15 +81,6 @@ npm run type-check:watch
 
 ## Releasing a new version
 
-This repository is currently private (because `react-gears` is private); therefore, we publish it to Appfolio's internal [Nexus](https://nexus.dev.appf.io/) repository. You will need Nexus
-credentials to release new versions.
-
-You may need to  `npm adduser`; in theory an `.npmrc` is committed to this repository with a shared API token (as is standard practice in our GitHub org), but the shared token has read-only privileges. Logging in
-as yourself, seems to enable extra privileges e.g. publish.
-
-**WARNING:** Do not forget the `npm build` step below, otherwise
-you will publish old code to a new version number!
-
 To release a new version:
 
 1) Merge your work to master.
@@ -100,12 +91,15 @@ To release a new version:
 you decide the new version will be `X.Y.W`.
   - if you want a prerelease version, the preferred format is `X.Y.Z-rc.0` (then `rc.1`, etc)
 
-4) Run `npm run build` to produce distributables and `npm version X.Y.W` to bump to the new version.
-you decided on above.
+4) Run `npm version X.Y.W` to bump to the new version you decided on above.
+  - You can also use `npm version <patch|minor|major>` if you just want to increment one of those components.
 
-5) `git push` and `git push --tags` to ensure that the npm version bump is preserved
-for posterity.
+5) Run `npm run build` to produce distributables with the new version number.
 
 6) `npm publish` to share your distributables with the world.
   - if publishing a prerelease version you _must_ add `--tags=beta` to the `npm publish` command!
   - otherwise, people will accidentally upgrade to your prerelease and you will be forced to support them
+
+7) `git push` and `git push --tags` to ensure that the npm version bump is preserved
+for posterity.
+

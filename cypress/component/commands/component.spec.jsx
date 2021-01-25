@@ -28,25 +28,25 @@ function Timed({ children, init = false, dt = 2000 }) {
   return isVisible ? children : null;
 }
 
-describe('cy.gears', () => {
+describe('cy.component', () => {
   context('by label', () => {
     it('Alert', () => {
       mount(<Alert>some label</Alert>);
-      cy.gears(comp.Alert, 'some label');
-      cy.gears(comp.Alert, /some label/);
-      cy.gears(comp.Alert, 'other label').should('not.exist');
+      cy.component(comp.Alert, 'some label');
+      cy.component(comp.Alert, /some label/);
+      cy.component(comp.Alert, 'other label').should('not.exist');
     });
 
     it('BlockPanel', () => {
       mount(<BlockPanel title="some label">some content</BlockPanel>);
-      cy.gears(comp.BlockPanel, 'some label');
-      cy.gears(comp.BlockPanel, 'other label').should('not.exist');
+      cy.component(comp.BlockPanel, 'some label');
+      cy.component(comp.BlockPanel, 'other label').should('not.exist');
     });
 
     it('Button', () => {
       mount(<Button>some label</Button>);
-      cy.gears(comp.Button, 'some label');
-      cy.gears(comp.Button, 'other label').should('not.exist');
+      cy.component(comp.Button, 'some label');
+      cy.component(comp.Button, 'other label').should('not.exist');
     });
 
     it('Card', () => {
@@ -55,14 +55,14 @@ describe('cy.gears', () => {
           <CardTitle>some label</CardTitle>
         </Card>
       );
-      cy.gears(comp.Card, 'some label');
-      cy.gears(comp.Card, 'other label').should('not.exist');
+      cy.component(comp.Card, 'some label');
+      cy.component(comp.Card, 'other label').should('not.exist');
     });
 
     it('Datapair', () => {
       mount(<Datapair label="some label" value="some content" />);
-      cy.gears(comp.Datapair, 'some label');
-      cy.gears(comp.Datapair, 'other label').should('not.exist');
+      cy.component(comp.Datapair, 'some label');
+      cy.component(comp.Datapair, 'other label').should('not.exist');
     });
 
     context('Input', () => {
@@ -72,8 +72,11 @@ describe('cy.gears', () => {
             <Input value="some value" />
           </FormLabelGroup>
         );
-        cy.gears(comp.Input, 'some label').should('have.value', 'some value');
-        cy.gears(comp.Input, 'other label').should('not.exist');
+        cy.component(comp.Input, 'some label').should(
+          'have.value',
+          'some value'
+        );
+        cy.component(comp.Input, 'other label').should('not.exist');
       });
 
       it('multiline', () => {
@@ -82,8 +85,11 @@ describe('cy.gears', () => {
             <Input type="textarea" value="some value" />
           </FormLabelGroup>
         );
-        cy.gears(comp.Input, 'some label').should('have.value', 'some value');
-        cy.gears(comp.Input, 'other label').should('not.exist');
+        cy.component(comp.Input, 'some label').should(
+          'have.value',
+          'some value'
+        );
+        cy.component(comp.Input, 'other label').should('not.exist');
       });
 
       context('checkboxes', () => {
@@ -93,16 +99,16 @@ describe('cy.gears', () => {
               <Input type="checkbox" />
             </FormLabelGroup>
           );
-          cy.gears(comp.Input, 'some label');
-          cy.gears(comp.Input, 'other label').should('not.exist');
+          cy.component(comp.Input, 'some label');
+          cy.component(comp.Input, 'other label').should('not.exist');
         });
 
         it('as CheckboxInput', () => {
           mount(<CheckboxInput id="cb1" checkboxLabel="some label" />);
-          cy.gears(comp.Input, 'some label')
+          cy.component(comp.Input, 'some label')
             .invoke('attr', 'id')
             .should('eq', 'cb1');
-          cy.gears(comp.Input, 'other label').should('not.exist');
+          cy.component(comp.Input, 'other label').should('not.exist');
         });
       });
 
@@ -112,8 +118,8 @@ describe('cy.gears', () => {
             <Input type="radio" />
           </FormLabelGroup>
         );
-        cy.gears(comp.Input, 'some label');
-        cy.gears(comp.Input, 'other label').should('not.exist');
+        cy.component(comp.Input, 'some label');
+        cy.component(comp.Input, 'other label').should('not.exist');
       });
 
       context('corner cases', () => {
@@ -128,7 +134,10 @@ describe('cy.gears', () => {
               </FormLabelGroup>
             </>
           );
-          cy.gears(comp.Input, 'some label').should('have.value', 'some value');
+          cy.component(comp.Input, 'some label').should(
+            'have.value',
+            'some value'
+          );
         });
 
         it('multi-input FormGroup', () => {
@@ -140,11 +149,11 @@ describe('cy.gears', () => {
               </FormGroup>
             </>
           );
-          cy.gears(comp.Input, 'irrelevant')
+          cy.component(comp.Input, 'irrelevant')
             .invoke('attr', 'id')
             .should('eq', 'i1');
-          cy.gears(comp.Input, 'other label').should('not.exist');
-          cy.gears(comp.Input, 'ambiguous')
+          cy.component(comp.Input, 'other label').should('not.exist');
+          cy.component(comp.Input, 'ambiguous')
             .invoke('attr', 'id')
             .should('eq', 'cb2');
         });
@@ -158,13 +167,13 @@ describe('cy.gears', () => {
             <a href="about:blank">some label</a>
           </Card>
         );
-        cy.gears(comp.Link, 'some label');
-        cy.gears(comp.Link, 'other label').should('not.exist');
+        cy.component(comp.Link, 'some label');
+        cy.component(comp.Link, 'other label').should('not.exist');
       });
       it('link-colored button', () => {
         mount(<Button color="link">some label</Button>);
-        cy.gears(comp.Link, 'some label');
-        cy.gears(comp.Link, 'other label').should('not.exist');
+        cy.component(comp.Link, 'some label');
+        cy.component(comp.Link, 'other label').should('not.exist');
       });
     });
 
@@ -174,8 +183,8 @@ describe('cy.gears', () => {
           <ModalHeader>some label</ModalHeader>
         </Modal>
       );
-      cy.gears(comp.Modal, 'some label');
-      cy.gears(comp.Modal, 'other label').should('not.exist');
+      cy.component(comp.Modal, 'some label');
+      cy.component(comp.Modal, 'other label').should('not.exist');
     });
 
     it('Select', () => {
@@ -184,8 +193,8 @@ describe('cy.gears', () => {
           <Select />
         </FormLabelGroup>
       );
-      cy.gears(comp.Select, 'some label');
-      cy.gears(comp.Select, 'other label').should('not.exist');
+      cy.component(comp.Select, 'some label');
+      cy.component(comp.Select, 'other label').should('not.exist');
     });
 
     it('SummaryBoxItem', () => {
@@ -194,8 +203,8 @@ describe('cy.gears', () => {
           <SummaryBoxItem label="some label" value="some content" />
         </SummaryBox>
       );
-      cy.gears(comp.SummaryBoxItem, 'some label');
-      cy.gears(comp.SummaryBoxItem, 'other label').should('not.exist');
+      cy.component(comp.SummaryBoxItem, 'some label');
+      cy.component(comp.SummaryBoxItem, 'other label').should('not.exist');
     });
   });
 
@@ -219,15 +228,15 @@ describe('cy.gears', () => {
           </BlockPanel>
         </>
       );
-      cy.gears(comp.BlockPanel, 'A').within(() => {
-        cy.gears(comp.Alert, 'A');
-        cy.gears(comp.Input, 'A').should('have.value', 'A');
-        cy.gears(comp.Button, 'A').should('have.text', 'A');
+      cy.component(comp.BlockPanel, 'A').within(() => {
+        cy.component(comp.Alert, 'A');
+        cy.component(comp.Input, 'A').should('have.value', 'A');
+        cy.component(comp.Button, 'A').should('have.text', 'A');
       });
-      cy.gears(comp.BlockPanel, 'B').within(() => {
-        cy.gears(comp.Alert, 'B');
-        cy.gears(comp.Input, 'B').should('have.value', 'B');
-        cy.gears(comp.Button, 'B').should('have.text', 'B');
+      cy.component(comp.BlockPanel, 'B').within(() => {
+        cy.component(comp.Alert, 'B');
+        cy.component(comp.Input, 'B').should('have.value', 'B');
+        cy.component(comp.Button, 'B').should('have.text', 'B');
       });
     });
   });
@@ -251,28 +260,36 @@ describe('cy.gears', () => {
     });
 
     it('chooses shortest text', () => {
-      cy.gears(comp.Link, 'foo').should('have.attr', 'href', '#a_foo');
+      cy.component(comp.Link, 'foo').should('have.attr', 'href', '#a_foo');
 
-      cy.gears(comp.BlockPanel, 'B')
-        .gears(comp.Link, 'foo')
+      cy.component(comp.BlockPanel, 'B')
+        .component(comp.Link, 'foo')
         .should('have.attr', 'href', '#b_foo');
 
-      cy.gears(comp.BlockPanel, 'A').within(() => {
-        cy.gears(comp.Link, 'foo').should('have.attr', 'href', '#a_foo');
-        cy.gears(comp.Link, 'foobar').should('have.attr', 'href', '#a_foobar');
+      cy.component(comp.BlockPanel, 'A').within(() => {
+        cy.component(comp.Link, 'foo').should('have.attr', 'href', '#a_foo');
+        cy.component(comp.Link, 'foobar').should(
+          'have.attr',
+          'href',
+          '#a_foobar'
+        );
       });
     });
 
     it('supports RegExp', () => {
-      cy.gears(comp.Link, /FOO/i).should('have.attr', 'href', '#a_foo');
+      cy.component(comp.Link, /FOO/i).should('have.attr', 'href', '#a_foo');
 
-      cy.gears(comp.BlockPanel, 'B')
-        .gears(comp.Link, /FOO/i)
+      cy.component(comp.BlockPanel, 'B')
+        .component(comp.Link, /FOO/i)
         .should('have.attr', 'href', '#b_foo');
 
-      cy.gears(comp.BlockPanel, 'A').within(() => {
-        cy.gears(comp.Link, /FOO/i).should('have.attr', 'href', '#a_foo');
-        cy.gears(comp.Link, /FOOBAR/i).should('have.attr', 'href', '#a_foobar');
+      cy.component(comp.BlockPanel, 'A').within(() => {
+        cy.component(comp.Link, /FOO/i).should('have.attr', 'href', '#a_foo');
+        cy.component(comp.Link, /FOOBAR/i).should(
+          'have.attr',
+          'href',
+          '#a_foobar'
+        );
       });
     });
   });
@@ -285,7 +302,7 @@ describe('cy.gears', () => {
             <BlockPanel title="now you see me"></BlockPanel>
           </Timed>
         );
-        cy.gears(comp.BlockPanel, 'now you see me');
+        cy.component(comp.BlockPanel, 'now you see me');
       });
       it('with negative assertion', () => {
         mount(
@@ -293,7 +310,7 @@ describe('cy.gears', () => {
             <BlockPanel title="now you see me"></BlockPanel>
           </Timed>
         );
-        cy.gears(comp.BlockPanel, 'now you see me').should('not.exist');
+        cy.component(comp.BlockPanel, 'now you see me').should('not.exist');
       });
     });
 
@@ -308,8 +325,8 @@ describe('cy.gears', () => {
             </Timed>
           </BlockPanel>
         );
-        cy.gears(comp.BlockPanel, 'outer subject').within(() => {
-          cy.gears(comp.Input, 'now you see me').should(
+        cy.component(comp.BlockPanel, 'outer subject').within(() => {
+          cy.component(comp.Input, 'now you see me').should(
             'have.value',
             'some value'
           );
@@ -325,8 +342,8 @@ describe('cy.gears', () => {
             </Timed>
           </BlockPanel>
         );
-        cy.gears(comp.BlockPanel, 'outer subject').within(() => {
-          cy.gears(comp.Input, 'now you see me').should('not.exist');
+        cy.component(comp.BlockPanel, 'outer subject').within(() => {
+          cy.component(comp.Input, 'now you see me').should('not.exist');
         });
       });
     });

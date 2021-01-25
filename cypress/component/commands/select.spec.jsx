@@ -38,9 +38,9 @@ describe('cy.select', () => {
       </FormLabelGroup>
     );
 
-    cy.gears(comp.Select, 'some label').select('alpha');
+    cy.component(comp.Select, 'some label').select('alpha');
     eventually(() => expect(selected).to.eq('alpha'));
-    cy.gears(comp.Select, 'some label').select('bravo');
+    cy.component(comp.Select, 'some label').select('bravo');
     eventually(() => expect(selected).to.eq('bravo'));
   });
 });

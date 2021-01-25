@@ -21,18 +21,18 @@ describe('cy.fill', () => {
     });
 
     it('types values', () => {
-      cy.gears(comp.Input, 'some label')
+      cy.component(comp.Input, 'some label')
         .clear()
         .type('before');
-      cy.gears(comp.Input, 'some label').should('have.value', 'before');
+      cy.component(comp.Input, 'some label').should('have.value', 'before');
 
-      cy.gears(comp.Input, 'some label').fill('after');
-      cy.gears(comp.Input, 'some label').should('have.value', 'after');
+      cy.component(comp.Input, 'some label').fill('after');
+      cy.component(comp.Input, 'some label').should('have.value', 'after');
     });
 
     // TODO: figure out how to intercept Cypress command errors
     it.skip('requires a value', () => {
-      cy.gears(comp.Input, 'some label').fill('');
+      cy.component(comp.Input, 'some label').fill('');
     });
   });
 
@@ -53,7 +53,7 @@ describe('cy.fill', () => {
         'true'
       );
 
-      cy.gears(comp.Input, 'some label').fill('04/02/2018');
+      cy.component(comp.Input, 'some label').fill('04/02/2018');
 
       cy.get('div[aria-haspopup="true"]').should(
         'have.attr',
@@ -80,8 +80,8 @@ describe('cy.fill', () => {
       cy.get('textarea').should('have.value', 'before');
 
       // fill with something
-      cy.gears(comp.Input, 'some label').fill('avengers assemble!');
-      cy.gears(comp.Input, 'some label').should(
+      cy.component(comp.Input, 'some label').fill('avengers assemble!');
+      cy.component(comp.Input, 'some label').should(
         'have.value',
         'avengers assemble!'
       );
@@ -89,7 +89,7 @@ describe('cy.fill', () => {
 
     // TODO: figure out how to intercept Cypress command errors
     it.skip('requires a value', () => {
-      cy.gears(comp.Input, 'some label').fill('');
+      cy.component(comp.Input, 'some label').fill('');
     });
   });
 
@@ -112,15 +112,15 @@ describe('cy.fill', () => {
       );
 
       // fill with something
-      cy.gears(comp.Select, 'best avenger').fill('steve rogers');
+      cy.component(comp.Select, 'best avenger').fill('steve rogers');
       eventually(() => expect(selected).to.eq('steve rogers'));
-      cy.gears(comp.Select, 'best avenger').fill('natasha romanov');
+      cy.component(comp.Select, 'best avenger').fill('natasha romanov');
       eventually(() => expect(selected).to.eq('natasha romanov'));
     });
 
     // TODO: figure out how to intercept Cypress command errors
     it.skip('requires a value', () => {
-      cy.gears(comp.Select, 'best avenger').fill('');
+      cy.component(comp.Select, 'best avenger').fill('');
     });
 
     it('dismisses popups', () => {
@@ -138,12 +138,12 @@ describe('cy.fill', () => {
         </>
       );
 
-      cy.gears(comp.Select, 'first').fill('natasha romanov');
-      cy.gears(comp.Select, 'first').find('.fa-caret-down');
-      cy.gears(comp.Select, 'second').fill('steve rogers');
-      cy.gears(comp.Select, 'second').find('.fa-caret-down');
-      cy.gears(comp.Select, 'third').fill('tony stark');
-      cy.gears(comp.Select, 'third').find('.fa-caret-down');
+      cy.component(comp.Select, 'first').fill('natasha romanov');
+      cy.component(comp.Select, 'first').find('.fa-caret-down');
+      cy.component(comp.Select, 'second').fill('steve rogers');
+      cy.component(comp.Select, 'second').find('.fa-caret-down');
+      cy.component(comp.Select, 'third').fill('tony stark');
+      cy.component(comp.Select, 'third').find('.fa-caret-down');
     });
   });
 
@@ -163,22 +163,22 @@ describe('cy.fill', () => {
 
     it('tolerates superfluous type=select', () => {
       // fill with something
-      cy.gears(comp.Select, 'best avenger').fill('steve rogers');
+      cy.component(comp.Select, 'best avenger').fill('steve rogers');
       cy.get('select').should('have.value', 'steve rogers');
-      cy.gears(comp.Select, 'best avenger').fill('natasha romanov');
+      cy.component(comp.Select, 'best avenger').fill('natasha romanov');
       cy.get('select').should('have.value', 'natasha romanov');
     });
 
     it('does not rely on superfluous type=select', () => {
-      cy.gears(comp.Select, 'best avenger').fill('steve rogers');
+      cy.component(comp.Select, 'best avenger').fill('steve rogers');
       cy.get('select').should('have.value', 'steve rogers');
-      cy.gears(comp.Select, 'best avenger').fill('natasha romanov');
+      cy.component(comp.Select, 'best avenger').fill('natasha romanov');
       cy.get('select').should('have.value', 'natasha romanov');
     });
 
     // TODO: figure out how to intercept Cypress command errors
     it.skip('requires a value', () => {
-      cy.gears(comp.Select, 'best avenger').fill('');
+      cy.component(comp.Select, 'best avenger').fill('');
     });
   });
 });

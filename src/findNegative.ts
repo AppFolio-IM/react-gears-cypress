@@ -12,24 +12,24 @@ import * as components from './components';
 declare var cy: Cypress.Chainable;
 
 export function alert(text: Text, color?: Color) {
-  return cy.gears(components.Alert, text).should('not.exist');
+  return cy.component(components.Alert, text).should('not.exist');
 }
 
 export function button(text: Text) {
-  return cy.gears(components.Button, text).should('not.exist');
+  return cy.component(components.Button, text).should('not.exist');
 }
 
 export function blockPanel(text: Text) {
-  return cy.gears(components.BlockPanel, text).should('not.exist');
+  return cy.component(components.BlockPanel, text).should('not.exist');
 }
 
 export function checkboxInput(text: Text) {
   // TODO: type option
-  return cy.gears(components.Input, text).should('not.exist');
+  return cy.component(components.Input, text).should('not.exist');
 }
 
 export function datapair(text: Text) {
-  return cy.gears(components.Datapair, text).should('not.exist');
+  return cy.component(components.Datapair, text).should('not.exist');
 }
 
 export function hasMany(text: Text) {
@@ -39,18 +39,18 @@ export function hasMany(text: Text) {
 }
 
 export function input(text: Text) {
-  return cy.gears(components.Input, text).should('not.exist');
+  return cy.component(components.Input, text).should('not.exist');
 }
 
 export function link(text: string) {
-  return cy.gears(components.Link, text).should('not.exist');
+  return cy.component(components.Link, text).should('not.exist');
 }
 
 export function modal(text: Text) {
-  return cy.gears(components.Modal, text).should('not.exist');
+  return cy.component(components.Modal, text).should('not.exist');
 }
 
 export function radioInput(text: Text) {
   // TODO: type option
-  return cy.gears(components.Input, text).should('not.exist');
+  return cy.component(components.Input, text).should('not.exist');
 }

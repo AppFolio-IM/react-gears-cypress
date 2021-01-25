@@ -14,10 +14,10 @@ declare global {
        *
        * @example
        *    import { components: { Button, Datapair } } from '@appfolio/react-gears-cypress'
-       *    cy.gears(Datapair, 'First Name').clear()
-       *    cy.gears(Button, /Create|Save/, { log: false }).click();
+       *    cy.component(Datapair, 'First Name').clear()
+       *    cy.component(Button, /Create|Save/, { log: false }).click();
        */
-      gears(
+      component(
         component: Component,
         text: Text,
         options?: Partial<GearsOptions>
@@ -28,13 +28,13 @@ declare global {
 /* eslint-enable @typescript-eslint/no-namespace */
 
 /**
- * Options for the cy.gears command.
+ * Options for the cy.component command.
  */
 export interface GearsOptions {
   log: boolean;
 }
 
-export function gears(
+export function component(
   subject: JQuery | undefined,
   component: Component,
   text: Text,

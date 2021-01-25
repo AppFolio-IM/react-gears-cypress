@@ -1,9 +1,11 @@
 import { clear } from './clear';
+import { component } from './component';
 import { fill } from './fill';
-import { gears } from './gears';
 import { select } from './select';
 
-export { clear, fill, gears, select };
+export { clear, component, fill, select };
+
+type CommandName = 'clear' | 'fill' | 'component' | 'select';
 
 /**
  * Register Cypress commands provided by this package. Some commands are new and
@@ -15,14 +17,14 @@ export { clear, fill, gears, select };
  * @example install just a couple commands
  *  commands.add('fill', 'gears);
  */
-export function add(...names: string[]) {
+export function add(...names: CommandName[]) {
   const all = !names.length;
   if (all || names.includes('clear'))
     Cypress.Commands.overwrite('clear', clear);
   if (all || names.includes('fill'))
     Cypress.Commands.add('fill', { prevSubject: true }, fill);
-  if (all || names.includes('gears'))
-    Cypress.Commands.add('gears', { prevSubject: 'optional' }, gears);
+  if (all || names.includes('component'))
+    Cypress.Commands.add('component', { prevSubject: 'optional' }, component);
   if (all || names.includes('select'))
     Cypress.Commands.overwrite('select', select);
 }

@@ -20,7 +20,7 @@ describe('cy.clear', () => {
 
     cy.get('input').type('before');
 
-    cy.gears(comp.Input, 'some label').clear();
+    cy.component(comp.Input, 'some label').clear();
 
     cy.get('input').should('have.value', '');
   });
@@ -41,8 +41,8 @@ describe('cy.clear', () => {
       'false'
     );
 
-    cy.gears(comp.Input, 'some label').clear();
-    cy.gears(comp.Input, 'some label').should('have.value', '');
+    cy.component(comp.Input, 'some label').clear();
+    cy.component(comp.Input, 'some label').should('have.value', '');
     cy.get('div[aria-haspopup="true"]').should(
       'have.attr',
       'aria-expanded',
@@ -68,14 +68,14 @@ describe('cy.clear', () => {
         </FormLabelGroup>
       );
 
-      cy.gears(comp.Select, 'some label').select('alpha');
+      cy.component(comp.Select, 'some label').select('alpha');
       eventually(() => selected === 'alpha');
 
-      cy.gears(comp.Select, 'some label').clear();
+      cy.component(comp.Select, 'some label').clear();
       eventually(() => selected === null);
 
       // clearing is idempotent; should not raise
-      cy.gears(comp.Select, 'some label').clear();
+      cy.component(comp.Select, 'some label').clear();
     });
 
     it('dismisses popups', () => {
@@ -100,12 +100,12 @@ describe('cy.clear', () => {
         </>
       );
 
-      cy.gears(comp.Select, 'first').clear();
-      cy.gears(comp.Select, 'first').find('.fa-caret-down');
-      cy.gears(comp.Select, 'second').clear();
-      cy.gears(comp.Select, 'second').find('.fa-caret-down');
-      cy.gears(comp.Select, 'third').clear();
-      cy.gears(comp.Select, 'third').find('.fa-caret-down');
+      cy.component(comp.Select, 'first').clear();
+      cy.component(comp.Select, 'first').find('.fa-caret-down');
+      cy.component(comp.Select, 'second').clear();
+      cy.component(comp.Select, 'second').find('.fa-caret-down');
+      cy.component(comp.Select, 'third').clear();
+      cy.component(comp.Select, 'third').find('.fa-caret-down');
     });
   });
 });

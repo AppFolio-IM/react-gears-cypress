@@ -10,7 +10,7 @@ Future releases will be aligned with react-gears' versioning scheme, and will pr
 
 New features:
 - Helper function `commands.add()` to register Cypress commands without copypasta.
-- Custom command, `gears`, to replace `find` and `findNegative`
+- Custom command, `component`, to replace `find` and `findNegative`
    - compatibility shims are provided to ease migration
 - More consistent, reliable behavior for `clear` and `fill` commands.
    - Better at dismissing unwanted popups & overlays
