@@ -2,7 +2,9 @@
 
 import { Text } from '../../interfaces';
 
-/// Find all elements under subject matching selector and containing text.
+/**
+ * Find all elements under subject matching selector and containing text.
+ **/
 export function findAllByLabelText(
   subject: JQuery,
   selector: string,
@@ -18,7 +20,9 @@ export function findAllByLabelText(
       .filter((_, e) => !!e.textContent && e.textContent.includes(text));
 }
 
-/// Sort query results by increasing inner-text length.
+/**
+ * Sort query results by increasing inner-text length.
+ **/
 export function orderByInnerText(results: JQuery) {
   if (results.length < 2) return results.eq(0);
 

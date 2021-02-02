@@ -3,35 +3,35 @@
 import { Component } from './interfaces';
 
 export const Alert: Component = {
-  labelSelector: 'div.alert',
+  selector: 'div.alert',
   name: 'Alert',
 };
 
 export const BlockPanel: Component = {
-  labelSelector: '.card .card-title',
+  selector: '.card .card-title',
   name: 'BlockPanel',
   traverseViaLabel: ($el: JQuery) => $el.closest('.card'),
 };
 
 export const Button: Component = {
-  labelSelector: 'button',
+  selector: 'button',
   name: 'Button',
 };
 
 export const Card: Component = {
-  labelSelector: '.card .card-title',
+  selector: '.card .card-title',
   name: 'Card',
   traverseViaLabel: ($el: JQuery) => $el.closest('.card'),
 };
 
 export const Datapair: Component = {
-  labelSelector: '.form-group.js-datapair label',
+  selector: '.form-group.js-datapair label',
   name: 'Datapair',
   traverseViaLabel: ($el: JQuery) => $el.closest('.form-group'),
 };
 
 export const Input: Component = {
-  labelSelector: ':not(:has(select,.Select)) label',
+  selector: ':not(:has(select,.Select)) label',
   name: 'Input',
   traverseViaLabel: $el => {
     const forId = $el.attr('for');
@@ -44,18 +44,23 @@ export const Input: Component = {
 };
 
 export const Link: Component = {
-  labelSelector: 'a,button.btn-link',
+  selector: 'a,button.btn-link',
   name: 'Link',
 };
 
 export const Modal: Component = {
-  labelSelector: '.modal-title',
+  selector: '.modal-title',
   name: 'Modal',
   traverseViaLabel: ($el: JQuery) => $el.closest('.modal-dialog'),
 };
 
+export const Nav: Component = {
+  selector: 'ul.nav',
+  name: 'Nav',
+};
+
 export const Select: Component = {
-  labelSelector: ':has(select,.Select) label',
+  selector: ':has(select,.Select) label',
   name: 'Select',
   traverseViaLabel: ($el: JQuery) => {
     $el = $el.closest('.form-group');
@@ -70,7 +75,7 @@ export const Select: Component = {
 };
 
 export const SummaryBoxItem: Component = {
-  labelSelector: '.card.border-secondary > .card-body > small',
+  selector: '.card.border-secondary > .card-body > small',
   name: 'SummaryBoxItem',
   traverseViaLabel: ($el: JQuery) => $el.closest('.card.border-secondary'),
 };

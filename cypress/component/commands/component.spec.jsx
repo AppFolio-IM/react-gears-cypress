@@ -5,10 +5,14 @@ import {
   Button,
   FormLabelGroup,
   Input,
+  Nav,
+  NavItem,
+  NavLink,
 } from '@appfolio/react-gears';
 
 import mount from '../../support/mount';
 import * as comp from '../../../src/components';
+import { component as rawComponent } from '../../../src/commands/component';
 
 // Hide/show something after dt has elapsed.
 function Timed({ children, init = false, dt = 2000 }) {
@@ -18,43 +22,18 @@ function Timed({ children, init = false, dt = 2000 }) {
 }
 
 describe('cy.component', () => {
-  context('within outer subject', () => {
-    it('BlockPanel', () => {
-      mount(
-        <>
-          <BlockPanel title="A">
-            <Alert>A</Alert>
-            <FormLabelGroup label="A">
-              <Input value="A" />
-            </FormLabelGroup>
-            <Button color="primary">A</Button>
-          </BlockPanel>
-          <BlockPanel title="B">
-            <Alert>B</Alert>
-            <FormLabelGroup label="B">
-              <Input value="B" />
-            </FormLabelGroup>
-            <Button color="secondary">B</Button>
-          </BlockPanel>
-        </>
-      );
-      cy.component(comp.BlockPanel, 'A').within(() => {
-        cy.component(comp.Alert, 'A');
-        cy.component(comp.Input, 'A').should('have.value', 'A');
-        cy.component(comp.Button, 'A').should('have.text', 'A');
-      });
-      cy.component(comp.BlockPanel, 'B').within(() => {
-        cy.component(comp.Alert, 'B');
-        cy.component(comp.Input, 'B').should('have.value', 'B');
-        cy.component(comp.Button, 'B').should('have.text', 'B');
-      });
-    });
-  });
-
   context('best match', () => {
     beforeEach(() => {
       mount(
         <>
+          <Nav>
+            <NavItem>
+              <NavLink href="#">Nav 1</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="#">Nav 2</NavLink>
+            </NavItem>
+          </Nav>
           <BlockPanel title="A">
             <a href="#a_foobar">foobar</a>
             &nbsp;
@@ -101,6 +80,12 @@ describe('cy.component', () => {
           '#a_foobar'
         );
       });
+    });
+
+    it('finds unlabeled components', () => {
+      cy.component(comp.Nav)
+        .contains('Nav 2')
+        .click();
     });
   });
 
@@ -155,6 +140,51 @@ describe('cy.component', () => {
         cy.component(comp.BlockPanel, 'outer subject').within(() => {
           cy.component(comp.Input, 'now you see me').should('not.exist');
         });
+      });
+    });
+  });
+
+  context('with invalid param', () => {
+    // TODO: how to test  this?
+    it('throws', () => {
+      try {
+        rawComponent(undefined, undefined, 'Label');
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error);
+        expect(e.message).to.match(/invalid component spec/);
+      }
+    });
+  });
+
+  context('within outer subject', () => {
+    it('BlockPanel', () => {
+      mount(
+        <>
+          <BlockPanel title="A">
+            <Alert>A</Alert>
+            <FormLabelGroup label="A">
+              <Input value="A" />
+            </FormLabelGroup>
+            <Button color="primary">A</Button>
+          </BlockPanel>
+          <BlockPanel title="B">
+            <Alert>B</Alert>
+            <FormLabelGroup label="B">
+              <Input value="B" />
+            </FormLabelGroup>
+            <Button color="secondary">B</Button>
+          </BlockPanel>
+        </>
+      );
+      cy.component(comp.BlockPanel, 'A').within(() => {
+        cy.component(comp.Alert, 'A');
+        cy.component(comp.Input, 'A').should('have.value', 'A');
+        cy.component(comp.Button, 'A').should('have.text', 'A');
+      });
+      cy.component(comp.BlockPanel, 'B').within(() => {
+        cy.component(comp.Alert, 'B');
+        cy.component(comp.Input, 'B').should('have.value', 'B');
+        cy.component(comp.Button, 'B').should('have.text', 'B');
       });
     });
   });

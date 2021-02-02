@@ -19,7 +19,7 @@ declare global {
        */
       component(
         component: Component,
-        text: Text,
+        text?: Text,
         options?: Partial<GearsOptions>
       ): Chainable<Subject>;
     }
@@ -84,7 +84,9 @@ export function component(
   const getValue = () => {
     // @ts-ignore:2339
     let $subject = subject || cy.state('withinSubject') || cy.$$('body');
-    let $el = findAllByLabelText($subject, component.labelSelector, text);
+    let $el = text
+      ? findAllByLabelText($subject, component.selector, text)
+      : $subject.find(component.selector);
     if ($el && $el.length) $el = getFirstDeepestElement(orderByInnerText($el));
     if ($el.length && component.traverseViaLabel)
       $el = component.traverseViaLabel($el);

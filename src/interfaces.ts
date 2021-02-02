@@ -16,11 +16,17 @@ export type Color =
  * Methods for interacting with a specific react-gears component.
  */
 export interface Component {
-  /// CSS selector used to find the component by its label text
-  labelSelector: string;
-  /// Display name of the React component.
+  /**
+   * CSS selector used to find the component by its label text.
+   */
+  selector: string;
+  /**
+   * Display name of the React component.
+   */
   name: string;
-  /// Starting at the label element, navigate to actual component element,
+  /**
+   * Starting at the label element, navigate to actual component element,
+   */
   traverseViaLabel?: ($el: JQuery) => JQuery;
 }
 
@@ -29,6 +35,9 @@ export interface Component {
  */
 export type Text = string | RegExp;
 
+/**
+ * Type guard for Component.
+ */
 export function isComponent(v: any): v is Component {
-  return (v && typeof v === 'object') || (v.getAllByLabelText && v.name);
+  return v && typeof v === 'object' && v.selector && v.name;
 }

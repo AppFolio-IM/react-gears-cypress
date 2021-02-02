@@ -13,6 +13,9 @@ import {
   Input,
   Modal,
   ModalHeader,
+  Nav,
+  NavItem,
+  NavLink,
   Select,
   SummaryBox,
   SummaryBoxItem,
@@ -178,6 +181,22 @@ describe('components', () => {
       );
       cy.component(comp.Modal, 'some label');
       cy.component(comp.Modal, 'other label').should('not.exist');
+    });
+
+    it('Nav', () => {
+      mount(
+        <Nav>
+          <NavItem>
+            <NavLink href="#">Nav 1</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#">Nav 2</NavLink>
+          </NavItem>
+        </Nav>
+      );
+      cy.component(comp.Nav)
+        .contains('Nav 2')
+        .click();
     });
 
     it('Select', () => {
