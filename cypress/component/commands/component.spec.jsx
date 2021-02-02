@@ -22,7 +22,7 @@ function Timed({ children, init = false, dt = 2000 }) {
 }
 
 describe('cy.component', () => {
-  context('best match', () => {
+  context('basics', () => {
     beforeEach(() => {
       mount(
         <>
@@ -34,6 +34,34 @@ describe('cy.component', () => {
               <NavLink href="#">Nav 2</NavLink>
             </NavItem>
           </Nav>
+          <BlockPanel title="A">
+            <a href="#a_foobar">foobar</a>
+            &nbsp;
+            <a href="#a_foo">foo</a>
+          </BlockPanel>
+        </>
+      );
+    });
+
+    it('finds labeled components', () => {
+      cy.component(comp.Link, 'foo').should('be.visible');
+      cy.component(comp.Link, 'foo', { log: false }).should('be.visible');
+    });
+
+    it('finds unlabeled components', () => {
+      cy.component(comp.Nav)
+        .contains('Nav 2')
+        .click();
+      cy.component(comp.Nav, { log: false })
+        .contains('Nav 1')
+        .click();
+    });
+  });
+
+  context('best match', () => {
+    beforeEach(() => {
+      mount(
+        <>
           <BlockPanel title="A">
             <a href="#a_foobar">foobar</a>
             &nbsp;
@@ -80,12 +108,6 @@ describe('cy.component', () => {
           '#a_foobar'
         );
       });
-    });
-
-    it('finds unlabeled components', () => {
-      cy.component(comp.Nav)
-        .contains('Nav 2')
-        .click();
     });
   });
 

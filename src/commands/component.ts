@@ -20,7 +20,7 @@ declare global {
       component(
         component: Component,
         text?: Text,
-        options?: Partial<GearsOptions>
+        options?: Partial<ComponentOptions>
       ): Chainable<Subject>;
     }
   }
@@ -30,16 +30,44 @@ declare global {
 /**
  * Options for the cy.component command.
  */
-export interface GearsOptions {
+export interface ComponentOptions {
   log: boolean;
+}
+
+const DEFAULT_OPTIONS: ComponentOptions = { log: true };
+
+function getOptions(rest: any[]): ComponentOptions {
+  switch (rest.length) {
+    case 0:
+      return DEFAULT_OPTIONS;
+    case 1:
+      if (typeof rest[0] === 'object') return rest[0] || DEFAULT_OPTIONS;
+      else return DEFAULT_OPTIONS;
+    default:
+      return rest[1] || DEFAULT_OPTIONS;
+  }
+}
+
+function getText(rest: any[]): Text | undefined {
+  switch (rest.length) {
+    case 0:
+      return undefined;
+    case 1:
+      if (typeof rest[0] === 'object') return undefined;
+      else return rest[0];
+    default:
+      return rest[0];
+  }
 }
 
 export function component(
   subject: JQuery | undefined,
   component: Component,
-  text: Text,
-  options: GearsOptions = { log: true }
+  ...rest: any[]
 ) {
+  const options = getOptions(rest);
+  const text = getText(rest);
+
   if (!isComponent(component))
     throw new Error(
       `react-gears-cypress: invalid component specification ${component}`
