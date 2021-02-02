@@ -58,7 +58,7 @@ export function component(
     };
 
     logEntry = Cypress.log({
-      name: 'gears',
+      name: 'component',
       message: [component.name, text],
       // @ts-ignore:2345
       type: subject || cy.state('withinSubject') ? 'child' : 'parent',
