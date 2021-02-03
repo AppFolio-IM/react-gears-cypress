@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { Component, isComponent, isReact, isText } from '../interfaces';
+import { Component, Text, isComponent, isReact, isText } from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByLabelText, orderByInnerText } from './internals/text';
 
