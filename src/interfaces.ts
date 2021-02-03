@@ -41,3 +41,10 @@ export type Text = string | RegExp;
 export function isComponent(v: any): v is Component {
   return v && typeof v === 'object' && v.selector && v.name;
 }
+
+/**
+ * Type guard for Text.
+ */
+export function isText(v: any): v is Text {
+  return v && (typeof v === 'string' || v instanceof RegExp);
+}

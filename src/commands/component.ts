@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { Component, Text, isComponent } from '../interfaces';
+import { Component, isComponent, isText } from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByLabelText, orderByInnerText } from './internals/text';
 
@@ -34,31 +34,23 @@ export interface ComponentOptions {
   log: boolean;
 }
 
-const DEFAULT_OPTIONS: ComponentOptions = { log: true };
-
 function getOptions(rest: any[]): ComponentOptions {
+  // fresh copy of defaults every time
+  // (Cypress destructively modifies it)
+  const defl = { log: true };
+
   switch (rest.length) {
     case 0:
-      return DEFAULT_OPTIONS;
+      return defl;
     case 1:
-      if (typeof rest[0] === 'object') return rest[0] || DEFAULT_OPTIONS;
-      else return DEFAULT_OPTIONS;
+      if (rest[0] && !isText(rest[0])) return rest[0];
+      else return defl;
     default:
-      return rest[1] || DEFAULT_OPTIONS;
+      return rest[1] || defl;
   }
 }
 
-function getText(rest: any[]): Text | undefined {
-  switch (rest.length) {
-    case 0:
-      return undefined;
-    case 1:
-      if (typeof rest[0] === 'object') return undefined;
-      else return rest[0];
-    default:
-      return rest[0];
-  }
-}
+const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
 
 export function component(
   subject: JQuery | undefined,
