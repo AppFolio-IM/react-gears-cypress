@@ -2,6 +2,7 @@
 
 import {
   Component,
+  Text,
   isComponent,
   isComponentWithText,
   isReact,
