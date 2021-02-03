@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { Component, Text, isComponent, isReact, isText } from '../interfaces';
+import { Component, isComponent, isReact, isText } from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByLabelText, orderByInnerText } from './internals/text';
 
@@ -32,6 +32,13 @@ declare global {
  */
 export interface ComponentOptions {
   log: boolean;
+}
+
+function describePseudoSelector(component: Component, text?: Text) {
+  if (!text) return component.topSelector;
+  else if (text instanceof RegExp)
+    return `${component.textSelector}:cy-contains(${text})`;
+  else return `${component.textSelector}:cy-contains('${text}')`;
 }
 
 function getOptions(rest: any[]): ComponentOptions {
@@ -109,15 +116,16 @@ export function component(
     let $subject = subject || cy.state('withinSubject') || cy.$$('body');
     let $el: JQuery;
     if (text) {
-      if (component.textSelector)
+      if (component.textSelector) {
         $el = findAllByLabelText($subject, component.textSelector, text);
-      else
+      } else
         throw new Error(
           `react-gears-cypress: must find by text: ${component.name}`
         );
     } else {
-      if (component.topSelector) $el = $subject.find(component.topSelector);
-      else
+      if (component.topSelector) {
+        $el = $subject.find(component.topSelector);
+      } else
         throw new Error(
           `react-gears-cypress: must not find by text: ${component.name}`
         );
@@ -126,6 +134,15 @@ export function component(
     if ($el && $el.length) $el = getFirstDeepestElement(orderByInnerText($el));
     if ($el.length && component.traverseViaText)
       $el = component.traverseViaText($el);
+
+    // Cypress overrides some chai assertions to add command log entries, which
+    // seem to rely on a hidden `selector` property of the JQuery in order to
+    // describe what was found or not found. Make the log more readable by
+    // providing a pseudo-selector to describe the component (not the DOM).
+    // @ts-ignore:2551
+    if (!$el.selector)
+      // @ts-ignore:2551
+      $el.selector = describePseudoSelector(component, text);
 
     return $el;
   };
