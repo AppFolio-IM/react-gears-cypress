@@ -17,17 +17,22 @@ export type Color =
  */
 export interface Component {
   /**
-   * CSS selector used to find the component by its label text.
+   * CSS query used to find the component by its text.
    */
-  selector: string;
+  textSelector?: string;
+  /**
+   * CSS query used to find the component's root without text.
+   */
+  topSelector?: string;
   /**
    * Display name of the React component.
    */
   name: string;
   /**
-   * Starting at the label element, navigate to actual component element,
+   * Starting at the text element, navigate to top-level component element.
+   * If missing, the top level and text element are the same (e.g. Link, Button).
    */
-  traverseViaLabel?: ($el: JQuery) => JQuery;
+  traverseViaText?: ($el: JQuery) => JQuery;
 }
 
 /**
@@ -39,7 +44,16 @@ export type Text = string | RegExp;
  * Type guard for Component.
  */
 export function isComponent(v: any): v is Component {
-  return v && typeof v === 'object' && v.selector && v.name;
+  return (
+    v && typeof v === 'object' && (v.textSelector || v.topSelector) && v.name
+  );
+}
+
+/**
+ * Determine whether v looks like a React component definition.
+ */
+export function isReact(v: any): boolean {
+  return v && typeof v === 'function';
 }
 
 /**

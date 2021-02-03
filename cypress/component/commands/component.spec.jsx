@@ -166,14 +166,37 @@ describe('cy.component', () => {
     });
   });
 
-  context('with invalid param', () => {
-    // TODO: how to test  this?
-    it('throws', () => {
+  context('invalid parameters', () => {
+    it('no Component', () => {
       try {
         rawComponent(undefined, undefined, 'Label');
       } catch (e) {
         expect(e).to.be.instanceOf(Error);
         expect(e.message).to.match(/invalid component spec/);
+      }
+    });
+    it('React component', () => {
+      try {
+        rawComponent(undefined, Button, 'Label');
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error);
+        expect(e.message).to.match(/React component/);
+      }
+    });
+    it('extraneous text', () => {
+      try {
+        rawComponent(undefined, comp.Nav, 'Hi');
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error);
+        expect(e.message).to.match(/must not find by text/);
+      }
+    });
+    it('missing text', () => {
+      try {
+        rawComponent(undefined, comp.Button);
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error);
+        expect(e.message).to.match(/must find by text/);
       }
     });
   });

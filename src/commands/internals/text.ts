@@ -3,20 +3,20 @@
 import { Text } from '../../interfaces';
 
 /**
- * Find all elements under subject matching selector and containing text.
+ * Find all elements under subject matching textSelector and containing text.
  **/
 export function findAllByLabelText(
   subject: JQuery,
-  selector: string,
+  textSelector: string,
   text: Text
 ): JQuery {
   if (text instanceof RegExp)
     return subject
-      .find(selector)
+      .find(textSelector)
       .filter((_, e) => !!e.textContent && text.test(e.textContent));
   else
     return subject
-      .find(selector)
+      .find(textSelector)
       .filter((_, e) => !!e.textContent && e.textContent.includes(text));
 }
 

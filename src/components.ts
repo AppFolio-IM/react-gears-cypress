@@ -3,37 +3,37 @@
 import { Component } from './interfaces';
 
 export const Alert: Component = {
-  selector: 'div.alert',
+  textSelector: 'div.alert',
   name: 'Alert',
 };
 
 export const BlockPanel: Component = {
-  selector: '.card .card-title',
+  textSelector: '.card .card-title',
   name: 'BlockPanel',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.card'),
+  traverseViaText: ($el: JQuery) => $el.closest('.card'),
 };
 
 export const Button: Component = {
-  selector: 'button',
+  textSelector: 'button',
   name: 'Button',
 };
 
 export const Card: Component = {
-  selector: '.card .card-title',
+  textSelector: '.card .card-title',
   name: 'Card',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.card'),
+  traverseViaText: ($el: JQuery) => $el.closest('.card'),
 };
 
 export const Datapair: Component = {
-  selector: '.form-group.js-datapair label',
+  textSelector: '.form-group.js-datapair label',
   name: 'Datapair',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.form-group'),
+  traverseViaText: ($el: JQuery) => $el.closest('.form-group'),
 };
 
 export const Input: Component = {
-  selector: ':not(:has(select,.Select)) label',
+  textSelector: ':not(:has(select,.Select)) label',
   name: 'Input',
-  traverseViaLabel: $el => {
+  traverseViaText: $el => {
     const forId = $el.attr('for');
     if (forId) {
       const $for = Cypress.$(`#${forId}`);
@@ -44,25 +44,25 @@ export const Input: Component = {
 };
 
 export const Link: Component = {
-  selector: 'a,button.btn-link',
+  textSelector: 'a,button.btn-link',
   name: 'Link',
 };
 
 export const Modal: Component = {
-  selector: '.modal-title',
+  textSelector: '.modal-title',
   name: 'Modal',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.modal-dialog'),
+  traverseViaText: ($el: JQuery) => $el.closest('.modal-dialog'),
 };
 
 export const Nav: Component = {
-  selector: 'ul.nav',
+  topSelector: 'ul.nav',
   name: 'Nav',
 };
 
 export const Select: Component = {
-  selector: ':has(select,.Select) label',
+  textSelector: ':has(select,.Select) label',
   name: 'Select',
-  traverseViaLabel: ($el: JQuery) => {
+  traverseViaText: ($el: JQuery) => {
     $el = $el.closest('.form-group');
     const fancy = $el.find('.Select-control');
     if (fancy.length) return fancy;
@@ -75,7 +75,7 @@ export const Select: Component = {
 };
 
 export const SummaryBoxItem: Component = {
-  selector: '.card.border-secondary > .card-body > small',
+  textSelector: '.card.border-secondary > .card-body > small',
   name: 'SummaryBoxItem',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.card.border-secondary'),
+  traverseViaText: ($el: JQuery) => $el.closest('.card.border-secondary'),
 };

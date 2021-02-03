@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { Component, isComponent, isText } from '../interfaces';
+import { Component, isComponent, isReact, isText } from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByLabelText, orderByInnerText } from './internals/text';
 
@@ -60,10 +60,13 @@ export function component(
   const options = getOptions(rest);
   const text = getText(rest);
 
-  if (!isComponent(component))
+  if (!isComponent(component)) {
     throw new Error(
-      `react-gears-cypress: invalid component specification ${component}`
+      isReact(component)
+        ? `react-gears-cypress: cannot use a React component as a specification: ${component}`
+        : `react-gears-cypress: invalid component specification ${component}`
     );
+  }
 
   let consoleProps: Record<string, any> = {};
   let logEntry: any;
@@ -104,12 +107,25 @@ export function component(
   const getValue = () => {
     // @ts-ignore:2339
     let $subject = subject || cy.state('withinSubject') || cy.$$('body');
-    let $el = text
-      ? findAllByLabelText($subject, component.selector, text)
-      : $subject.find(component.selector);
+    let $el: JQuery;
+    if (text) {
+      if (component.textSelector)
+        $el = findAllByLabelText($subject, component.textSelector, text);
+      else
+        throw new Error(
+          `react-gears-cypress: must find by text: ${component.name}`
+        );
+    } else {
+      if (component.topSelector) $el = $subject.find(component.topSelector);
+      else
+        throw new Error(
+          `react-gears-cypress: must not find by text: ${component.name}`
+        );
+    }
+
     if ($el && $el.length) $el = getFirstDeepestElement(orderByInnerText($el));
-    if ($el.length && component.traverseViaLabel)
-      $el = component.traverseViaLabel($el);
+    if ($el.length && component.traverseViaText)
+      $el = component.traverseViaText($el);
 
     return $el;
   };
