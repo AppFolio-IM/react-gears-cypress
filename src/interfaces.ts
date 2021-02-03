@@ -17,11 +17,17 @@ export type Color =
  */
 export interface Component {
   /**
-   * CSS query used to find the component by its text.
+   * CSS selector used to find the component's label, title or other characteristic
+   * text, usually nested inside the outermost DOM element.
+   *
+   * If a Component cannot be found by its characteristic text, this is undefined.
    */
   textSelector?: string;
   /**
-   * CSS query used to find the component's root without text.
+   * CSS selector used to find the component's outermost DOM element irrespective of
+   * text it may (or may not contain).
+   *
+   * If a Component must be found by its characteristic text, this is undefined.
    */
   topSelector?: string;
   /**
