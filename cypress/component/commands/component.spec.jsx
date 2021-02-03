@@ -168,36 +168,19 @@ describe('cy.component', () => {
 
   context('invalid parameters', () => {
     it('no Component', () => {
-      try {
-        rawComponent(undefined, undefined, 'Label');
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-        expect(e.message).to.match(/invalid component spec/);
-      }
+      expect(() => rawComponent(undefined, undefined, 'Label')).to.throw(
+        'invalid component spec'
+      );
     });
     it('React component', () => {
-      try {
-        rawComponent(undefined, Button, 'Label');
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-        expect(e.message).to.match(/React component/);
-      }
+      expect(() => rawComponent(undefined, Button, 'Label')).to.throw(
+        'React component'
+      );
     });
     it('extraneous text', () => {
-      try {
-        rawComponent(undefined, comp.Nav, 'Hi');
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-        expect(e.message).to.match(/must not find by text/);
-      }
-    });
-    it('missing text', () => {
-      try {
-        rawComponent(undefined, comp.Button);
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-        expect(e.message).to.match(/must find by text/);
-      }
+      expect(() => rawComponent(undefined, comp.Nav, 'Hi')).to.throw(
+        'does not implement ComponentWithText'
+      );
     });
   });
 

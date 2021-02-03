@@ -1,6 +1,12 @@
 /// <reference types="cypress" />
 
-import { Component, isComponent, isReact, isText } from '../interfaces';
+import {
+  Component,
+  isComponent,
+  isComponentWithText,
+  isReact,
+  isText,
+} from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByLabelText, orderByInnerText } from './internals/text';
 
@@ -35,10 +41,10 @@ export interface ComponentOptions {
 }
 
 function describePseudoSelector(component: Component, text?: Text) {
-  if (!text) return component.topSelector;
+  if (!text) return component.query;
   else if (text instanceof RegExp)
-    return `${component.textSelector}:cy-contains(${text})`;
-  else return `${component.textSelector}:cy-contains('${text}')`;
+    return `${component.query}:component-text(${text})`;
+  else return `${component.query}:component-text('${text}')`;
 }
 
 function getOptions(rest: any[]): ComponentOptions {
@@ -72,6 +78,10 @@ export function component(
       isReact(component)
         ? `react-gears-cypress: cannot use a React component as a specification: ${component}`
         : `react-gears-cypress: invalid component specification ${component}`
+    );
+  } else if (text && !isComponentWithText(component)) {
+    throw new Error(
+      `react-gears-cypress: ${component.name} does not implement ComponentWithText`
     );
   }
 
@@ -115,25 +125,22 @@ export function component(
     // @ts-ignore:2339
     let $subject = subject || cy.state('withinSubject') || cy.$$('body');
     let $el: JQuery;
-    if (text) {
-      if (component.textSelector) {
-        $el = findAllByLabelText($subject, component.textSelector, text);
-      } else
-        throw new Error(
-          `react-gears-cypress: must find by text: ${component.name}`
-        );
-    } else {
-      if (component.topSelector) {
-        $el = $subject.find(component.topSelector);
-      } else
-        throw new Error(
-          `react-gears-cypress: must not find by text: ${component.name}`
-        );
-    }
 
-    if ($el && $el.length) $el = getFirstDeepestElement(orderByInnerText($el));
-    if ($el.length && component.traverseViaText)
-      $el = component.traverseViaText($el);
+    if (text && isComponentWithText(component)) {
+      $el = findAllByLabelText($subject, component.textQuery, text);
+      if ($el && $el.length)
+        $el = getFirstDeepestElement(orderByInnerText($el));
+      if ($el.length && component.traverseViaText)
+        $el = component.traverseViaText($el);
+    } else if (!text) {
+      $el = $subject.find(component.query);
+      $el = getFirstDeepestElement($el);
+      if ($el.length && component.traverse) $el = component.traverse($el);
+    } else {
+      // Should never get here, because the command should have pre-verified
+      // that component & text are compatible!
+      throw new Error('react-gears-cypress: internal verification error');
+    }
 
     // Cypress overrides some chai assertions to add command log entries, which
     // seem to rely on a hidden `selector` property of the JQuery in order to
