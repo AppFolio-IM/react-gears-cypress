@@ -9,7 +9,10 @@ import {
   isText,
 } from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
-import { findAllByLabelText, orderByInnerText } from './internals/text';
+import {
+  findAllByLabelText as findAllWithText,
+  orderByInnerText,
+} from './internals/text';
 
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
@@ -128,7 +131,7 @@ export function component(
     let $el: JQuery;
 
     if (text && isComponentWithText(component)) {
-      $el = findAllByLabelText($subject, component.textQuery, text);
+      $el = findAllWithText($subject, component.textQuery, text);
       if ($el && $el.length)
         $el = getFirstDeepestElement(orderByInnerText($el));
       if ($el.length && component.traverseViaText)

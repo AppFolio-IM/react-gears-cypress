@@ -3,6 +3,7 @@ import {
   Alert,
   BlockPanel,
   Button,
+  Datapair,
   FormLabelGroup,
   Input,
   Nav,
@@ -72,6 +73,12 @@ describe('cy.component', () => {
             &nbsp;
             <a href="#b_foo">foo</a>
           </BlockPanel>
+          <BlockPanel title="C">
+            <div className="form-group js-datapair psych">
+              <Datapair label="ambiguous label" value={'some value'} />
+            </div>
+            <Datapair label="ambiguous label" value={'other value'} />
+          </BlockPanel>
         </>
       );
     });
@@ -108,6 +115,16 @@ describe('cy.component', () => {
           '#a_foobar'
         );
       });
+    });
+
+    it('chooses the first element', () => {
+      cy.component(comp.Datapair, 'ambiguous label').contains('some value');
+    });
+
+    it('chooses the deepest element', () => {
+      cy.component(comp.Datapair, 'ambiguous label')
+        .parent()
+        .should('have.class', 'psych');
     });
   });
 

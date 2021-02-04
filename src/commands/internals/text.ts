@@ -5,7 +5,7 @@ import { Text } from '../../interfaces';
 /**
  * Find all elements under subject matching textQuery and containing text.
  **/
-export function findAllByLabelText(
+export function findAllByText(
   subject: JQuery,
   textQuery: string,
   text: Text
