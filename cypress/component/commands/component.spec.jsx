@@ -233,4 +233,33 @@ describe('cy.component', () => {
       });
     });
   });
+
+  context('given all:true', () => {
+    beforeEach(() => {
+      mount(
+        <>
+          <BlockPanel title="A">
+            <Button>1</Button>
+            <Button>2</Button>
+          </BlockPanel>
+          <BlockPanel title="B">
+            <Button>3</Button>
+            <Button>4</Button>
+            <Button>5</Button>
+          </BlockPanel>
+        </>
+      );
+    });
+
+    it('finds everything', () => {
+      cy.component(comp.BlockPanel, { all: true }).should('have.length', 2);
+      cy.component(comp.Button, { all: true }).should('have.length', 5);
+      cy.component(comp.BlockPanel, 'A')
+        .component(comp.Button, { all: true })
+        .should('have.length', 2);
+      cy.component(comp.BlockPanel, 'B')
+        .component(comp.Button, { all: true })
+        .should('have.length', 3);
+    });
+  });
 });

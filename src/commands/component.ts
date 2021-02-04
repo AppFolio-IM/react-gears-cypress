@@ -38,6 +38,7 @@ declare global {
  * Options for the cy.component command.
  */
 export interface ComponentOptions {
+  all: boolean;
   log: boolean;
 }
 
@@ -51,7 +52,7 @@ function describePseudoSelector(component: Component, text?: Text) {
 function getOptions(rest: any[]): ComponentOptions {
   // fresh copy of defaults every time
   // (Cypress destructively modifies it)
-  const defl = { log: true };
+  const defl = { all: false, log: true };
 
   switch (rest.length) {
     case 0:
@@ -65,6 +66,13 @@ function getOptions(rest: any[]): ComponentOptions {
 }
 
 const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
+
+function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
+  return $collection.map(function(this: HTMLElement) {
+    const $element = Cypress.$(this);
+    return callback($element).get()[0];
+  });
+}
 
 export function component(
   subject: JQuery | undefined,
@@ -129,14 +137,15 @@ export function component(
 
     if (text && isComponentWithText(component)) {
       $el = findAllByText($subject, component.textQuery, text);
-      if ($el && $el.length)
+      if ($el && $el.length && !options.all)
         $el = getFirstDeepestElement(orderByInnerText($el));
       if ($el.length && component.traverseViaText)
-        $el = component.traverseViaText($el);
+        $el = mapAll($el, component.traverseViaText);
     } else {
       $el = $subject.find(component.query);
-      if ($el.length > 1) $el = getFirstDeepestElement($el);
-      if ($el.length && component.traverse) $el = component.traverse($el);
+      if ($el.length > 1 && !options.all) $el = getFirstDeepestElement($el);
+      if ($el.length && component.traverse)
+        $el = mapAll($el, component.traverse);
     }
 
     // Cypress overrides some chai assertions to add command log entries, which
