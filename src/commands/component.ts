@@ -128,7 +128,7 @@ export function component(
     let $el: JQuery;
 
     if (text && isComponentWithText(component)) {
-      $el = findAllWithText($subject, component.textQuery, text);
+      $el = findAllByText($subject, component.textQuery, text);
       if ($el && $el.length)
         $el = getFirstDeepestElement(orderByInnerText($el));
       if ($el.length && component.traverseViaText)
