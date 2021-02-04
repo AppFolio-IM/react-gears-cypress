@@ -133,14 +133,10 @@ export function component(
         $el = getFirstDeepestElement(orderByInnerText($el));
       if ($el.length && component.traverseViaText)
         $el = component.traverseViaText($el);
-    } else if (!text) {
-      $el = $subject.find(component.query);
-      $el = getFirstDeepestElement($el);
-      if ($el.length && component.traverse) $el = component.traverse($el);
     } else {
-      // Should never get here, because the command should have pre-verified
-      // that component & text are compatible!
-      throw new Error('react-gears-cypress: internal verification error');
+      $el = $subject.find(component.query);
+      if ($el.length > 1) $el = getFirstDeepestElement($el);
+      if ($el.length && component.traverse) $el = component.traverse($el);
     }
 
     // Cypress overrides some chai assertions to add command log entries, which

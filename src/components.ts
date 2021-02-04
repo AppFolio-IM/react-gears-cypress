@@ -37,7 +37,7 @@ export const Datapair: ComponentWithText = {
 
 export const Input: ComponentWithText = {
   name: 'Input',
-  query: ':not(.Select) input',
+  query: ':not(.Select) input,textarea',
   textQuery: ':not(:has(select,.Select)) label',
   traverseViaText: $el => {
     const forId = $el.attr('for');
