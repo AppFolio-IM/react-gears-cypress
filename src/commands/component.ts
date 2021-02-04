@@ -9,10 +9,7 @@ import {
   isText,
 } from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
-import {
-  findAllByLabelText as findAllWithText,
-  orderByInnerText,
-} from './internals/text';
+import { findAllByText, orderByInnerText } from './internals/text';
 
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
