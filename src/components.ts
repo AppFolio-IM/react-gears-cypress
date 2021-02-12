@@ -1,39 +1,45 @@
 /// <reference types="cypress" />
 
-import { Component } from './interfaces';
+import { Component, ComponentWithText } from './interfaces';
 
-export const Alert: Component = {
-  labelSelector: 'div.alert',
+export const Alert: ComponentWithText = {
   name: 'Alert',
+  query: 'div.alert',
+  textQuery: 'div.alert',
 };
 
-export const BlockPanel: Component = {
-  labelSelector: '.card .card-title',
+export const BlockPanel: ComponentWithText = {
   name: 'BlockPanel',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.card'),
+  query: '.card',
+  textQuery: '.card .card-title',
+  traverseViaText: ($el: JQuery) => $el.closest('.card'),
 };
 
-export const Button: Component = {
-  labelSelector: 'button',
+export const Button: ComponentWithText = {
   name: 'Button',
+  query: 'button',
+  textQuery: 'button',
 };
 
-export const Card: Component = {
-  labelSelector: '.card .card-title',
+export const Card: ComponentWithText = {
   name: 'Card',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.card'),
+  query: '.card',
+  textQuery: '.card .card-title',
+  traverseViaText: ($el: JQuery) => $el.closest('.card'),
 };
 
-export const Datapair: Component = {
-  labelSelector: '.form-group.js-datapair label',
+export const Datapair: ComponentWithText = {
   name: 'Datapair',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.form-group'),
+  query: '.form-group.js-datapair',
+  textQuery: '.form-group.js-datapair label',
+  traverseViaText: ($el: JQuery) => $el.closest('.form-group'),
 };
 
-export const Input: Component = {
-  labelSelector: ':not(:has(select,.Select)) label',
+export const Input: ComponentWithText = {
   name: 'Input',
-  traverseViaLabel: $el => {
+  query: ':not(.Select) input,textarea',
+  textQuery: ':not(:has(select,.Select)) label',
+  traverseViaText: $el => {
     const forId = $el.attr('for');
     if (forId) {
       const $for = Cypress.$(`#${forId}`);
@@ -43,21 +49,29 @@ export const Input: Component = {
   },
 };
 
-export const Link: Component = {
-  labelSelector: 'a,button.btn-link',
+export const Link: ComponentWithText = {
   name: 'Link',
+  query: 'a,button.btn-link',
+  textQuery: 'a,button.btn-link',
 };
 
-export const Modal: Component = {
-  labelSelector: '.modal-title',
+export const Modal: ComponentWithText = {
   name: 'Modal',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.modal-dialog'),
+  query: '.modal',
+  textQuery: '.modal-title',
+  traverseViaText: ($el: JQuery) => $el.closest('.modal-dialog'),
 };
 
-export const Select: Component = {
-  labelSelector: ':has(select,.Select) label',
+export const Nav: Component = {
+  name: 'Nav',
+  query: 'ul.nav',
+};
+
+export const Select: ComponentWithText = {
   name: 'Select',
-  traverseViaLabel: ($el: JQuery) => {
+  query: 'select,.Select',
+  textQuery: ':has(select,.Select) label',
+  traverseViaText: ($el: JQuery) => {
     $el = $el.closest('.form-group');
     const fancy = $el.find('.Select-control');
     if (fancy.length) return fancy;
@@ -69,8 +83,9 @@ export const Select: Component = {
   },
 };
 
-export const SummaryBoxItem: Component = {
-  labelSelector: '.card.border-secondary > .card-body > small',
+export const SummaryBoxItem: ComponentWithText = {
   name: 'SummaryBoxItem',
-  traverseViaLabel: ($el: JQuery) => $el.closest('.card.border-secondary'),
+  query: '.card.border-secondary',
+  textQuery: '.card.border-secondary > .card-body > small',
+  traverseViaText: ($el: JQuery) => $el.closest('.card.border-secondary'),
 };

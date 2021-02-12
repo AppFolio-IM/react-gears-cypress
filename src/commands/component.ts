@@ -1,8 +1,15 @@
 /// <reference types="cypress" />
 
-import { Component, Text, isComponent } from '../interfaces';
+import {
+  Component,
+  Text,
+  isComponent,
+  isComponentWithText,
+  isReact,
+  isText,
+} from '../interfaces';
 import { getFirstDeepestElement } from './internals/driver';
-import { findAllByLabelText, orderByInnerText } from './internals/text';
+import { findAllByText, orderByInnerText } from './internals/text';
 
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
@@ -19,8 +26,8 @@ declare global {
        */
       component(
         component: Component,
-        text: Text,
-        options?: Partial<GearsOptions>
+        text?: Text,
+        options?: Partial<ComponentOptions>
       ): Chainable<Subject>;
     }
   }
@@ -30,20 +37,62 @@ declare global {
 /**
  * Options for the cy.component command.
  */
-export interface GearsOptions {
+export interface ComponentOptions {
+  all: boolean;
   log: boolean;
+}
+
+function describePseudoSelector(component: Component, text?: Text) {
+  if (!text) return component.query;
+  else if (text instanceof RegExp)
+    return `${component.query}:component-text(${text})`;
+  else return `${component.query}:component-text('${text}')`;
+}
+
+function getOptions(rest: any[]): ComponentOptions {
+  // fresh copy of defaults every time
+  // (Cypress destructively modifies it)
+  const defl = { all: false, log: true };
+
+  switch (rest.length) {
+    case 0:
+      return defl;
+    case 1:
+      if (rest[0] && !isText(rest[0])) return rest[0];
+      else return defl;
+    default:
+      return rest[1] || defl;
+  }
+}
+
+const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
+
+function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
+  return $collection.map(function(this: HTMLElement) {
+    const $element = Cypress.$(this);
+    return callback($element).get()[0];
+  });
 }
 
 export function component(
   subject: JQuery | undefined,
   component: Component,
-  text: Text,
-  options: GearsOptions = { log: true }
+  ...rest: any[]
 ) {
-  if (!isComponent(component))
+  const options = getOptions(rest);
+  const text = getText(rest);
+
+  if (!isComponent(component)) {
     throw new Error(
-      `react-gears-cypress: invalid component specification ${component}`
+      isReact(component)
+        ? `react-gears-cypress: cannot use a React component as a specification: ${component}`
+        : `react-gears-cypress: invalid component specification ${component}`
     );
+  } else if (text && !isComponentWithText(component)) {
+    throw new Error(
+      `react-gears-cypress: ${component.name} does not implement ComponentWithText`
+    );
+  }
 
   let consoleProps: Record<string, any> = {};
   let logEntry: any;
@@ -58,7 +107,7 @@ export function component(
     };
 
     logEntry = Cypress.log({
-      name: 'gears',
+      name: 'component',
       message: [component.name, text],
       // @ts-ignore:2345
       type: subject || cy.state('withinSubject') ? 'child' : 'parent',
@@ -84,10 +133,29 @@ export function component(
   const getValue = () => {
     // @ts-ignore:2339
     let $subject = subject || cy.state('withinSubject') || cy.$$('body');
-    let $el = findAllByLabelText($subject, component.labelSelector, text);
-    if ($el && $el.length) $el = getFirstDeepestElement(orderByInnerText($el));
-    if ($el.length && component.traverseViaLabel)
-      $el = component.traverseViaLabel($el);
+    let $el: JQuery;
+
+    if (text && isComponentWithText(component)) {
+      $el = findAllByText($subject, component.textQuery, text);
+      if ($el && $el.length && !options.all)
+        $el = getFirstDeepestElement(orderByInnerText($el));
+      if ($el.length && component.traverseViaText)
+        $el = mapAll($el, component.traverseViaText);
+    } else {
+      $el = $subject.find(component.query);
+      if ($el.length > 1 && !options.all) $el = getFirstDeepestElement($el);
+      if ($el.length && component.traverse)
+        $el = mapAll($el, component.traverse);
+    }
+
+    // Cypress overrides some chai assertions to add command log entries, which
+    // seem to rely on a hidden `selector` property of the JQuery in order to
+    // describe what was found or not found. Make the log more readable by
+    // providing a pseudo-selector to describe the component (not the DOM).
+    // @ts-ignore:2551
+    if (!$el.selector)
+      // @ts-ignore:2551
+      $el.selector = describePseudoSelector(component, text);
 
     return $el;
   };
