@@ -19,15 +19,28 @@ declare global {
        * Find the DOM representation of a react-gears component, as identified
        * by its label, header or other characteristic text.
        *
-       * @example
-       *    import { components: { Button, Datapair } } from '@appfolio/react-gears-cypress'
-       *    cy.component(Datapair, 'First Name').clear()
-       *    cy.component(Button, /Create|Save/, { log: false }).click();
+       * @example verify that field initially has text; clear it; save the form
+       *    import { Button, Input } from '@appfolio/react-gears-cypress'
+       *    cy.component(Input, 'First Name, { log: false }).should('not.be.empty')
+       *    cy.component(Input, 'First Name').clear()
+       *    cy.component(Button, /Create|Save/).click();
        */
       component(
         component: Component,
-        text?: Text,
+        text: Text,
         options?: Partial<ComponentOptions>
+      ): Chainable<Subject>;
+      /**
+       * Find DOM representation(s) of a react-gears component regardless of
+       * label, header or other characteristic text.
+       *
+       * @example verify there are three Select fields
+       *    import { Select } from '@appfolio/react-gears-cypress'
+       *    cy.component(Select, { all: true }).count().should('eq', 3)
+       */
+      component(
+        component: Component,
+        options: Partial<ComponentOptions>
       ): Chainable<Subject>;
     }
   }
@@ -49,23 +62,28 @@ function describePseudoSelector(component: Component, text?: Text) {
   else return `${component.query}:component-text('${text}')`;
 }
 
-function getOptions(rest: any[]): ComponentOptions {
+// Extract the options passed to the command, if any.
+function getOptions(rest: any[]) {
+  switch (rest.length) {
+    case 1:
+      if (rest[0] && !isText(rest[0])) return rest[0];
+      break;
+    default:
+      return rest[1];
+  }
+}
+
+// Extract the text paramter passed to the command, if any.
+const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
+
+// Return a full hash of options w/ default values for anything not overrridden.
+function normalizeOptions(rest: any[]): ComponentOptions {
   // fresh copy of defaults every time
   // (Cypress destructively modifies it)
   const defl = { all: false, log: true };
 
-  switch (rest.length) {
-    case 0:
-      return defl;
-    case 1:
-      if (rest[0] && !isText(rest[0])) return rest[0];
-      else return defl;
-    default:
-      return rest[1] || defl;
-  }
+  return getOptions(rest) || defl;
 }
-
-const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
 
 function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
   return $collection.map(function(this: HTMLElement) {
@@ -79,7 +97,7 @@ export function component(
   component: Component,
   ...rest: any[]
 ) {
-  const options = getOptions(rest);
+  const options = normalizeOptions(rest);
   const text = getText(rest);
 
   if (!isComponent(component)) {
@@ -94,24 +112,33 @@ export function component(
     );
   }
 
-  let consoleProps: Record<string, any> = {};
+  const consoleProps: Record<string, any> = {
+    Component: component.name,
+  };
   let logEntry: any;
   if (options.log !== false) {
-    consoleProps = {
-      Component: component.name,
-      Text: text,
-      'Applied To': Cypress.dom.getElements(
-        // @ts-ignore:2339
-        subject || cy.state('withinSubject')
-      ),
-    };
+    const loggableOptions = getOptions(rest);
+    // @ts-ignore:2339 hidden command
+    const withinSubject = cy.state('withinSubject');
+    const message: any[] = [component.name];
+    if (text) {
+      message.push(text);
+      consoleProps.Text = text;
+    }
+    if (loggableOptions) {
+      message.push(loggableOptions);
+      consoleProps.Options = loggableOptions;
+    }
+
+    consoleProps['Applies To'] = Cypress.dom.getElements(
+      subject || withinSubject
+    );
 
     logEntry = Cypress.log({
       name: 'component',
-      message: [component.name, text],
-      // @ts-ignore:2345
-      type: subject || cy.state('withinSubject') ? 'child' : 'parent',
-      // timeout: options.timeout,
+      message,
+      // @ts-ignore:2345 hidden option
+      type: subject || withinSubject ? 'child' : 'parent',
       consoleProps: () => {
         return consoleProps;
       },
