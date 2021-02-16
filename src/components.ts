@@ -69,8 +69,8 @@ export const Nav: Component = {
 
 export const Select: ComponentWithText = {
   name: 'Select',
-  query: 'select,.Select',
-  textQuery: ':has(select,.Select) label',
+  query: 'select,.Select-control',
+  textQuery: ':has(select,.Select-control) label',
   traverseViaText: ($el: JQuery) => {
     $el = $el.closest('.form-group');
     const fancy = $el.find('.Select-control');
