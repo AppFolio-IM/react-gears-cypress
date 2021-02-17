@@ -33,7 +33,8 @@ export function select(
       );
     cy.wrap(subject, QUIET).within(() => {
       cy.get('input', QUIET)
-        .clear(FORCE_QUIET)
+        .click(FORCE_QUIET)
+        //.clear(FORCE_QUIET)
         .type(value, FORCE_QUIET);
     });
     return cy

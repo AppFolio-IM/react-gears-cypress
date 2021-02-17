@@ -23,24 +23,45 @@ describe('cy.select', () => {
     cy.get('select').should('have.value', 'bravo');
   });
 
-  it('handles Select', () => {
+  context('Select component', () => {
     const options = ['alpha', 'bravo', 'charlie'].map(o => ({
       label: o,
       value: o,
     }));
 
-    let selected;
-    const onChange = o => (selected = o && o.value);
+    it('clearable', () => {
+      let selected;
+      const onChange = o => (selected = o && o.value);
 
-    mount(
-      <FormLabelGroup label="some label">
-        <Select options={options} onChange={onChange} />
-      </FormLabelGroup>
-    );
+      mount(
+        <FormLabelGroup label="some label">
+          <Select options={options} onChange={onChange} />
+        </FormLabelGroup>
+      );
 
-    cy.component(comp.Select, 'some label').select('alpha');
-    eventually(() => expect(selected).to.eq('alpha'));
-    cy.component(comp.Select, 'some label').select('bravo');
-    eventually(() => expect(selected).to.eq('bravo'));
+      cy.component(comp.Select, 'some label').select('alpha');
+      eventually(() => expect(selected).to.eq('alpha'));
+      cy.component(comp.Select, 'some label').select('bravo');
+      eventually(() => expect(selected).to.eq('bravo'));
+    });
+
+    it('non-clearable', () => {
+      let selected;
+      const onChange = o => {
+        expect(o && o.value).to.be.ok;
+        selected = o && o.value;
+      };
+
+      mount(
+        <FormLabelGroup label="some label">
+          <Select options={options} onChange={onChange} clearable={false} />
+        </FormLabelGroup>
+      );
+
+      cy.component(comp.Select, 'some label').select('alpha');
+      eventually(() => expect(selected).to.eq('alpha'));
+      cy.component(comp.Select, 'some label').select('bravo');
+      eventually(() => expect(selected).to.eq('bravo'));
+    });
   });
 });
