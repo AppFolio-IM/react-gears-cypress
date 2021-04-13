@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardTitle,
+  CheckboxGroup,
   CheckboxInput,
   Datapair,
   FormGroup,
@@ -155,6 +156,26 @@ describe('components', () => {
         cy.component(comp.Input, 'ambiguous')
           .invoke('attr', 'id')
           .should('eq', 'cb2');
+      });
+
+      it('malformed ID', () => {
+        mount(
+          <>
+            <BlockPanel title="A">
+              <CheckboxGroup
+                options={['(un parseable)', '#crap#'].map(s => ({
+                  label: s,
+                  value: s,
+                }))}
+                onChange={() => true}
+                selected={[]}
+              />
+            </BlockPanel>
+          </>
+        );
+
+        cy.component(comp.Input, '(un parseable)').check();
+        cy.component(comp.Input, '#crap#').check();
       });
     });
   });
