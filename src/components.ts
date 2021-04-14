@@ -41,8 +41,9 @@ export const Input: ComponentWithText = {
   textQuery: ':not(:has(select,.Select)) label',
   traverseViaText: $el => {
     const forId = $el.attr('for');
+
     if (forId) {
-      const $for = Cypress.$(`#${forId}`);
+      const $for = Cypress.$(`[id="${forId}"]`);
       if ($for.length) return $for;
     }
     return $el.closest('.form-group').find('input,textarea');
