@@ -40,7 +40,7 @@ declare global {
        */
       component(
         component: Component,
-        options: Partial<ComponentOptions>
+        options?: Partial<ComponentOptions>
       ): Chainable<Subject>;
     }
   }
