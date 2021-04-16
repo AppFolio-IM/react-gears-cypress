@@ -9,6 +9,9 @@
   "directories": {
     "lib": "./lib"
   },
+  "files": [
+    "lib"
+  ],
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
