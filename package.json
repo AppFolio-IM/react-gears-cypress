@@ -1,6 +1,6 @@
 {
   "name": "@appfolio/react-gears-cypress",
-  "version": "5.19.1",
+  "version": "5.19.2",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -9,6 +9,9 @@
   "directories": {
     "lib": "./lib"
   },
+  "files": [
+    "lib"
+  ],
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
