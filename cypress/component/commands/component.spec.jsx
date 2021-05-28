@@ -10,17 +10,10 @@ import {
   NavItem,
   NavLink,
 } from '@appfolio/react-gears';
-
+import Timed from '../../support/Timed';
 import mount from '../../support/mount';
 import * as comp from '../../../src/components';
 import { component as rawComponent } from '../../../src/commands/component';
-
-// Hide/show something after dt has elapsed.
-function Timed({ children, init = false, dt = 2000 }) {
-  const [isVisible, setIsVisible] = React.useState(init);
-  if (dt) setTimeout(() => setIsVisible(!isVisible), dt);
-  return isVisible ? children : null;
-}
 
 describe('cy.component', () => {
   context('basics', () => {

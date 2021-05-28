@@ -1,11 +1,12 @@
 import { clear } from './clear';
 import { component } from './component';
 import { fill } from './fill';
+import { fillable } from './fillable';
 import { select } from './select';
 
 export { clear, component, fill, select };
 
-type CommandName = 'clear' | 'fill' | 'component' | 'select';
+type CommandName = 'clear' | 'fill' | 'fillable' | 'component' | 'select';
 
 /**
  * Register Cypress commands provided by this package. Some commands are new and
@@ -23,6 +24,8 @@ export function add(...names: CommandName[]) {
     Cypress.Commands.overwrite('clear', clear);
   if (all || names.includes('fill'))
     Cypress.Commands.add('fill', { prevSubject: true }, fill);
+  if (all || names.includes('fillable'))
+    Cypress.Commands.add('fillable', { prevSubject: false }, fillable);
   if (all || names.includes('component'))
     Cypress.Commands.add('component', { prevSubject: 'optional' }, component);
   if (all || names.includes('select'))
