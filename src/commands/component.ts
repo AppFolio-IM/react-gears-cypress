@@ -53,7 +53,7 @@ declare global {
 export interface ComponentOptions {
   all: boolean;
   log: boolean;
-  timeout: number;
+  timeout?: number;
 }
 
 function describePseudoSelector(component: Component, text?: Text) {
