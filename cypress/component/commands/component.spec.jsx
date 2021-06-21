@@ -262,4 +262,20 @@ describe('cy.component', () => {
         .should('have.length', 3);
     });
   });
+
+  context.only('given timeout:value', () => {
+    beforeEach(() => {
+      mount(
+        <Timed dt={Cypress.config('defaultCommandTimeout') + 1000}>
+          <BlockPanel title="now you see me"></BlockPanel>
+        </Timed>
+      );
+    });
+
+    it('waits for element', () => {
+      cy.component(comp.BlockPanel, 'now you see me', {
+        timeout: Cypress.config('defaultCommandTimeout') + 2000,
+      }).should('exist');
+    });
+  });
 });
