@@ -263,7 +263,7 @@ describe('cy.component', () => {
     });
   });
 
-  context.only('given timeout:value', () => {
+  context('given timeout:value', () => {
     beforeEach(() => {
       mount(
         <Timed dt={Cypress.config('defaultCommandTimeout') + 1000}>
