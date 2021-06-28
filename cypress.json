@@ -1,5 +1,8 @@
 {
-  "experimentalComponentTesting": true,
-  "viewportWidth": 640,
-  "viewportHeight": 480
+  "component": {
+    "viewportWidth": 640,
+    "viewportHeight": 480,
+    "testFiles": "**/*.spec.{js,ts,jsx,tsx}",
+    "componentFolder": "cypress/component"
+  }
 }

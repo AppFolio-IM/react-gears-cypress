@@ -1,5 +1,6 @@
 import * as match from '../match';
 import { FORCE_QUIET, QUIET } from './internals/constants';
+import { requeryDetached } from './internals/churn';
 
 type SelectFn = (
   subject: JQuery,
@@ -31,19 +32,19 @@ export function select(
       throw new Error(
         'gears Select multi not yet supported; have fun implementing!'
       );
-    cy.wrap(subject, QUIET).within(() => {
+    cy.wrap(requeryDetached(subject), QUIET).within(() => {
       cy.get('input', QUIET)
         .click(FORCE_QUIET)
         //.clear(FORCE_QUIET)
         .type(value, FORCE_QUIET);
     });
     return cy
-      .wrap(subject, QUIET)
+      .wrap(requeryDetached(subject), QUIET)
       .parent(QUIET)
       .get('.Select-menu', QUIET)
       .contains('button', match.exact(value), QUIET)
       .click(QUIET);
   }
 
-  return originalSelect(subject, value, options);
+  return originalSelect(requeryDetached(subject), value, options);
 }

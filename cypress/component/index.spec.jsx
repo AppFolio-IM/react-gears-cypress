@@ -27,9 +27,6 @@ describe('react-gears-cypress', () => {
   });
 
   context('exports', () => {
-    it('has-many helpers', () => {
-      expect(hasManyFields).not.to.be.null;
-    });
 
     it('regexp helpers', () => {
       expect(match).not.to.be.null;
