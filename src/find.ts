@@ -45,12 +45,6 @@ export function datapair(text: Text) {
   return cy.component(components.Datapair, text);
 }
 
-export function hasManyFields(text: Text) {
-  // HACK: this is imprecise and bound to break in numerous circumstances ...
-  // once we have a sel.hasManyFields and friends we can do closest(sel.hasManyFields)
-  return cy.contains('label', text).parent();
-}
-
 // @deprecated please use cy.component() with Component definitions
 export function input(text: Text) {
   return cy.component(components.Input, text);
