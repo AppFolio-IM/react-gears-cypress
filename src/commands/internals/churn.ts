@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 function indexOf(el: Element | null) {
   var i = 1;
   while (el && (el = el.previousElementSibling)) ++i;
@@ -36,6 +38,7 @@ function requeryOne(this: Window, el: HTMLElement, _i: number) {
 /**
  * Mitigate churn by attempting to requery detached DOM elements.
  */
-export function requeryDetached($q: JQuery) {
-  return Cypress.$(Cypress.$.map($q, requeryOne));
+export function requeryDetached($q: JQuery<HTMLElement>) {
+  // HACK: I got tired of paying the TypeScript tax and used `as` ... remove & do it right
+  return Cypress.$(Cypress.$.map($q, requeryOne)) as JQuery<HTMLElement>;
 }
