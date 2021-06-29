@@ -1,6 +1,6 @@
 {
   "name": "@appfolio/react-gears-cypress",
-  "version": "5.19.3-1",
+  "version": "5.19.3",
   "license": "MIT",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
