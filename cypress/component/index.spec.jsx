@@ -1,4 +1,4 @@
-import { find, hasManyFields, match } from '../../src/index';
+import { find, match } from '../../src/index';
 
 describe('react-gears-cypress', () => {
   context('versioning', () => {
@@ -27,7 +27,6 @@ describe('react-gears-cypress', () => {
   });
 
   context('exports', () => {
-
     it('regexp helpers', () => {
       expect(match).not.to.be.null;
     });
