@@ -1,5 +1,26 @@
 /// <reference types="cypress" />
 
+interface Metrics {
+  missedById: string[];
+  missedByPath: string[];
+  numberOfHits: number;
+  numberOfMisses: number;
+}
+
+export function getMetrics() {
+  return Cypress.env('Metrics') as Metrics;
+}
+
+export function resetMetrics() {
+  const metrics: Metrics = {
+    missedById: [],
+    missedByPath: [],
+    numberOfHits: 0,
+    numberOfMisses: 0,
+  };
+  Cypress.env('Metrics', metrics);
+}
+
 function indexOf(el: Element | null) {
   var i = 1;
   while (el && (el = el.previousElementSibling)) ++i;
@@ -20,19 +41,42 @@ function pathToRoot(el: HTMLElement | null) {
 }
 
 function requeryById(el: HTMLElement) {
-  if (el.id) return document.getElementById(el.id);
+  if (!el.id) return;
+  const metrics = getMetrics();
+  const results = document.getElementById(el.id);
+  if (!results) {
+    metrics.missedById.push(el.id);
+  }
+  return results;
 }
 
 // TODO: could we call Cypress.SelectorPlayground instead?
 //   - It seems to throw exception w/ detached DOM elements...
 //   - Also, it may be too vague (specifies nth-child, but not tag name)
 function requeryByPath(el: HTMLElement) {
-  return document.querySelector(pathToRoot(el));
+  const metrics = getMetrics();
+  const elementPath = pathToRoot(el);
+  const results = document.querySelector(elementPath);
+  if (!results) {
+    metrics.missedByPath.push(elementPath);
+  }
+  return results;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function requeryOne(this: Window, el: HTMLElement, _i: number) {
-  return Cypress.dom.isDetached(el) ? requeryById(el) || requeryByPath(el) : el;
+  if (!Cypress.dom.isDetached(el)) return el;
+  //Track Hits Here
+  const metrics = getMetrics();
+  const results = requeryById(el) || requeryByPath(el);
+  debugger;
+  if (results) {
+    metrics.numberOfHits++;
+    return results;
+  } else {
+    metrics.numberOfMisses++;
+    return el;
+  }
 }
 
 /**
@@ -43,3 +87,5 @@ export function requeryDetached($q: JQuery<HTMLElement>) {
   // TODO: remove hack & do it right
   return Cypress.$(Cypress.$.map($q, requeryOne)) as JQuery<HTMLElement>;
 }
+
+resetMetrics();
