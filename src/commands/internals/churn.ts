@@ -21,6 +21,8 @@ export function resetMetrics() {
   Cypress.env('Metrics', metrics);
 }
 
+resetMetrics();
+
 function indexOf(el: Element | null) {
   var i = 1;
   while (el && (el = el.previousElementSibling)) ++i;
@@ -69,12 +71,13 @@ function requeryOne(this: Window, el: HTMLElement, _i: number) {
   //Track Hits Here
   const metrics = getMetrics();
   const results = requeryById(el) || requeryByPath(el);
-  debugger;
   if (results) {
     metrics.numberOfHits++;
+    Cypress.env('Metrics', metrics);
     return results;
   } else {
     metrics.numberOfMisses++;
+    Cypress.env('Metrics', metrics);
     return el;
   }
 }
@@ -87,5 +90,3 @@ export function requeryDetached($q: JQuery<HTMLElement>) {
   // TODO: remove hack & do it right
   return Cypress.$(Cypress.$.map($q, requeryOne)) as JQuery<HTMLElement>;
 }
-
-resetMetrics();
