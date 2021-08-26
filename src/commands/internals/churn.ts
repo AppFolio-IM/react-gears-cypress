@@ -69,7 +69,6 @@ function requeryOne(this: Window, el: HTMLElement, _i: number) {
   //Track Hits Here
   const metrics = getMetrics();
   const results = requeryById(el) || requeryByPath(el);
-  debugger;
   if (results) {
     metrics.numberOfHits++;
     return results;
