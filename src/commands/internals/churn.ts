@@ -84,7 +84,6 @@ function requeryOne(this: Window, el: HTMLElement, _i: number) {
 export function requeryDetached($q: JQuery<HTMLElement>) {
   // HACK: I got tired of paying the TypeScript tax and used `as`
   // TODO: remove hack & do it right
-  console.log('Requery Detatched', $q);
   return Cypress.$(Cypress.$.map($q, requeryOne)) as JQuery<HTMLElement>;
 }
 
