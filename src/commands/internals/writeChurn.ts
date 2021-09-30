@@ -20,6 +20,9 @@ export function writeChurnMetrics() {
   const { name } = Cypress.spec;
   const specName = name.replace(/\..*$/, '.json');
   const path = `${LOG_SUBDIR}/cypress-requery/${specName}`;
-  const contents = JSON.stringify(getMetrics());
-  cy.writeFile(path, contents);
+  const metrics = getMetrics();
+
+  if (metrics.numberOfHits > 0 || metrics.numberOfMisses > 0) {
+    cy.writeFile(path, JSON.stringify(metrics, null, 2));
+  }
 }
