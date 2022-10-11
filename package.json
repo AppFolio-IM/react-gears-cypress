@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/appfolio/react-gears-cypress"
+    "url": "https://github.com/AppFolio-IM/react-gears-cypress"
   },
   "directories": {
     "lib": "./lib"
