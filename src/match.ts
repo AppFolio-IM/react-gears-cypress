@@ -33,4 +33,4 @@ export const fuzzyFirstLast = (first: string, last: string) =>
 // Good for dealing with HTML elements that have a multi-line value, but need to be matched with a
 // value from single-line Gherkin table cell. (cucumber-js doesn't grok \n unfortunately!)
 export const fuzzyMultiline = (value: string) =>
-  new RegExp(`^${Cypress._.escapeRegExp(value)}$`.replace(/\s+/g, '\\s+'), 'm');
+  new RegExp(`^${Cypress._.escapeRegExp(value)}\\s*$`.replace(/\s+/g, '\\s+'), 'm');
