@@ -69,6 +69,7 @@ function requeryOne(this: Window, el: HTMLElement, _i: number) {
   //Track Hits Here
   const metrics = getMetrics();
   const results = requeryById(el) || requeryByPath(el);
+
   if (results) {
     metrics.numberOfHits++;
     return results;
@@ -87,4 +88,4 @@ export function requeryDetached($q: JQuery<HTMLElement>) {
   return Cypress.$(Cypress.$.map($q, requeryOne)) as JQuery<HTMLElement>;
 }
 
-resetMetrics();
+//resetMetrics();

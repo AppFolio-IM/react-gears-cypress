@@ -1,0 +1,18 @@
+---
+version: 2
+registries:
+  github-npm:
+    type: npm-registry
+    url: https://npm.pkg.github.com/
+    username: appf-im-tooling
+    # Format of "password" is "username:password" base64 encoded
+    password: ${{secrets.NPM_GITHUB_PACKAGES_RO_PASSWORD}}
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  pull-request-branch-name:
+    separator: "-"
+  registries:
+    - github-npm

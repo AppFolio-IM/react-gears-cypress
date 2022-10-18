@@ -1,13 +1,13 @@
 {
-  "name": "@appfolio/react-gears-cypress",
-  "version": "5.20.1-0",
+  "name": "@appfolio-im/react-gears-cypress",
+  "version": "5.22.1",
   "license": "MIT",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/appfolio/react-gears-cypress"
+    "url": "https://github.com/AppFolio-IM/react-gears-cypress"
   },
   "directories": {
     "lib": "./lib"
@@ -36,10 +36,15 @@
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.10.1",
     "@cypress/code-coverage": "^3.9.2",
     "@cypress/react": "^5",
     "@cypress/webpack-dev-server": "*",
+    "@types/eslint": "^8.4.6",
+    "@types/lodash": "^4.14.186",
+    "@types/uglify-js": "^3.17.0",
+    "@types/webpack-sources": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "^1.4.0",
     "@typescript-eslint/parser": "^1.4.0",
     "babel-loader": "^8.1.0",
@@ -57,7 +62,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "tsify": "^4.0.2",
-    "typescript": "^3.9.5",
+    "typescript": "^4.2.4",
     "webpack": "^4.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.2"
@@ -66,6 +71,6 @@
     "core-js": "^3.0"
   },
   "peerDependencies": {
-    "cypress": "^7.4.0"
+    "cypress": "*"
   }
 }
