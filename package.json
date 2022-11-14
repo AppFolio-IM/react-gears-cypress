@@ -42,7 +42,7 @@
     "@cypress/react": "^7",
     "@cypress/webpack-dev-server": "*",
     "@types/eslint": "^8.4.6",
-    "@types/lodash": "^4.14.186",
+    "@types/lodash": "^4.14.188",
     "@types/uglify-js": "^3.17.0",
     "@types/webpack-sources": "^3.2.0",
     "@typescript-eslint/eslint-plugin": "^1.4.0",
