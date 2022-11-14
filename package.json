@@ -32,7 +32,7 @@
   "devDependencies": {
     "@appfolio/react-gears": "^5.19.2",
     "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
+    "@babel/core": "^7.20.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-object-rest-spread": "^7.10.1",
     "@babel/preset-env": "^7.20.2",
