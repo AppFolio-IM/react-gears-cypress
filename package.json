@@ -25,8 +25,8 @@
     "clean": "rm -Rf dist lib",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint --fix cypress/**/*.js cypress/**/*.jsx src/**/*.ts",
-    "start": "cypress open-ct",
-    "test": "cypress run",
+    "start": "cypress open --component",
+    "test": "cypress run --component",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^1.4.0",
     "@typescript-eslint/parser": "^5.43.0",
     "babel-loader": "^8.3.0",
-    "cypress": "7.4.0",
+    "cypress": "^11.2.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^6.15.0",
