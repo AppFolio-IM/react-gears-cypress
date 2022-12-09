@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
-import { requeryDetached } from './internals/churn';
 import { QUIET, FORCE_QUIET } from './internals/constants';
 import { blurIfNecessary, dismissAriaPopup } from './internals/interaction';
 
@@ -32,7 +31,7 @@ export function clear(
     // Use the "X" button to clear Select components.
     if (btn.length === 1)
       return cy
-        .wrap(requeryDetached(btn), QUIET)
+        .wrap(btn, QUIET)
         .click(FORCE_QUIET)
         .then(() => {
           // try to ensure that the popup disappears
@@ -41,7 +40,7 @@ export function clear(
         });
     // No "X" button; fall through to original cy.clear
     else
-      return originalClear(requeryDetached(subject.find('input')), {
+      return originalClear(subject.find('input'), {
         ...options,
         force: true,
         log: false,
@@ -52,7 +51,7 @@ export function clear(
       });
   }
   // For other inputs, use original cy.clear but also dismiss popups (e.g. DateInput).
-  return originalClear(requeryDetached(subject), options).then(
+  return originalClear(subject, options).then(
     dismissAriaPopup
   );
 }

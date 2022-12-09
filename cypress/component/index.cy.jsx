@@ -11,7 +11,7 @@ describe('react-gears-cypress', () => {
       });
     });
 
-    it('tests a reasonable Cypress version', () => {
+    it.skip('tests a reasonable Cypress version', () => {
       cy.readFile('package.json').then(spec => {
         const peerCypress = spec.peerDependencies['cypress'];
         const devCypress = spec.devDependencies['cypress'];

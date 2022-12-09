@@ -78,7 +78,6 @@ export function fill(
 
     // NB repeatedly re-finding elements relative to subject in order to
     // deal with DOM churn
-    //TODO: This could probably be cleaned up with requeryDetached.
     cy.wrap(subject, QUIET).clear(QUIET);
     cy.wrap(subject, QUIET)
       .find('input', QUIET)
