@@ -51,7 +51,5 @@ export function clear(
       });
   }
   // For other inputs, use original cy.clear but also dismiss popups (e.g. DateInput).
-  return originalClear(subject, options).then(
-    dismissAriaPopup
-  );
+  return originalClear(subject, options).then(dismissAriaPopup);
 }

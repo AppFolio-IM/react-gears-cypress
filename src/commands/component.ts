@@ -87,7 +87,7 @@ function normalizeOptions(rest: any[]): ComponentOptions {
 }
 
 function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
-  return $collection.map(function(this: HTMLElement) {
+  return $collection.map(function (this: HTMLElement) {
     const $element = Cypress.$(this);
     return callback($element).get()[0];
   });
@@ -189,7 +189,7 @@ export function component(
   };
 
   const resolveValue = () => {
-    return Cypress.Promise.try(getValue).then($el => {
+    return Cypress.Promise.try(getValue).then(($el) => {
       // important: pass a jQuery object to cy.verifyUpcomingAssertions
       if (!Cypress.dom.isJquery($el)) {
         // @ts-ignore:2740

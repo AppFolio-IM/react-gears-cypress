@@ -1,4 +1,3 @@
-
 type ClickFn = (
   subject: JQuery,
   options?: Partial<Cypress.ClickOptions>
