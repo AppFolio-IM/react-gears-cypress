@@ -11,7 +11,6 @@ export interface FillOptions {
   log: boolean;
 }
 
-/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Cypress {
     interface Chainable<Subject> {
@@ -30,7 +29,6 @@ declare global {
     }
   }
 }
-/* eslint-enable @typescript-eslint/no-namespace */
 
 /**
  * Replace a form component's existing value. Works on

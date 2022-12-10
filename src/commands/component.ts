@@ -11,6 +11,17 @@ import {
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByText, orderByInnerText } from './internals/text';
 
+declare global {
+  interface JQuery {
+    // /Cypress overrides some chai assertions to add command log entries, which
+    /// seem to rely on a hidden `selector` property of the JQuery in order to
+    /// describe what was found or not found. By setting this during our commands,
+    /// we can make the command log work much more like it would for vanilla
+    /// Cypress commands (e.g. mouseover to highlight element).
+    selector?: string;
+  }
+}
+
 /**
  * Options for the cy.component command.
  */
@@ -20,7 +31,6 @@ export interface ComponentOptions {
   timeout?: number;
 }
 
-/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Cypress {
     interface Chainable<Subject> {
@@ -54,8 +64,6 @@ declare global {
     }
   }
 }
-/* eslint-enable @typescript-eslint/no-namespace */
-
 function describePseudoSelector(component: Component, text?: Text) {
   if (!text) return component.query;
   else if (text instanceof RegExp)
@@ -119,7 +127,7 @@ export function component(
   let logEntry: any;
   if (options.log !== false) {
     const loggableOptions = getOptions(rest);
-    // @ts-ignore:2339 hidden command
+    // @ts-expect-error cypress(2339) undocumented command
     const withinSubject = cy.state('withinSubject');
     const message: any[] = [component.name];
     if (text) {
@@ -138,7 +146,6 @@ export function component(
     logEntry = Cypress.log({
       name: 'component',
       message,
-      // @ts-ignore:2345 hidden option
       type: subject || withinSubject ? 'child' : 'parent',
       consoleProps: () => {
         return consoleProps;
@@ -159,8 +166,8 @@ export function component(
   // we cannot use Cypress commands - aside from static ones,
   // but we can use normal DOM JavaScript and jQuery methods
   const getValue = () => {
-    // @ts-ignore:2339
-    let $subject = subject || cy.state('withinSubject') || cy.$$('body');
+    // @ts-expect-error cypress(2339) undocumented command
+    const $subject = subject || cy.state('withinSubject') || cy.$$('body');
     let $el: JQuery;
 
     if (text && isComponentWithText(component)) {
@@ -176,14 +183,8 @@ export function component(
         $el = mapAll($el, component.traverse);
     }
 
-    // Cypress overrides some chai assertions to add command log entries, which
-    // seem to rely on a hidden `selector` property of the JQuery in order to
-    // describe what was found or not found. Make the log more readable by
-    // providing a pseudo-selector to describe the component (not the DOM).
-    // @ts-ignore:2551
-    if (!$el.selector)
-      // @ts-ignore:2551
-      $el.selector = describePseudoSelector(component, text);
+    // Make command log more readable
+    if (!$el.selector) $el.selector = describePseudoSelector(component, text);
 
     return $el;
   };
@@ -192,11 +193,10 @@ export function component(
     return Cypress.Promise.try(getValue).then(($el) => {
       // important: pass a jQuery object to cy.verifyUpcomingAssertions
       if (!Cypress.dom.isJquery($el)) {
-        // @ts-ignore:2740
         $el = Cypress.$($el);
       }
 
-      // @ts-ignore:2339
+      // @ts-expect-error cypress(2339) undocumented command
       return cy.verifyUpcomingAssertions($el, options, {
         onRetry: resolveValue,
         onPass: () => setEl($el),
