@@ -11,6 +11,15 @@ import {
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByText, orderByInnerText } from './internals/text';
 
+/**
+ * Options for the cy.component command.
+ */
+export interface ComponentOptions {
+  all: boolean;
+  log: boolean;
+  timeout?: number;
+}
+
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Cypress {
@@ -47,15 +56,6 @@ declare global {
 }
 /* eslint-enable @typescript-eslint/no-namespace */
 
-/**
- * Options for the cy.component command.
- */
-export interface ComponentOptions {
-  all: boolean;
-  log: boolean;
-  timeout?: number;
-}
-
 function describePseudoSelector(component: Component, text?: Text) {
   if (!text) return component.query;
   else if (text instanceof RegExp)
@@ -87,7 +87,7 @@ function normalizeOptions(rest: any[]): ComponentOptions {
 }
 
 function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
-  return $collection.map(function(this: HTMLElement) {
+  return $collection.map(function (this: HTMLElement) {
     const $element = Cypress.$(this);
     return callback($element).get()[0];
   });
@@ -189,7 +189,7 @@ export function component(
   };
 
   const resolveValue = () => {
-    return Cypress.Promise.try(getValue).then($el => {
+    return Cypress.Promise.try(getValue).then(($el) => {
       // important: pass a jQuery object to cy.verifyUpcomingAssertions
       if (!Cypress.dom.isJquery($el)) {
         // @ts-ignore:2740

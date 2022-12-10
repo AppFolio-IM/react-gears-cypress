@@ -1,5 +1,3 @@
-import { requeryDetached } from './internals/churn';
-
 type ClickFn = (
   subject: JQuery,
   options?: Partial<Cypress.ClickOptions>
@@ -11,7 +9,7 @@ export function click(
   options?: Partial<Cypress.ClickOptions>
 ) {
   if (subject.is('button') && subject.text() === '') {
-    return originalClick(requeryDetached(subject), { ...options, force: true });
+    return originalClick(subject, { ...options, force: true });
   }
-  return originalClick(requeryDetached(subject), options);
+  return originalClick(subject, options);
 }

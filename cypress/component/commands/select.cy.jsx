@@ -3,11 +3,10 @@ import { FormLabelGroup, Select } from '@appfolio/react-gears';
 
 import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';
-import mount from '../../support/mount';
 
 describe('cy.select', () => {
   it('handles <select>', () => {
-    mount(
+    cy.mount(
       <FormLabelGroup label="some label">
         <select>
           <option value="alpha">alpha</option>
@@ -24,16 +23,16 @@ describe('cy.select', () => {
   });
 
   context('Select component', () => {
-    const options = ['alpha', 'bravo', 'charlie'].map(o => ({
+    const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
       label: o,
       value: o,
     }));
 
     it('clearable', () => {
       let selected;
-      const onChange = o => (selected = o && o.value);
+      const onChange = (o) => (selected = o && o.value);
 
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Select options={options} onChange={onChange} />
         </FormLabelGroup>
@@ -47,12 +46,12 @@ describe('cy.select', () => {
 
     it('non-clearable', () => {
       let selected;
-      const onChange = o => {
+      const onChange = (o) => {
         expect(o && o.value).to.be.ok;
         selected = o && o.value;
       };
 
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Select options={options} onChange={onChange} clearable={false} />
         </FormLabelGroup>

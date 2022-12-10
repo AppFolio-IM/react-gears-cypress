@@ -1,3 +1,4 @@
+import React from 'react';
 import * as match from '../../src/match';
 
 describe('exact', () => {

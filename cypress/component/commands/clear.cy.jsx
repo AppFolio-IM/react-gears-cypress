@@ -8,11 +8,10 @@ import {
 
 import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';
-import mount from '../../support/mount';
 
 describe('cy.clear', () => {
   it('clears Input', () => {
-    mount(
+    cy.mount(
       <FormLabelGroup label="some label">
         <Input />
       </FormLabelGroup>
@@ -26,15 +25,13 @@ describe('cy.clear', () => {
   });
 
   it('clears DateInput', () => {
-    mount(
+    cy.mount(
       <FormLabelGroup label="some label">
         <DateInput />
       </FormLabelGroup>
     );
 
-    cy.get('input')
-      .focus()
-      .type('04/02/2018{enter}');
+    cy.get('input').focus().type('04/02/2018{enter}');
     cy.get('div[aria-haspopup="true"]').should(
       'have.attr',
       'aria-expanded',
@@ -52,17 +49,17 @@ describe('cy.clear', () => {
 
   context('Select component', () => {
     it('clears values', () => {
-      const options = ['alpha', 'bravo', 'charlie'].map(o => ({
+      const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
         label: o,
         value: o,
       }));
 
       let selected;
-      const onChange = o => {
+      const onChange = (o) => {
         selected = o && o.value;
       };
 
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Select options={options} onChange={onChange} />
         </FormLabelGroup>
@@ -80,13 +77,13 @@ describe('cy.clear', () => {
 
     it('dismisses popups', () => {
       const options = ['steve rogers', 'tony stark', 'natasha romanov'].map(
-        o => ({
+        (o) => ({
           label: o,
           value: o,
         })
       );
 
-      mount(
+      cy.mount(
         <>
           <FormLabelGroup label="first">
             <Select clearable={false} options={options} />

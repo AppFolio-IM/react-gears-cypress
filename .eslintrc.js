@@ -37,8 +37,11 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'off', // warns about mandatory param names in function types!
+    '@typescript-eslint/no-use-before-define': 'off', // pointless rule
     'no-empty': 'warn',
     'no-extra-boolean-cast': 'warn',
+    'no-undef': 'off', // gives false alarms about Cypress globals e.g. JQuery
     'prettier/prettier': ['error', {singleQuote: true, trailingComma: 'es5'}],
     'react/prop-types': 'off'
   },

@@ -11,7 +11,6 @@ import {
   NavLink,
 } from '@appfolio/react-gears';
 
-import mount from '../../support/mount';
 import * as comp from '../../../src/components';
 import { component as rawComponent } from '../../../src/commands/component';
 
@@ -25,7 +24,7 @@ function Timed({ children, init = false, dt = 2000 }) {
 describe('cy.component', () => {
   context('basics', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <>
           <Nav>
             <NavItem>
@@ -50,18 +49,14 @@ describe('cy.component', () => {
     });
 
     it('finds unlabeled components', () => {
-      cy.component(comp.Nav)
-        .contains('Nav 2')
-        .click();
-      cy.component(comp.Nav, { log: false })
-        .contains('Nav 1')
-        .click();
+      cy.component(comp.Nav).contains('Nav 2').click();
+      cy.component(comp.Nav, { log: false }).contains('Nav 1').click();
     });
   });
 
   context('best match', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <>
           <BlockPanel title="A">
             <a href="#a_foobar">foobar</a>
@@ -131,7 +126,7 @@ describe('cy.component', () => {
   context('retry', () => {
     context('top level', () => {
       it('with default assertion', () => {
-        mount(
+        cy.mount(
           <Timed>
             <BlockPanel title="now you see me"></BlockPanel>
           </Timed>
@@ -139,7 +134,7 @@ describe('cy.component', () => {
         cy.component(comp.BlockPanel, 'now you see me');
       });
       it('with negative assertion', () => {
-        mount(
+        cy.mount(
           <Timed init={true}>
             <BlockPanel title="now you see me"></BlockPanel>
           </Timed>
@@ -150,7 +145,7 @@ describe('cy.component', () => {
 
     context('within subject', () => {
       it('with default assertion', () => {
-        mount(
+        cy.mount(
           <BlockPanel title="outer subject">
             <Timed>
               <FormLabelGroup label="now you see me">
@@ -167,7 +162,7 @@ describe('cy.component', () => {
         });
       });
       it('with negative assertion', () => {
-        mount(
+        cy.mount(
           <BlockPanel title="outer subject">
             <Timed init={true}>
               <FormLabelGroup label="now you see me">
@@ -203,7 +198,7 @@ describe('cy.component', () => {
 
   context('within outer subject', () => {
     it('BlockPanel', () => {
-      mount(
+      cy.mount(
         <>
           <BlockPanel title="A">
             <Alert>A</Alert>
@@ -236,7 +231,7 @@ describe('cy.component', () => {
 
   context('given all:true', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <>
           <BlockPanel title="A">
             <Button>1</Button>
@@ -265,7 +260,7 @@ describe('cy.component', () => {
 
   context('given timeout:value', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <Timed dt={Cypress.config('defaultCommandTimeout') + 1000}>
           <BlockPanel title="now you see me"></BlockPanel>
         </Timed>

@@ -7,7 +7,7 @@ import { Container, Row, Col } from '@appfolio/react-gears';
  * wrap it in a responsive container for a pleasing, visually accurate
  * appearance.
  */
-export default function mount(component) {
+export default function mount(component: React.ReactNode) {
   const canvas = (
     <Container fluid className="mt-5">
       <Row>
@@ -15,10 +15,5 @@ export default function mount(component) {
       </Row>
     </Container>
   );
-  realMount(canvas, {
-    stylesheets: [
-      'https://appfolio.github.io/bootstrap-coastline/bootstrap-coastline.css',
-      'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css',
-    ],
-  });
+  realMount(canvas, {});
 }

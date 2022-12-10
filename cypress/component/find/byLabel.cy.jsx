@@ -16,21 +16,18 @@ import {
   SummaryBoxItem,
 } from '@appfolio/react-gears';
 
-import mount from '../../support/mount';
 import * as gears from '../../../src/find';
 
 describe('find by label', () => {
   it('alert', () => {
-    // NB: not using mount due to hooks issue
-    mount(<Alert>some label</Alert>);
+    cy.mount(<Alert>some label</Alert>);
     gears.alert('some label');
     gears.alert('some label').should('have.text', 'some label');
     gears.alert('other label').should('not.exist');
   });
 
   it('blockPanel', () => {
-    // NB: not using mount due to hooks issue
-    mount(<BlockPanel title="some label">some content</BlockPanel>);
+    cy.mount(<BlockPanel title="some label">some content</BlockPanel>);
     gears.blockPanel('some label');
     gears
       .blockPanel('some label')
@@ -39,14 +36,14 @@ describe('find by label', () => {
   });
 
   it('button', () => {
-    mount(<Button>some label</Button>);
+    cy.mount(<Button>some label</Button>);
     gears.button('some label');
     gears.button('some label').should('have.text', 'some label');
     gears.button('other label').should('not.exist');
   });
 
   it('card', () => {
-    mount(
+    cy.mount(
       <Card>
         <CardTitle>some label</CardTitle>
       </Card>
@@ -61,7 +58,7 @@ describe('find by label', () => {
   });
 
   it('datapair', () => {
-    mount(<Datapair label="some label" value="some content" />);
+    cy.mount(<Datapair label="some label" value="some content" />);
     gears.datapair('some label');
     gears.datapair('some label').should('have.text', 'some labelsome content');
     gears.datapair('other label').should('not.exist');
@@ -69,7 +66,7 @@ describe('find by label', () => {
 
   context('input', () => {
     it('single-line', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input value="some value" />
         </FormLabelGroup>
@@ -80,7 +77,7 @@ describe('find by label', () => {
     });
 
     it('multiline', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input type="textarea" value="some value" />
         </FormLabelGroup>
@@ -91,7 +88,7 @@ describe('find by label', () => {
     });
 
     it('checkbox', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input type="checkbox" checked />
         </FormLabelGroup>
@@ -102,7 +99,7 @@ describe('find by label', () => {
     });
 
     it('radioInput button', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input type="radio" checked />
         </FormLabelGroup>
@@ -115,7 +112,7 @@ describe('find by label', () => {
 
   describe('link', () => {
     it('vanilla HTML', () => {
-      mount(
+      cy.mount(
         <Card>
           <a href="about:blank">some label</a>
         </Card>
@@ -125,7 +122,7 @@ describe('find by label', () => {
       gears.link('other label').should('not.exist');
     });
     it('link-colored button', () => {
-      mount(<Button color="link">some label</Button>);
+      cy.mount(<Button color="link">some label</Button>);
       gears.link('some label');
       gears.link('some label').should('have.text', 'some label');
       gears.link('other label').should('not.exist');
@@ -133,7 +130,7 @@ describe('find by label', () => {
   });
 
   it('modal', () => {
-    mount(
+    cy.mount(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>some label</ModalHeader>
         <ModalBody>some content</ModalBody>
@@ -150,7 +147,7 @@ describe('find by label', () => {
 
   it('select', () => {
     // TODO: much better support for this crap!
-    mount(
+    cy.mount(
       <FormLabelGroup label="some label">
         <Select options={[{ label: 'Alpha', value: 'Alpha' }]} value="Alpha" />
       </FormLabelGroup>
@@ -161,7 +158,7 @@ describe('find by label', () => {
   });
 
   it('summaryBoxItem', () => {
-    mount(
+    cy.mount(
       <SummaryBox>
         <SummaryBoxItem label="some label" value="some content" />
       </SummaryBox>
