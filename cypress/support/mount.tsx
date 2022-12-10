@@ -7,7 +7,7 @@ import { Container, Row, Col } from '@appfolio/react-gears';
  * wrap it in a responsive container for a pleasing, visually accurate
  * appearance.
  */
-export default function mount(component) {
+export default function mount(component: React.ReactNode) {
   const canvas = (
     <Container fluid className="mt-5">
       <Row>
