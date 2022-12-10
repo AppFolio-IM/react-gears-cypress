@@ -11,6 +11,15 @@ import {
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByText, orderByInnerText } from './internals/text';
 
+/**
+ * Options for the cy.component command.
+ */
+export interface ComponentOptions {
+  all: boolean;
+  log: boolean;
+  timeout?: number;
+}
+
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Cypress {
@@ -46,15 +55,6 @@ declare global {
   }
 }
 /* eslint-enable @typescript-eslint/no-namespace */
-
-/**
- * Options for the cy.component command.
- */
-export interface ComponentOptions {
-  all: boolean;
-  log: boolean;
-  timeout?: number;
-}
 
 function describePseudoSelector(component: Component, text?: Text) {
   if (!text) return component.query;

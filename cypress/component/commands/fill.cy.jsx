@@ -8,12 +8,11 @@ import {
 
 import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';
-import mount from '../../support/mount';
 
 describe('cy.fill', () => {
   context('Input component', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input />
         </FormLabelGroup>
@@ -21,9 +20,7 @@ describe('cy.fill', () => {
     });
 
     it('types values', () => {
-      cy.component(comp.Input, 'some label')
-        .clear()
-        .type('before');
+      cy.component(comp.Input, 'some label').clear().type('before');
       cy.component(comp.Input, 'some label').should('have.value', 'before');
 
       cy.component(comp.Input, 'some label').fill('after');
@@ -38,7 +35,7 @@ describe('cy.fill', () => {
 
   context('DateInput component', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <DateInput />
         </FormLabelGroup>
@@ -65,7 +62,7 @@ describe('cy.fill', () => {
 
   context('textarea tag', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input type="textarea" />
         </FormLabelGroup>
@@ -74,9 +71,7 @@ describe('cy.fill', () => {
 
     it('types values', () => {
       // precondition
-      cy.get('textarea')
-        .clear()
-        .type('before');
+      cy.get('textarea').clear().type('before');
       cy.get('textarea').should('have.value', 'before');
 
       // fill with something
@@ -95,7 +90,7 @@ describe('cy.fill', () => {
 
   context('Select component', () => {
     const options = ['steve rogers', 'tony stark', 'natasha romanov'].map(
-      o => ({
+      (o) => ({
         label: o,
         value: o,
       })
@@ -103,9 +98,9 @@ describe('cy.fill', () => {
 
     it('searches and clicks values', () => {
       let selected;
-      const onChange = o => (selected = o && o.value);
+      const onChange = (o) => (selected = o && o.value);
 
-      mount(
+      cy.mount(
         <FormLabelGroup label="best avenger">
           <Select options={options} onChange={onChange} />
         </FormLabelGroup>
@@ -124,7 +119,7 @@ describe('cy.fill', () => {
     });
 
     it('dismisses popups', () => {
-      mount(
+      cy.mount(
         <>
           <FormLabelGroup label="first">
             <Select clearable={false} options={options} />
@@ -149,7 +144,7 @@ describe('cy.fill', () => {
 
   context('select tag', () => {
     beforeEach(() => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="best avenger">
           <select id="avengers" name="avengers" type="select">
             <option value="">Select</option>

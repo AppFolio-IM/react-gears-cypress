@@ -22,12 +22,11 @@ import {
   SummaryBoxItem,
 } from '@appfolio/react-gears';
 
-import mount from '../support/mount';
 import * as comp from '../../src/components';
 
 describe('components', () => {
   it('Alert', () => {
-    mount(<Alert>some label</Alert>);
+    cy.mount(<Alert>some label</Alert>);
     cy.component(comp.Alert).should('be.visible');
     cy.component(comp.Alert, 'some label');
     cy.component(comp.Alert, /some label/);
@@ -35,21 +34,21 @@ describe('components', () => {
   });
 
   it('BlockPanel', () => {
-    mount(<BlockPanel title="some label">some content</BlockPanel>);
+    cy.mount(<BlockPanel title="some label">some content</BlockPanel>);
     cy.component(comp.BlockPanel).should('be.visible');
     cy.component(comp.BlockPanel, 'some label');
     cy.component(comp.BlockPanel, 'other label').should('not.exist');
   });
 
   it('Button', () => {
-    mount(<Button>some label</Button>);
+    cy.mount(<Button>some label</Button>);
     cy.component(comp.Button).should('be.visible');
     cy.component(comp.Button, 'some label');
     cy.component(comp.Button, 'other label').should('not.exist');
   });
 
   it('Card', () => {
-    mount(
+    cy.mount(
       <Card>
         <CardTitle>some label</CardTitle>
       </Card>
@@ -60,7 +59,7 @@ describe('components', () => {
   });
 
   it('Datapair', () => {
-    mount(<Datapair label="some label" value="some content" />);
+    cy.mount(<Datapair label="some label" value="some content" />);
     cy.component(comp.Datapair).should('be.visible');
     cy.component(comp.Datapair, 'some label');
     cy.component(comp.Datapair, 'other label').should('not.exist');
@@ -68,7 +67,7 @@ describe('components', () => {
 
   context('Input', () => {
     it('single-line', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input value="some value" />
         </FormLabelGroup>
@@ -79,7 +78,7 @@ describe('components', () => {
     });
 
     it('multiline', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input type="textarea" value="some value" />
         </FormLabelGroup>
@@ -91,7 +90,7 @@ describe('components', () => {
 
     context('checkboxes', () => {
       it('as Input', () => {
-        mount(
+        cy.mount(
           <FormLabelGroup label="some label">
             <Input type="checkbox" />
           </FormLabelGroup>
@@ -102,7 +101,7 @@ describe('components', () => {
       });
 
       it('as CheckboxInput', () => {
-        mount(<CheckboxInput id="cb1" checkboxLabel="some label" />);
+        cy.mount(<CheckboxInput id="cb1" checkboxLabel="some label" />);
         cy.component(comp.Input).should('be.visible');
         cy.component(comp.Input, 'some label')
           .invoke('attr', 'id')
@@ -112,7 +111,7 @@ describe('components', () => {
     });
 
     it('radio button', () => {
-      mount(
+      cy.mount(
         <FormLabelGroup label="some label">
           <Input type="radio" />
         </FormLabelGroup>
@@ -124,7 +123,7 @@ describe('components', () => {
 
     context('corner cases', () => {
       it('conflicting Select', () => {
-        mount(
+        cy.mount(
           <>
             <FormLabelGroup label="some label">
               <Select />
@@ -141,7 +140,7 @@ describe('components', () => {
       });
 
       it('multi-input FormGroup', () => {
-        mount(
+        cy.mount(
           <>
             <FormGroup>
               <FormRow stacked id="i1" label="irrelevant" />
@@ -159,11 +158,11 @@ describe('components', () => {
       });
 
       it('malformed ID', () => {
-        mount(
+        cy.mount(
           <>
             <BlockPanel title="A">
               <CheckboxGroup
-                options={['(un parseable)', '#crap#'].map(s => ({
+                options={['(un parseable)', '#crap#'].map((s) => ({
                   label: s,
                   value: s,
                 }))}
@@ -182,7 +181,7 @@ describe('components', () => {
 
   context('Link', () => {
     it('vanilla HTML', () => {
-      mount(
+      cy.mount(
         <Card>
           <a href="about:blank">some label</a>
         </Card>
@@ -192,7 +191,7 @@ describe('components', () => {
       cy.component(comp.Link, 'other label').should('not.exist');
     });
     it('link-colored button', () => {
-      mount(<Button color="link">some label</Button>);
+      cy.mount(<Button color="link">some label</Button>);
       cy.component(comp.Link).should('be.visible');
       cy.component(comp.Link, 'some label');
       cy.component(comp.Link, 'other label').should('not.exist');
@@ -200,7 +199,7 @@ describe('components', () => {
   });
 
   it('Modal', () => {
-    mount(
+    cy.mount(
       <Modal backdrop isOpen size="lg">
         <ModalHeader>some label</ModalHeader>
       </Modal>
@@ -211,7 +210,7 @@ describe('components', () => {
   });
 
   it('Nav', () => {
-    mount(
+    cy.mount(
       <Nav>
         <NavItem>
           <NavLink href="#">Nav 1</NavLink>
@@ -221,13 +220,11 @@ describe('components', () => {
         </NavItem>
       </Nav>
     );
-    cy.component(comp.Nav)
-      .contains('Nav 2')
-      .click();
+    cy.component(comp.Nav).contains('Nav 2').click();
   });
 
   it('Select', () => {
-    mount(
+    cy.mount(
       <FormLabelGroup label="some label">
         <Select />
       </FormLabelGroup>
@@ -238,7 +235,7 @@ describe('components', () => {
   });
 
   it('SummaryBoxItem', () => {
-    mount(
+    cy.mount(
       <SummaryBox>
         <SummaryBoxItem label="some label" value="some content" />
       </SummaryBox>

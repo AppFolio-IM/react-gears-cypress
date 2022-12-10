@@ -4,6 +4,13 @@ import * as match from '../match';
 import { FORCE_QUIET, FORCE_QUICK_QUIET, QUIET } from './internals/constants';
 import { blurIfNecessary, dismissAriaPopup } from './internals/interaction';
 
+/**
+ * Options for the cy.fill command.
+ */
+export interface FillOptions {
+  log: boolean;
+}
+
 /* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Cypress {
@@ -24,13 +31,6 @@ declare global {
   }
 }
 /* eslint-enable @typescript-eslint/no-namespace */
-
-/**
- * Options for the cy.fill command.
- */
-export interface FillOptions {
-  log: boolean;
-}
 
 /**
  * Replace a form component's existing value. Works on
