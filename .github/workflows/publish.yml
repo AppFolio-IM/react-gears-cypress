@@ -41,7 +41,7 @@ jobs:
           chmod 0600 $HOME/.npmrc
           cat << EOF > ~/.npmrc
           //registry.npmjs.org/:_authToken=${NPM_TOKEN}
-          @xeger:registry=https://registry.npmjs.org/
+          @appfolio:registry=https://registry.npmjs.org/
           EOF
           npm publish --workspaces
         env:
