@@ -18,8 +18,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:cypress/recommended',
     'plugin:react/recommended',
+    // NB: please leave these at the end so they can override all other rules!
     'prettier/@typescript-eslint',
-    // NB: please leave this at the end so it can override all other rules!
     'plugin:prettier/recommended'
   ],
   parserOptions: {
@@ -30,18 +30,12 @@ module.exports = {
     sourceType: 'module' // allow `import` statement
   },
   rules: {
-    '@typescript-eslint/array-type': 'warn',
-    '@typescript-eslint/camelcase': 'off',
-    '@typescript-eslint/class-name-casing': 'warn',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-member-accessibility': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unused-vars': 'off', // warns about mandatory param names in function types!
-    '@typescript-eslint/no-use-before-define': 'off', // pointless rule
+    '@typescript-eslint/no-explicit-any': 'off', // maybe someday!
+    '@typescript-eslint/no-namespace': 'off', // Cypress makes us use namespaces
     'no-empty': 'warn',
     'no-extra-boolean-cast': 'warn',
     'no-undef': 'off', // gives false alarms about Cypress globals e.g. JQuery
+    'no-unused-vars': 'off', // gives false alarms about mandatory TS param names in fn declarations!
     'prettier/prettier': ['error', {singleQuote: true, trailingComma: 'es5'}],
     'react/prop-types': 'off'
   },
