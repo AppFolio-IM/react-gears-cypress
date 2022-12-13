@@ -43,7 +43,7 @@ jobs:
           //registry.npmjs.org/:_authToken=${NPM_TOKEN}
           @appfolio:registry=https://registry.npmjs.org/
           EOF
-          npm publish --workspaces
+          npm publish
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
       - name: Publish to GitHub
