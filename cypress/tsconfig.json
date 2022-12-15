@@ -1,6 +1,6 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "src",
     "target": "esnext",
     "module": "commonjs",
     "declaration": true,
@@ -12,6 +12,7 @@
     "jsx": "react",
   },
   "include": [
-    "src"
+    "../src",
+    "."
   ]
 }
