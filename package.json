@@ -1,5 +1,5 @@
 {
-  "name": "@appfolio/react-gears-cypress",
+  "name": "@appfolio-im/react-gears-cypress",
   "version": "0.0.0",
   "packageManager": "npm@9.2.0",
   "license": "MIT",

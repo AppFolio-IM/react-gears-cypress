@@ -8,62 +8,51 @@ on:
     types: [published]
 
 jobs:
-  publish:
-    name: publish
-
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-      - name: Establish Version
-        run: |
-          release='${{ github.event.release.tag_name }}'
-          version=`echo $release | cut -b2-`
-          if ! echo $release | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+(-.+)?$'; then
-            echo "Release name must be in the format of 'vX.Y.Z[-anything]', got '$release'"
-            exit 1
-          fi
-          jq --arg version $version '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
-      - name: Install Dependencies
-        run: npm ci
+          node-version: 18
+      - run: npm ci
       - name: Build Distributables
         run: npm run build
-      # HACK: deal with the fact that this package is owned by the "wrong" GitHub repository
-      # @see README.md
-      - name: Establish GitHub Scope
-        run: |
-          jq --arg name '@appfolio-im/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
-      - name: Publish to GitHub
-        run: |
-          touch $HOME/.npmrc
-          chmod 0600 $HOME/.npmrc
-          cat << EOF > ~/.npmrc
-          //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-          @appfolio-im:registry=https://npm.pkg.github.com/
-          EOF
-          npm publish
+
+  publish-github:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: https://npm.pkg.github.com/
+      - run: npm ci
+      - run: npm publish
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      # HACK: deal with the fact that this package is owned by the "wrong" GitHub repository
-      # @see README.md
-      - name: Establish NPM Scope
-        run: |
-          jq --arg name '@appfolio/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
-      - name: Publish to NPM
-        run: |
-          touch $HOME/.npmrc
-          chmod 0600 $HOME/.npmrc
-          cat << EOF > ~/.npmrc
-          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
-          @appfolio:registry=https://registry.npmjs.org/
-          EOF
-          npm publish
-        env:
-          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+  # publish-npmjs:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Establish NPM Scope
+  #       run: |
+  #         jq --arg name '@appfolio/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
+  #     - name: Publish to NPM
+  #       run: |
+  #         touch $HOME/.npmrc
+  #         chmod 0600 $HOME/.npmrc
+  #         cat << EOF > ~/.npmrc
+  #         //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+  #         @appfolio:registry=https://registry.npmjs.org/
+  #         EOF
+  #         npm publish
+  #       env:
+  #         NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
