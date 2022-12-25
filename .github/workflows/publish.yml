@@ -35,20 +35,9 @@ jobs:
         run: npm ci
       - name: Build Distributables
         run: npm run build
-      - name: Publish to NPM
-        run: |
-          touch $HOME/.npmrc
-          chmod 0600 $HOME/.npmrc
-          cat << EOF > ~/.npmrc
-          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
-          @appfolio:registry=https://registry.npmjs.org/
-          EOF
-          npm publish
-        env:
-          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
       # HACK: deal with the fact that this package is owned by the "wrong" GitHub repository
       # @see README.md
-      - name: Prepare for Cross-Org Pubilsh
+      - name: Establish GitHub Scope
         run: |
           jq --arg name '@appfolio-im/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
       - name: Publish to GitHub
@@ -62,3 +51,19 @@ jobs:
           npm publish
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      # HACK: deal with the fact that this package is owned by the "wrong" GitHub repository
+      # @see README.md
+      - name: Establish NPM Scope
+        run: |
+          jq --arg name '@appfolio/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
+      - name: Publish to NPM
+        run: |
+          touch $HOME/.npmrc
+          chmod 0600 $HOME/.npmrc
+          cat << EOF > ~/.npmrc
+          //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+          @appfolio:registry=https://registry.npmjs.org/
+          EOF
+          npm publish
+        env:
+          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
