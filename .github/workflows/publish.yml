@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -19,6 +18,14 @@ jobs:
       - run: npm ci
       - name: Build Distributables
         run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: package.json
+          path: package.json
+      - uses: actions/upload-artifact@v2
+        with:
+          name: lib
+          path: lib
 
   publish-github:
     needs: build
@@ -32,7 +39,12 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
-      - run: npm ci
+      - uses: actions/download-artifact@v2
+        with:
+          name: package.json
+      - uses: actions/download-artifact@v2
+        with:
+          name: lib
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -42,6 +54,15 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
+  #     - uses: actions/download-artifact@v2
+  #       with:
+  #         name: package.json
+  #     - uses: actions/download-artifact@v2
+  #       with:
+  #         name: lib
   #     - name: Establish NPM Scope
   #       run: |
   #         jq --arg name '@appfolio/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
