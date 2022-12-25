@@ -8,6 +8,16 @@ Cypress. It provides "finder" functions for finding `react-gears` components
 in the DOM, Cypress commands for interacting with compomnents, and some fuzzy
 text-matching functions to promote more reliable tests.
 
+**NOTE:** due to historical precedent and the limitations of GitHub packages, this
+package is confusingly published to two _different_ NPM scope names depending on the repository.
+* Via npmjs.com, it is `@appfolio/react-gears-cypress`
+* Via `npm.pkg.github.com`, it is `@appfolio-im/react-gears-cypress`
+
+Clients should choose a distribution repository and use the suitable corresponding scope name.
+In the long run we hope to move this repository back to the `@appfolio` org and unify the scopes,
+although this would require AppFolio to overcome some _other_ limitations of GitHub CI, so it
+may take some time to accomplish.
+
 # How do I use it?
 
 Install the commands at startup by adding a few lines to `cypress/support/commands.js`:

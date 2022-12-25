@@ -46,14 +46,19 @@ jobs:
           npm publish
         env:
           NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
-      # - name: Publish to GitHub
-      #   run: |
-      #     touch $HOME/.npmrc
-      #     chmod 0600 $HOME/.npmrc
-      #     cat << EOF > ~/.npmrc
-      #     //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-      #     @appfolio-im:registry=https://npm.pkg.github.com/
-      #     EOF
-      #     npm publish
-      #   env:
-      #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      # HACK: deal with the fact that this package is owned by the "wrong" GitHub repository
+      # @see README.md
+      - name: Prepare for Cross-Org Pubilsh
+        run: |
+          sed -i -r "s/\"name\": *\".+\"/\"name\": \"@appfolio-im/react-gears-cypress\"/" package.json
+      - name: Publish to GitHub
+        run: |
+          touch $HOME/.npmrc
+          chmod 0600 $HOME/.npmrc
+          cat << EOF > ~/.npmrc
+          //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+          @appfolio-im:registry=https://npm.pkg.github.com/
+          EOF
+          npm publish
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
