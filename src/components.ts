@@ -39,7 +39,7 @@ export const Input: ComponentWithText = {
   name: 'Input',
   query: ':not(.Select) input,textarea',
   textQuery: ':not(:has(select,.Select)) label',
-  traverseViaText: $el => {
+  traverseViaText: ($el) => {
     const forId = $el.attr('for');
 
     if (forId) {
