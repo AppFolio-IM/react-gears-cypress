@@ -35,10 +35,14 @@ declare global {
  * input, textarea, or fancy input (e.g. calendar).
  */
 export function fill(
-  subject: JQuery,
+  prevSubject: JQuery,
   value: string,
-  options: FillOptions = { log: true }
+  options?: Partial<FillOptions>
 ) {
+  if (!options) {
+    options = { log: true };
+  }
+
   if (!value)
     throw new Error(
       'CypressError: `cy.fill()` cannot accept an empty string. You need to fill with a value, or `cy.clear()` to remove all values.'
@@ -48,24 +52,24 @@ export function fill(
   let logEntry: any;
   if (options.log !== false) {
     consoleProps = {
-      'Applied to': Cypress.dom.getElements(subject),
+      'Applied to': Cypress.dom.getElements(prevSubject),
       Value: value,
     };
 
     logEntry = Cypress.log({
       name: 'fill',
       message: value,
-      $el: subject,
+      $el: prevSubject,
       consoleProps: () => {
         return consoleProps;
       },
     });
   }
 
-  const isFancySelect = subject.hasClass('Select-control');
-  const isTextInput = subject.is('input');
-  const isTextArea = subject.is('textarea');
-  const isVanillaSelect = subject.is('select');
+  const isFancySelect = prevSubject.hasClass('Select-control');
+  const isTextInput = prevSubject.is('input');
+  const isTextArea = prevSubject.is('textarea');
+  const isVanillaSelect = prevSubject.is('select');
 
   if (isFancySelect) {
     if (logEntry) consoleProps.Type = 'React Select';
@@ -76,12 +80,12 @@ export function fill(
 
     // NB repeatedly re-finding elements relative to subject in order to
     // deal with DOM churn
-    cy.wrap(subject, QUIET).clear(QUIET);
-    cy.wrap(subject, QUIET)
+    cy.wrap(prevSubject, QUIET).clear(QUIET);
+    cy.wrap(prevSubject, QUIET)
       .find('input', QUIET)
       .focus(QUIET)
       .type(value, FORCE_QUICK_QUIET);
-    cy.wrap(subject, QUIET)
+    cy.wrap(prevSubject, QUIET)
       .parent(QUIET)
       .get('.Select-menu', QUIET)
       .contains('button', match.exact(value), QUIET)
@@ -90,7 +94,7 @@ export function fill(
     if (logEntry) consoleProps.Type = 'HTML input';
     return (
       cy
-        .wrap(subject, QUIET)
+        .wrap(prevSubject, QUIET)
         .clear(QUIET)
         .focus(QUIET)
         .type(value, FORCE_QUICK_QUIET)
@@ -102,7 +106,7 @@ export function fill(
     if (logEntry) consoleProps.Type = 'HTML textarea';
     return (
       cy
-        .wrap(subject, QUIET)
+        .wrap(prevSubject, QUIET)
         .clear(QUIET)
         .focus(QUIET)
         .type(value, FORCE_QUICK_QUIET)
@@ -111,10 +115,10 @@ export function fill(
     );
   } else if (isVanillaSelect) {
     if (logEntry) consoleProps.Type = 'HTML select';
-    return cy.wrap(subject, QUIET).select(value, FORCE_QUIET);
+    return cy.wrap(prevSubject, QUIET).select(value, FORCE_QUIET);
   } else {
     throw new Error(
-      `cy.fill: unsupported element ${subject[0].tagName.toLowerCase()}`
+      `cy.fill: unsupported element ${prevSubject[0].tagName.toLowerCase()}`
     );
   }
 }
