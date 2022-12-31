@@ -5,7 +5,6 @@ import { FORCE_QUIET, QUIET, isJQuery } from './internals/constants';
  * Choose a value from a select (either vanilla HTML or gears).
  */
 export function select(
-  this: Mocha.Context,
   originalFn: Cypress.CommandOriginalFnWithSubject<'select', unknown>,
   prevSubject: unknown,
   valueOrTextOrIndex: string | number | (string | number)[],

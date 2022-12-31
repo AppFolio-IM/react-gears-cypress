@@ -94,7 +94,6 @@ function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
 }
 
 export function component(
-  this: Mocha.Context,
   prevSubject: JQuery | void,
   component: Component,
   ...rest: any[]
