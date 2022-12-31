@@ -21,7 +21,6 @@ type CommandName = 'clear' | 'fill' | 'component' | 'select' | 'click';
 export function add(...names: CommandName[]) {
   const all = !names.length;
   if (all || names.includes('clear'))
-    // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
     Cypress.Commands.overwrite('clear', clear);
   if (all || names.includes('fill'))
     // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
