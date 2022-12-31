@@ -27,7 +27,6 @@ export function add(...names: CommandName[]) {
   if (all || names.includes('component'))
     Cypress.Commands.add('component', { prevSubject: ['optional'] }, component);
   if (all || names.includes('select'))
-    // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
     Cypress.Commands.overwrite('select', select);
   if (all || names.includes('click'))
     Cypress.Commands.overwrite('click', click);
