@@ -9,7 +9,7 @@
 import { Color, Text } from '.';
 import * as components from './components';
 
-declare var cy: Cypress.Chainable;
+declare let cy: Cypress.Chainable;
 
 // @deprecated please use cy.component() with Component definitions and .should('not.exist')
 export function alert(text: Text, color?: Color) {

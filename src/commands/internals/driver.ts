@@ -27,7 +27,7 @@ const getParentNode = (el: HTMLElement) => {
   // if the element is inside a shadow root,
   // return the host of the root.
   if (root && isWithinShadowRoot(el)) {
-    // @ts-ignore:2339
+    // @ts-expect-error dom(2339)
     return root.host;
   }
 
