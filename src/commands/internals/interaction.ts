@@ -3,7 +3,6 @@
 import { FORCE_QUIET } from './constants';
 
 export function blurIfNecessary(subject: JQuery) {
-  // @ts-expect-error cypress(2339) undocumented command
   if (subject.is(':focus')) cy.now('blur', subject, FORCE_QUIET);
   return subject;
 }
