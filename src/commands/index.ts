@@ -32,6 +32,5 @@ export function add(...names: CommandName[]) {
     // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
     Cypress.Commands.overwrite('select', select);
   if (all || names.includes('click'))
-    // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
     Cypress.Commands.overwrite('click', click);
 }
