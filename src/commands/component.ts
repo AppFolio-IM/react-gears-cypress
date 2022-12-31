@@ -12,14 +12,14 @@ import { getFirstDeepestElement } from './internals/driver';
 import { findAllByText, orderByInnerText } from './internals/text';
 
 declare global {
-  interface JQuery {
-    // /Cypress overrides some chai assertions to add command log entries, which
-    /// seem to rely on a hidden `selector` property of the JQuery in order to
-    /// describe what was found or not found. By setting this during our commands,
-    /// we can make the command log work much more like it would for vanilla
-    /// Cypress commands (e.g. mouseover to highlight element).
-    selector?: string;
-  }
+  // interface JQuery {
+  //   // /Cypress overrides some chai assertions to add command log entries, which
+  //   /// seem to rely on a hidden `selector` property of the JQuery in order to
+  //   /// describe what was found or not found. By setting this during our commands,
+  //   /// we can make the command log work much more like it would for vanilla
+  //   /// Cypress commands (e.g. mouseover to highlight element).
+  //   selector?: string;
+  // }
 }
 
 /**
