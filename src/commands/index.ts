@@ -23,8 +23,7 @@ export function add(...names: CommandName[]) {
   if (all || names.includes('clear'))
     Cypress.Commands.overwrite('clear', clear);
   if (all || names.includes('fill'))
-    // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
-    Cypress.Commands.add('fill', { prevSubject: true }, fill);
+    Cypress.Commands.add('fill', { prevSubject: ['element'] }, fill);
   if (all || names.includes('component'))
     // @ts-expect-error cypress(2769) works fine, just not compatible with modern Cypress typings
     Cypress.Commands.add('component', { prevSubject: 'optional' }, component);
