@@ -11,17 +11,6 @@ import {
 import { getFirstDeepestElement } from './internals/driver';
 import { findAllByText, orderByInnerText } from './internals/text';
 
-declare global {
-  // interface JQuery {
-  //   // /Cypress overrides some chai assertions to add command log entries, which
-  //   /// seem to rely on a hidden `selector` property of the JQuery in order to
-  //   /// describe what was found or not found. By setting this during our commands,
-  //   /// we can make the command log work much more like it would for vanilla
-  //   /// Cypress commands (e.g. mouseover to highlight element).
-  //   selector?: string;
-  // }
-}
-
 /**
  * Options for the cy.component command.
  */
@@ -64,6 +53,7 @@ declare global {
     }
   }
 }
+
 function describePseudoSelector(component: Component, text?: Text) {
   if (!text) return component.query;
   else if (text instanceof RegExp)
@@ -87,10 +77,12 @@ const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
 
 // Return a full hash of options w/ default values for anything not overrridden.
 function normalizeOptions(rest: any[]): ComponentOptions {
-  // fresh copy of defaults every time
-  // (Cypress destructively modifies it)
-  const defl = { all: false, log: true };
-
+  // Deliberate copy of defaults every time; Cypress destructively modifies it.
+  const defl = {
+    all: false,
+    log: true,
+    timeout: Cypress.config().defaultCommandTimeout,
+  };
   return getOptions(rest) || defl;
 }
 
@@ -102,7 +94,8 @@ function mapAll($collection: JQuery, callback: ($el: JQuery) => JQuery) {
 }
 
 export function component(
-  subject: JQuery | undefined,
+  this: Mocha.Context,
+  prevSubject: JQuery | void,
   component: Component,
   ...rest: any[]
 ) {
@@ -117,7 +110,7 @@ export function component(
     );
   } else if (text && !isComponentWithText(component)) {
     throw new Error(
-      `react-gears-cypress: ${component.name} does not implement ComponentWithText`
+      `react-gears-cypress: trying to find by text, but ${component.name} does not implement ComponentWithText`
     );
   }
 
@@ -140,13 +133,13 @@ export function component(
     }
 
     consoleProps['Applies To'] = Cypress.dom.getElements(
-      subject || withinSubject
+      prevSubject || withinSubject
     );
 
     logEntry = Cypress.log({
       name: 'component',
       message,
-      type: subject || withinSubject ? 'child' : 'parent',
+      type: prevSubject || withinSubject ? 'child' : 'parent',
       consoleProps: () => {
         return consoleProps;
       },
@@ -167,7 +160,7 @@ export function component(
   // but we can use normal DOM JavaScript and jQuery methods
   const getValue = () => {
     // @ts-expect-error cypress(2339) undocumented command
-    const $subject = subject || cy.state('withinSubject') || cy.$$('body');
+    const $subject = prevSubject || cy.state('withinSubject') || cy.$$('body');
     let $el: JQuery;
 
     if (text && isComponentWithText(component)) {
@@ -183,7 +176,8 @@ export function component(
         $el = mapAll($el, component.traverse);
     }
 
-    // Make command log more readable
+    // Make command log more readable by emulating Cypress internal state.
+    // @ts-expect-error cypress(2551) undocumented extension to JQuery interface?
     if (!$el.selector) $el.selector = describePseudoSelector(component, text);
 
     return $el;
@@ -204,5 +198,5 @@ export function component(
     });
   };
 
-  return resolveValue();
+  return cy.wrap(resolveValue(), { log: false, timeout: options.timeout });
 }
