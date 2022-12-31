@@ -1,4 +1,4 @@
-import { isQuery } from './internals/constants';
+import { isJQuery } from './internals/constants';
 
 /**
  * Click something and deal with empty buttons that contain only an icon.
@@ -12,7 +12,7 @@ export function click(
   y: number,
   options?: Partial<Cypress.ClickOptions>
 ) {
-  if (!isQuery(prevSubject)) {
+  if (!isJQuery(prevSubject)) {
     return originalFn(prevSubject, x, y, options);
   }
   if (prevSubject.is('button') && prevSubject.text() === '') {
