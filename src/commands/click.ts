@@ -5,7 +5,6 @@ import { isJQuery } from './internals/constants';
  * @deprecated this is not necessary since Cypress 10
  */
 export function click(
-  this: Mocha.Context,
   originalFn: Cypress.CommandOriginalFnWithSubject<'click', unknown>,
   prevSubject: unknown,
   x: number,
