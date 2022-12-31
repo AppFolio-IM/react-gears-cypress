@@ -1,49 +1,44 @@
 import * as match from '../match';
 import { FORCE_QUIET, QUIET } from './internals/constants';
 
-type SelectFn = (
-  subject: JQuery,
-  value: string,
-  options?: Cypress.SelectOptions
-) => Cypress.Chainable;
-
 /**
  * Choose a value from a select (either vanilla HTML or gears).
  */
 export function select(
-  originalSelect: SelectFn,
-  subject: JQuery,
-  value: string,
-  options?: Cypress.SelectOptions
+  this: Mocha.Context,
+  originalFn: Cypress.CommandOriginalFnWithSubject<'select', JQuery>,
+  prevSubject: JQuery,
+  valueOrTextOrIndex: string | number | (string | number)[],
+  options?: Partial<Cypress.SelectOptions>
 ) {
-  if (subject.hasClass('Select-control')) {
+  if (prevSubject.hasClass('Select-control')) {
     if (!options || options.log !== false)
       Cypress.log({
         name: 'select',
-        $el: subject,
+        $el: prevSubject,
         consoleProps: () => ({
-          'Applied to': Cypress.dom.getElements(subject),
-          Value: value,
+          'Applied to': Cypress.dom.getElements(prevSubject),
+          Value: valueOrTextOrIndex,
         }),
       });
 
-    if (Array.isArray(value))
+    if (Array.isArray(valueOrTextOrIndex))
       throw new Error(
         'gears Select multi not yet supported; have fun implementing!'
       );
-    cy.wrap(subject, QUIET).within(() => {
+    cy.wrap(prevSubject, QUIET).within(() => {
       cy.get('input', QUIET)
         .click(FORCE_QUIET)
         //.clear(FORCE_QUIET)
-        .type(value, FORCE_QUIET);
+        .type(valueOrTextOrIndex, FORCE_QUIET);
     });
     return cy
-      .wrap(subject, QUIET)
+      .wrap(prevSubject, QUIET)
       .parent(QUIET)
       .get('.Select-menu', QUIET)
-      .contains('button', match.exact(value), QUIET)
+      .contains('button', match.exact(valueOrTextOrIndex), QUIET)
       .click(QUIET);
   }
 
-  return originalSelect(subject, value, options);
+  return originalFn(prevSubject, valueOrTextOrIndex, options);
 }
