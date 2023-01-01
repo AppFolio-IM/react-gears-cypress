@@ -66,7 +66,9 @@ export function fill(
     });
   }
 
-  const isGearsCombobox = prevSubject.is('.dropdown:has([data-testid=combobox-input])')
+  const isGearsCombobox = prevSubject.is(
+    '.dropdown:has([data-testid=combobox-input])'
+  );
   const isGearsSelect = prevSubject.hasClass('Select-control');
   const isTextInput = prevSubject.is('input');
   const isTextArea = prevSubject.is('textarea');
@@ -79,8 +81,14 @@ export function fill(
         'react-gears-cypress: Combobox multi not yet supported; sorry!'
       );
 
-    cy.wrap(prevSubject, QUIET).find('[data-testid=combobox-input]', QUIET).focus().type('{backspace}{backspace}', QUIET).type(value, FORCE_QUIET);
-    return cy.contains('button.dropdown-item.active', value, QUIET).click(QUIET);
+    cy.wrap(prevSubject, QUIET)
+      .find('[data-testid=combobox-input]', QUIET)
+      .focus()
+      .type('{backspace}{backspace}', QUIET)
+      .type(value, FORCE_QUIET);
+    return cy
+      .contains('button.dropdown-item.active', value, QUIET)
+      .click(QUIET);
   } else if (isGearsSelect) {
     if (logEntry) consoleProps.Type = 'React Select';
     if (Array.isArray(value))
