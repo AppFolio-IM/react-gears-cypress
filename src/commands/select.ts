@@ -1,5 +1,5 @@
 import * as match from '../match';
-import { FORCE_QUIET, QUIET, isJQuery } from './internals/constants';
+import { FORCE_QUIET, QUIET } from './internals/constants';
 
 /**
  * Choose a value from a select (either vanilla HTML or gears).
@@ -10,7 +10,7 @@ export function select(
   valueOrTextOrIndex: string | number | (string | number)[],
   options?: Partial<Cypress.SelectOptions>
 ) {
-  if (!isJQuery(prevSubject)) {
+  if (!Cypress.dom.isJquery(prevSubject)) {
     return originalFn(prevSubject, valueOrTextOrIndex, options);
   }
 
