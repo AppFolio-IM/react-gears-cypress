@@ -100,7 +100,14 @@ describe('cy.fill', () => {
 
       return (
         <FormLabelGroup label="some label">
-          <Combobox options={options} onChange={v => { setValue(v); onChange(v); }} value={value} />
+          <Combobox
+            options={options}
+            onChange={(v) => {
+              setValue(v);
+              onChange(v);
+            }}
+            value={value}
+          />
         </FormLabelGroup>
       );
     }
@@ -108,7 +115,13 @@ describe('cy.fill', () => {
     it('works', () => {
       let selected;
 
-      cy.mount(<Testbed onChange={v => { selected = v; }} />)
+      cy.mount(
+        <Testbed
+          onChange={(v) => {
+            selected = v;
+          }}
+        />
+      );
       cy.component(comp.Combobox, 'some label').fill('alpha');
       eventually(() => selected === 'alpha');
     });
