@@ -189,6 +189,10 @@ export function component(
         $el = Cypress.$($el);
       }
 
+      // Under Cypress 12, it seems like our onPass is not always called back.
+      // Ensure we setEl at least once.
+      setEl($el);
+
       // @ts-expect-error cypress(2339) undocumented command
       return cy.verifyUpcomingAssertions($el, options, {
         onRetry: resolveValue,
