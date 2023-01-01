@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Combobox,
   DateInput,
   FormLabelGroup,
   Input,
@@ -10,7 +11,7 @@ import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';
 
 describe('cy.fill', () => {
-  context('Input component', () => {
+  context('with Input', () => {
     beforeEach(() => {
       cy.mount(
         <FormLabelGroup label="some label">
@@ -33,7 +34,7 @@ describe('cy.fill', () => {
     });
   });
 
-  context('DateInput component', () => {
+  context('with DateInput', () => {
     beforeEach(() => {
       cy.mount(
         <FormLabelGroup label="some label">
@@ -60,7 +61,7 @@ describe('cy.fill', () => {
     });
   });
 
-  context('textarea tag', () => {
+  context('with HTML textarea', () => {
     beforeEach(() => {
       cy.mount(
         <FormLabelGroup label="some label">
@@ -88,7 +89,37 @@ describe('cy.fill', () => {
     });
   });
 
-  context('Select component', () => {
+  context('with Combobox', () => {
+    function Testbed({ onChange = () => undefined }) {
+      const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
+        label: o,
+        value: o,
+      }));
+
+      const [value, setValue] = React.useState();
+
+      return (
+        <FormLabelGroup label="some label">
+          <Combobox options={options} onChange={v => { setValue(v); onChange(v); }} value={value} />
+        </FormLabelGroup>
+      );
+    }
+
+    it('works', () => {
+      let selected;
+
+      cy.mount(<Testbed onChange={v => { selected = v; }} />)
+      cy.component(comp.Combobox, 'some label').fill('alpha');
+      eventually(() => selected === 'alpha');
+    });
+
+    // TODO: figure out how to intercept Cypress command errors
+    it.skip('requires a value', () => {
+      cy.component(comp.Combobox, 'some label').fill('');
+    });
+  });
+
+  context('with Select', () => {
     const options = ['steve rogers', 'tony stark', 'natasha romanov'].map(
       (o) => ({
         label: o,
@@ -142,7 +173,7 @@ describe('cy.fill', () => {
     });
   });
 
-  context('select tag', () => {
+  context('with HTML select', () => {
     beforeEach(() => {
       cy.mount(
         <FormLabelGroup label="best avenger">
