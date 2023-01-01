@@ -1,5 +1,3 @@
-import { isJQuery } from './internals/constants';
-
 /**
  * Click something and deal with empty buttons that contain only an icon.
  * @deprecated this is not necessary since Cypress 10
@@ -11,7 +9,7 @@ export function click(
   y: number,
   options?: Partial<Cypress.ClickOptions>
 ) {
-  if (!isJQuery(prevSubject)) {
+  if (!Cypress.dom.isJquery(prevSubject)) {
     return originalFn(prevSubject, x, y, options);
   }
   if (prevSubject.is('button') && prevSubject.text() === '') {
