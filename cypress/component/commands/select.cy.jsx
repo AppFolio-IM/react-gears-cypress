@@ -1,34 +1,63 @@
 import React from 'react';
-import { FormLabelGroup, Select } from '@appfolio/react-gears';
+import { Combobox, FormLabelGroup, Select } from '@appfolio/react-gears';
 
 import * as comp from '../../../src/components';
 import eventually from '../../support/eventually';
 
 describe('cy.select', () => {
-  it('handles <select>', () => {
-    cy.mount(
-      <FormLabelGroup label="some label">
-        <select>
-          <option value="alpha">alpha</option>
-          <option value="bravo">bravo</option>
-          <option value="charlie">charlie</option>
-        </select>
-      </FormLabelGroup>
-    );
+  context('with HTML select', () => {
+    beforeEach(() => {
+      cy.mount(
+        <FormLabelGroup label="some label">
+          <select>
+            <option value="alpha">alpha</option>
+            <option value="bravo">bravo</option>
+            <option value="charlie">charlie</option>
+          </select>
+        </FormLabelGroup>
+      );
+    })
 
-    cy.get('select').select('alpha');
-    cy.get('select').should('have.value', 'alpha');
-    cy.get('select').select('bravo');
-    cy.get('select').should('have.value', 'bravo');
+    it('works', () => {
+      cy.get('select').select('alpha');
+      cy.get('select').should('have.value', 'alpha');
+      cy.get('select').select('bravo');
+      cy.get('select').should('have.value', 'bravo');
+    });
   });
 
-  context('Select component', () => {
+  context('with Combobox', () => {
+    function Testbed({ onChange = () => undefined }) {
+      const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
+        label: o,
+        value: o,
+      }));
+
+      const [value, setValue] = React.useState();
+
+      return (
+        <FormLabelGroup label="some label">
+          <Combobox options={options} onChange={v => { setValue(v); onChange(v); }} value={value} />
+        </FormLabelGroup>
+      );
+    }
+
+    it('works', () => {
+      let selected;
+
+      cy.mount(<Testbed onChange={v => { selected = v; }} />)
+      cy.component(comp.Combobox, 'some label').select('alpha');
+      eventually(() => selected === 'alpha');
+    });
+  });
+
+  context('with Select', () => {
     const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
       label: o,
       value: o,
     }));
 
-    it('clearable', () => {
+    it('handles clearable', () => {
       let selected;
       const onChange = (o) => (selected = o && o.value);
 
@@ -44,7 +73,7 @@ describe('cy.select', () => {
       eventually(() => expect(selected).to.eq('bravo'));
     });
 
-    it('non-clearable', () => {
+    it('handles non-clearable', () => {
       let selected;
       const onChange = (o) => {
         expect(o && o.value).to.be.ok;
