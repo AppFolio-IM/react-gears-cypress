@@ -28,6 +28,13 @@ export const Card: ComponentWithText = {
   traverseViaText: ($el: JQuery) => $el.closest('.card'),
 };
 
+export const Combobox: ComponentWithText = {
+  name: 'Combobox',
+  query: '.dropdown:has([data-testid=combobox-input])',
+  textQuery: '.form-group:has([data-testid=combobox-input]) label',
+  traverseViaText: ($el: JQuery) => $el.closest('.form-group').find('.dropdown:has([data-testid=combobox-input])'),
+};
+
 export const Datapair: ComponentWithText = {
   name: 'Datapair',
   query: '.form-group.js-datapair',
