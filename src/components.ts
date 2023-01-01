@@ -32,7 +32,10 @@ export const Combobox: ComponentWithText = {
   name: 'Combobox',
   query: '.dropdown:has([data-testid=combobox-input])',
   textQuery: '.form-group:has([data-testid=combobox-input]) label',
-  traverseViaText: ($el: JQuery) => $el.closest('.form-group').find('.dropdown:has([data-testid=combobox-input])'),
+  traverseViaText: ($el: JQuery) =>
+    $el
+      .closest('.form-group')
+      .find('.dropdown:has([data-testid=combobox-input])'),
 };
 
 export const Datapair: ComponentWithText = {
