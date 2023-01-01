@@ -1,4 +1,4 @@
-import { QUIET, FORCE_QUIET, isJQuery } from './internals/constants';
+import { QUIET, FORCE_QUIET } from './internals/constants';
 import { blurIfNecessary, dismissAriaPopup } from './internals/interaction';
 
 /**
@@ -9,7 +9,7 @@ export function clear(
   prevSubject: unknown,
   options?: Partial<Cypress.ClearOptions>
 ) {
-  if (!isJQuery(prevSubject)) {
+  if (!Cypress.dom.isJquery(prevSubject)) {
     return originalFn(prevSubject, options);
   }
 
