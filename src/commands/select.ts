@@ -13,12 +13,14 @@ export function select(
   if (!Cypress.dom.isJquery(prevSubject)) {
     return originalFn(prevSubject, valueOrTextOrIndex, options);
   }
-  const isGearsCombobox = prevSubject.is('.dropdown:has([data-testid=combobox-input])')
+  const isGearsCombobox = prevSubject.is(
+    '.dropdown:has([data-testid=combobox-input])'
+  );
   const isGearsSelect = prevSubject.hasClass('Select-control');
 
   if (!isGearsCombobox && !isGearsSelect) {
     return originalFn(prevSubject, valueOrTextOrIndex, options);
-  };
+  }
 
   if (!options || options.log !== false)
     Cypress.log({

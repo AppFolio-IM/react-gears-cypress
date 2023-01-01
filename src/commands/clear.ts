@@ -13,13 +13,15 @@ export function clear(
     return originalFn(prevSubject, options);
   }
 
-  const isGearsCombobox = prevSubject.is('.dropdown:has([data-testid=combobox-input])')
+  const isGearsCombobox = prevSubject.is(
+    '.dropdown:has([data-testid=combobox-input])'
+  );
   const isGearsSelect = prevSubject.hasClass('Select-control');
 
   if (!isGearsCombobox && !isGearsSelect) {
     // For other inputs, use original but also dismiss popups (e.g. DateInput).
     return originalFn(prevSubject, options).then(dismissAriaPopup);
-  };
+  }
 
   if (!options || options.log !== false)
     Cypress.log({
@@ -31,7 +33,12 @@ export function clear(
     });
 
   if (isGearsCombobox) {
-    return cy.wrap(prevSubject, QUIET).find('[data-testid=combobox-input]', QUIET).focus().type('{backspace}{backspace}', QUIET).then(blurIfNecessary);
+    return cy
+      .wrap(prevSubject, QUIET)
+      .find('[data-testid=combobox-input]', QUIET)
+      .focus()
+      .type('{backspace}{backspace}', QUIET)
+      .then(blurIfNecessary);
   }
 
   if (isGearsSelect) {

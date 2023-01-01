@@ -67,7 +67,8 @@ describe('components', () => {
     cy.mount(
       <FormLabelGroup label="some label">
         <Combobox options={options} />
-      </FormLabelGroup>);
+      </FormLabelGroup>
+    );
     cy.component(comp.Combobox).should('be.visible');
     cy.component(comp.Combobox, 'some label');
     cy.component(comp.Combobox, 'other label').should('not.exist');
