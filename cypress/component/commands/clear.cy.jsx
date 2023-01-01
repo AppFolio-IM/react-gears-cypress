@@ -59,7 +59,14 @@ describe('cy.clear', () => {
 
       return (
         <FormLabelGroup label="some label">
-          <Combobox options={options} onChange={v => { setValue(v); onChange?.(v); }} value={value} />
+          <Combobox
+            options={options}
+            onChange={(v) => {
+              setValue(v);
+              onChange?.(v);
+            }}
+            value={value}
+          />
         </FormLabelGroup>
       );
     }
@@ -67,11 +74,18 @@ describe('cy.clear', () => {
     it('clears values', () => {
       let selected = 'alpha';
 
-      cy.mount(<Testbed initialValue={selected} onChange={v => { selected = v; }} />);
+      cy.mount(
+        <Testbed
+          initialValue={selected}
+          onChange={(v) => {
+            selected = v;
+          }}
+        />
+      );
 
       cy.component(comp.Combobox, 'some label').clear();
       eventually(() => selected === undefined);
-    })
+    });
 
     it('dismisses popups', () => {
       cy.mount(<Testbed initialValue="alpha" />);
