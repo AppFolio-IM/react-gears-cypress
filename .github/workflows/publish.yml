@@ -54,6 +54,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
+          path: lib
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -72,6 +73,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
+          path: lib
       - name: Establish NPM Scope
         run: |
           jq --arg name '@appfolio/react-gears-cypress' '.name = $name' package.json > package.json.tmp && mv package.json.tmp package.json
