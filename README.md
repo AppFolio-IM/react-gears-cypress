@@ -13,10 +13,10 @@ package is confusingly published to two _different_ NPM scope names depending on
 * Via npmjs.com, it is `@appfolio/react-gears-cypress`
 * Via `npm.pkg.github.com`, it is `@appfolio-im/react-gears-cypress`
 
+The package contents are identical for a given version; the only difference is the distribution
+mechanism.
 Clients should choose a distribution repository and use the suitable corresponding scope name.
-In the long run we hope to move this repository back to the `@appfolio` org and unify the scopes,
-although this would require AppFolio to overcome some _other_ limitations of GitHub CI, so it
-may take some time to accomplish.
+In the long run we hope to move this repository back to the `@appfolio` org and unify the scopes.
 
 # How do I use it?
 
