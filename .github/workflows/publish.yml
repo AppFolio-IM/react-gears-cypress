@@ -2,15 +2,14 @@
 #   - dual publication (to NPM, then GitHub)
 #   - single package per repo (no mono-repo support)
 name: publish
+
 on:
   release:
     types: [published]
+
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
