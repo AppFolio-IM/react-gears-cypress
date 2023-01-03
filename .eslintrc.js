@@ -19,7 +19,6 @@ module.exports = {
     'plugin:cypress/recommended',
     'plugin:react/recommended',
     // NB: please leave these at the end so they can override all other rules!
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended'
   ],
   parserOptions: {
