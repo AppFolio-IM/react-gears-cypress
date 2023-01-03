@@ -55,7 +55,7 @@
     "webpack": "^5.75.0"
   },
   "dependencies": {
-    "core-js": "^3.26"
+    "core-js": "^3.27"
   },
   "overrides": {
     "loader-utils": "2.0.4"
