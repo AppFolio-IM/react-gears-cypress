@@ -43,7 +43,7 @@ export function select(
         .click(FORCE_QUIET)
         //.clear(FORCE_QUIET)
         .type(valueOrTextOrIndex, FORCE_QUIET);
-      cy.contains('button.dropdown-item.active', 'alpha', QUIET).click(QUIET);
+      cy.contains('button.dropdown-item.active', valueOrTextOrIndex, QUIET).click(QUIET);
     });
   }
 
