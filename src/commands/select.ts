@@ -13,23 +13,46 @@ export function select(
   if (!Cypress.dom.isJquery(prevSubject)) {
     return originalFn(prevSubject, valueOrTextOrIndex, options);
   }
+  const isGearsCombobox = prevSubject.is(
+    '.dropdown:has([data-testid=combobox-input])'
+  );
+  const isGearsSelect = prevSubject.hasClass('Select-control');
 
-  if (prevSubject.hasClass('Select-control')) {
-    if (!options || options.log !== false)
-      Cypress.log({
-        name: 'select',
-        $el: prevSubject,
-        consoleProps: () => ({
-          'Applied to': Cypress.dom.getElements(prevSubject),
-          Value: valueOrTextOrIndex,
-        }),
-      });
+  if (!isGearsCombobox && !isGearsSelect) {
+    return originalFn(prevSubject, valueOrTextOrIndex, options);
+  }
 
-    if (typeof valueOrTextOrIndex !== 'string')
-      throw new Error(
-        'react-gears-cypress: Select multi not yet supported; have fun implementing!'
-      );
-    cy.wrap(prevSubject, QUIET).within(() => {
+  if (!options || options.log !== false)
+    Cypress.log({
+      name: 'select',
+      $el: prevSubject,
+      consoleProps: () => ({
+        'Applied to': Cypress.dom.getElements(prevSubject),
+        Value: valueOrTextOrIndex,
+      }),
+    });
+
+  if (typeof valueOrTextOrIndex !== 'string')
+    throw new Error(
+      'react-gears-cypress: cy.select requires a string; multi and select-by-index not yet supported; sorry!'
+    );
+
+  if (isGearsCombobox) {
+    return cy.wrap(prevSubject, QUIET).within(QUIET, () => {
+      cy.get('[data-testid=combobox-input]', QUIET)
+        .click(FORCE_QUIET)
+        //.clear(FORCE_QUIET)
+        .type(valueOrTextOrIndex, FORCE_QUIET);
+      cy.contains(
+        'button.dropdown-item.active',
+        valueOrTextOrIndex,
+        QUIET
+      ).click(QUIET);
+    });
+  }
+
+  if (isGearsSelect) {
+    cy.wrap(prevSubject, QUIET).within(QUIET, () => {
       cy.get('input', QUIET)
         .click(FORCE_QUIET)
         //.clear(FORCE_QUIET)
@@ -43,5 +66,7 @@ export function select(
       .click(QUIET);
   }
 
-  return originalFn(prevSubject, valueOrTextOrIndex, options);
+  throw new Error(
+    'react-gears-cypress: internal error in select command (conditionals exhausted); please report this as a GitHub issue.'
+  );
 }

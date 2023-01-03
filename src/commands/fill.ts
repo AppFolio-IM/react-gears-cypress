@@ -45,7 +45,7 @@ export function fill(
 
   if (!value)
     throw new Error(
-      'CypressError: `cy.fill()` cannot accept an empty string. You need to fill with a value, or `cy.clear()` to remove all values.'
+      'react-gears-cypress: `cy.fill()` cannot accept empty/falsey values. Either fill with a value, or `cy.clear()` to remove all values.'
     );
 
   let consoleProps: Record<string, any> = {};
@@ -66,20 +66,39 @@ export function fill(
     });
   }
 
-  const isFancySelect = prevSubject.hasClass('Select-control');
+  const isGearsCombobox = prevSubject.is(
+    '.dropdown:has([data-testid=combobox-input])'
+  );
+  const isGearsSelect = prevSubject.hasClass('Select-control');
   const isTextInput = prevSubject.is('input');
   const isTextArea = prevSubject.is('textarea');
   const isVanillaSelect = prevSubject.is('select');
 
-  if (isFancySelect) {
+  if (isGearsCombobox) {
+    if (logEntry) consoleProps.Type = 'React Combobox';
+    if (Array.isArray(value))
+      throw new Error(
+        'react-gears-cypress: cy.fill with multiple values is not yet supported; sorry!'
+      );
+
+    cy.wrap(prevSubject, QUIET)
+      .find('[data-testid=combobox-input]', QUIET)
+      .focus()
+      .type('{backspace}{backspace}', QUIET)
+      .type(value, FORCE_QUIET);
+    return cy
+      .contains('button.dropdown-item.active', value, QUIET)
+      .click(QUIET);
+  } else if (isGearsSelect) {
     if (logEntry) consoleProps.Type = 'React Select';
     if (Array.isArray(value))
       throw new Error(
-        'gears Select multi not yet supported; have fun implementing!'
+        'react-gears-cypress: cy.fill with multiple values is not yet supported; sorry!'
       );
 
     // NB repeatedly re-finding elements relative to subject in order to
     // deal with DOM churn
+    // TODO: is this useful anymore under Cypress 12?
     cy.wrap(prevSubject, QUIET).clear(QUIET);
     cy.wrap(prevSubject, QUIET)
       .find('input', QUIET)
@@ -118,7 +137,7 @@ export function fill(
     return cy.wrap(prevSubject, QUIET).select(value, FORCE_QUIET);
   } else {
     throw new Error(
-      `cy.fill: unsupported element ${prevSubject[0].tagName.toLowerCase()}`
+      `cy.fill: unsupported element \`${prevSubject[0].tagName.toLowerCase()}\``
     );
   }
 }

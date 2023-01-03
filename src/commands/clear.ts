@@ -13,16 +13,35 @@ export function clear(
     return originalFn(prevSubject, options);
   }
 
-  if (prevSubject.hasClass('Select-control')) {
-    if (!options || options.log !== false)
-      Cypress.log({
-        name: 'clear',
-        $el: prevSubject,
-        consoleProps: () => ({
-          'Applied to': Cypress.dom.getElements(prevSubject),
-        }),
-      });
+  const isGearsCombobox = prevSubject.is(
+    '.dropdown:has([data-testid=combobox-input])'
+  );
+  const isGearsSelect = prevSubject.hasClass('Select-control');
 
+  if (!isGearsCombobox && !isGearsSelect) {
+    // For other inputs, use original but also dismiss popups (e.g. DateInput).
+    return originalFn(prevSubject, options).then(dismissAriaPopup);
+  }
+
+  if (!options || options.log !== false)
+    Cypress.log({
+      name: 'clear',
+      $el: prevSubject,
+      consoleProps: () => ({
+        'Applied to': Cypress.dom.getElements(prevSubject),
+      }),
+    });
+
+  if (isGearsCombobox) {
+    return cy
+      .wrap(prevSubject, QUIET)
+      .find('[data-testid=combobox-input]', QUIET)
+      .focus()
+      .type('{backspace}{backspace}', QUIET)
+      .then(blurIfNecessary);
+  }
+
+  if (isGearsSelect) {
     const btn = prevSubject.find('button.close');
 
     // Use the "X" button to clear Select components.
@@ -35,7 +54,7 @@ export function clear(
           blurIfNecessary(prevSubject.find('input'));
           return prevSubject;
         });
-    // No "X" button; fall through to original cy.clear
+    // No "X" button (clearable=false); fall through to original cy.clear
     else
       return originalFn(prevSubject.find('input'), {
         ...options,
@@ -47,6 +66,8 @@ export function clear(
         return prevSubject;
       });
   }
-  // For other inputs, use original cy.clear but also dismiss popups (e.g. DateInput).
-  return originalFn(prevSubject, options).then(dismissAriaPopup);
+
+  throw new Error(
+    'react-gears-cypress: internal error in clear command (conditionals exhausted); please report this as a GitHub issue.'
+  );
 }
