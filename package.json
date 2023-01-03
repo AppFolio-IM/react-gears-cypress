@@ -1,10 +1,7 @@
 {
   "name": "@appfolio-im/react-gears-cypress",
-  "version": "5.22.1",
+  "version": "0.0.0",
   "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/AppFolio-IM/react-gears-cypress"

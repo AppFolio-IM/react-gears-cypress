@@ -1,0 +1,26 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    name: test
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        cypress-version: ["11", "12"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - run: npm ci
+      - run: npm install --save=false cypress@${{ matrix.cypress-version }}
+      - run: npm test
