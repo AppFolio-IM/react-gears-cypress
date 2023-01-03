@@ -21,13 +21,18 @@ type CommandName = 'clear' | 'fill' | 'component' | 'select' | 'click';
 export function add(...names: CommandName[]) {
   const all = !names.length;
   if (all || names.includes('clear'))
+    // @ts-expect-error cypress(2769) need to fix our function typings
     Cypress.Commands.overwrite('clear', clear);
   if (all || names.includes('fill'))
+    // @ts-expect-error cypress(2769) need to fix our function typings
     Cypress.Commands.add('fill', { prevSubject: true }, fill);
   if (all || names.includes('component'))
+    // @ts-expect-error cypress(2769) need to fix our function typings
     Cypress.Commands.add('component', { prevSubject: 'optional' }, component);
   if (all || names.includes('select'))
+    // @ts-expect-error cypress(2769) need to fix our function typings
     Cypress.Commands.overwrite('select', select);
   if (all || names.includes('click'))
+    // @ts-expect-error cypress(2769) need to fix our function typings
     Cypress.Commands.overwrite('click', click);
 }
