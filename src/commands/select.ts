@@ -34,7 +34,7 @@ export function select(
 
   if (typeof valueOrTextOrIndex !== 'string')
     throw new Error(
-      'react-gears-cypress: select multi and select-by-index not yet supported; sorry!'
+      'react-gears-cypress: cy.select requires a string; multi and select-by-index not yet supported; sorry!'
     );
 
   if (isGearsCombobox) {

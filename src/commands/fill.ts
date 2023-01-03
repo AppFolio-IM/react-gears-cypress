@@ -78,7 +78,7 @@ export function fill(
     if (logEntry) consoleProps.Type = 'React Combobox';
     if (Array.isArray(value))
       throw new Error(
-        'react-gears-cypress: Combobox multi not yet supported; sorry!'
+        'react-gears-cypress: cy.fill with multiple values is not yet supported; sorry!'
       );
 
     cy.wrap(prevSubject, QUIET)
@@ -93,7 +93,7 @@ export function fill(
     if (logEntry) consoleProps.Type = 'React Select';
     if (Array.isArray(value))
       throw new Error(
-        'react-gears-cypress: Select multi not yet supported; sorry!'
+        'react-gears-cypress: cy.fill with multiple values is not yet supported; sorry!'
       );
 
     // NB repeatedly re-finding elements relative to subject in order to
