@@ -67,6 +67,6 @@ export function select(
   }
 
   throw new Error(
-    'react-gears-cypress: internal error in select command (conditionals exhausted); please report this!'
+    'react-gears-cypress: internal error in select command (conditionals exhausted); please report this as a GitHub issue.'
   );
 }

@@ -68,6 +68,6 @@ export function clear(
   }
 
   throw new Error(
-    'react-gears-cypress: internal error in clear command (conditionals exhausted); please report this!'
+    'react-gears-cypress: internal error in clear command (conditionals exhausted); please report this as a GitHub issue.'
   );
 }
