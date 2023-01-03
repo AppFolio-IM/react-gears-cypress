@@ -1,32 +1,29 @@
-/// <reference types="cypress" />
-
 import { QUIET, FORCE_QUIET } from './internals/constants';
 import { blurIfNecessary, dismissAriaPopup } from './internals/interaction';
 
-type ClearFn = (
-  subject: JQuery,
-  options?: Cypress.ClearOptions
-) => Cypress.Chainable;
-
 /**
- * Clear an input or a gears Select component.
+ * Clear a vanilla HTML input or a fancy gears component e.g. Select.
  */
 export function clear(
-  originalClear: ClearFn,
-  subject: JQuery,
-  options?: Cypress.ClearOptions
+  originalFn: Cypress.CommandOriginalFnWithSubject<'clear', unknown>,
+  prevSubject: unknown,
+  options?: Partial<Cypress.ClearOptions>
 ) {
-  if (subject.hasClass('Select-control')) {
+  if (!Cypress.dom.isJquery(prevSubject)) {
+    return originalFn(prevSubject, options);
+  }
+
+  if (prevSubject.hasClass('Select-control')) {
     if (!options || options.log !== false)
       Cypress.log({
         name: 'clear',
-        $el: subject,
+        $el: prevSubject,
         consoleProps: () => ({
-          'Applied to': Cypress.dom.getElements(subject),
+          'Applied to': Cypress.dom.getElements(prevSubject),
         }),
       });
 
-    const btn = subject.find('button.close');
+    const btn = prevSubject.find('button.close');
 
     // Use the "X" button to clear Select components.
     if (btn.length === 1)
@@ -35,21 +32,21 @@ export function clear(
         .click(FORCE_QUIET)
         .then(() => {
           // try to ensure that the popup disappears
-          blurIfNecessary(subject.find('input'));
-          return subject;
+          blurIfNecessary(prevSubject.find('input'));
+          return prevSubject;
         });
     // No "X" button; fall through to original cy.clear
     else
-      return originalClear(subject.find('input'), {
+      return originalFn(prevSubject.find('input'), {
         ...options,
         force: true,
         log: false,
       } as Cypress.ClearOptions).then(() => {
         // try to ensure that the popup disappears
-        blurIfNecessary(subject.find('input'));
-        return subject;
+        blurIfNecessary(prevSubject.find('input'));
+        return prevSubject;
       });
   }
   // For other inputs, use original cy.clear but also dismiss popups (e.g. DateInput).
-  return originalClear(subject, options).then(dismissAriaPopup);
+  return originalFn(prevSubject, options).then(dismissAriaPopup);
 }

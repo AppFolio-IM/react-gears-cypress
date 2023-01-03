@@ -3,7 +3,6 @@
 import { FORCE_QUIET } from './constants';
 
 export function blurIfNecessary(subject: JQuery) {
-  // @ts-ignore:2339
   if (subject.is(':focus')) cy.now('blur', subject, FORCE_QUIET);
   return subject;
 }

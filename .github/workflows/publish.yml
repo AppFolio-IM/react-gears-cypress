@@ -2,14 +2,15 @@
 #   - dual publication (to NPM, then GitHub)
 #   - single package per repo (no mono-repo support)
 name: publish
-
 on:
   release:
     types: [published]
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -35,7 +36,6 @@ jobs:
         with:
           name: lib
           path: lib
-
   publish-github:
     needs: build
     runs-on: ubuntu-latest
@@ -58,7 +58,6 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
   publish-npmjs:
     needs: build
     runs-on: ubuntu-latest
