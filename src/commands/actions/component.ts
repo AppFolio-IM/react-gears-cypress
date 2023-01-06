@@ -2,13 +2,12 @@
 
 import {
   Component,
-  Text,
+  ComponentOptions,
   isComponent,
   isComponentWithText,
   isReact,
 } from '../../interfaces';
 import {
-  ComponentOptions,
   describePseudoSelector,
   getOptions,
   getText,
@@ -17,40 +16,6 @@ import {
 } from '../internals/component';
 import { getFirstDeepestElement } from '../internals/driver';
 import { findAllByText, orderByInnerText } from '../internals/text';
-
-declare global {
-  namespace Cypress {
-    interface Chainable<Subject> {
-      /**
-       * Find the DOM representation of a react-gears component, as identified
-       * by its label, header or other characteristic text.
-       *
-       * @example verify that field initially has text; clear it; save the form
-       *    import { Button, Input } from '@appfolio/react-gears-cypress'
-       *    cy.component(Input, 'First Name, { log: false }).should('not.be.empty')
-       *    cy.component(Input, 'First Name').clear()
-       *    cy.component(Button, /Create|Save/).click();
-       */
-      component(
-        component: Component,
-        text: Text,
-        options?: Partial<ComponentOptions>
-      ): Chainable<Subject>;
-      /**
-       * Find DOM representation(s) of a react-gears component regardless of
-       * label, header or other characteristic text.
-       *
-       * @example verify there are three Select fields
-       *    import { Select } from '@appfolio/react-gears-cypress'
-       *    cy.component(Select, { all: true }).count().should('eq', 3)
-       */
-      component(
-        component: Component,
-        options?: Partial<ComponentOptions>
-      ): Chainable<Subject>;
-    }
-  }
-}
 
 export function component(
   prevSubject: JQuery | void,

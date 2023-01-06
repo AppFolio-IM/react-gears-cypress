@@ -1,13 +1,4 @@
-import { Component, Text, isText } from '../../interfaces';
-
-/**
- * Options for the cy.component command.
- */
-export interface ComponentOptions {
-  all: boolean;
-  log: boolean;
-  timeout?: number;
-}
+import { Component, ComponentOptions, Text, isText } from '../../interfaces';
 
 export function describePseudoSelector(component: Component, text?: Text) {
   if (!text) return component.query;

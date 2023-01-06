@@ -1,34 +1,9 @@
 /// <reference types="cypress" />
 
-import * as match from '../../match';
+import { FillOptions } from '../../interfaces';
 import { FORCE_QUIET, FORCE_QUICK_QUIET, QUIET } from '../internals/constants';
 import { blurIfNecessary, dismissAriaPopup } from '../internals/interaction';
-
-/**
- * Options for the cy.fill command.
- */
-export interface FillOptions {
-  log: boolean;
-}
-
-declare global {
-  namespace Cypress {
-    interface Chainable<Subject> {
-      /**
-       * Replace the contents of a form field by clearing it, then typing or
-       * selecting. Handles react-gears Select and DateInput components, as
-       * well as other text inputs that have an aria popup associated with them.
-       *
-       * @see https://github.com/appfolio/react-gears-cypress/blob/master/README.md
-       *
-       * @example
-       *    cy.get('input').fill('Hello, World')
-       *    cy.get('input["type=select"]').fill('Option 1')
-       */
-      fill(text: string, options?: Partial<FillOptions>): Chainable<Subject>;
-    }
-  }
-}
+import * as match from '../../match';
 
 /**
  * Replace a form component's existing value. Works on
