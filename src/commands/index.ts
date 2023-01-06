@@ -81,7 +81,6 @@ export function add(...names: CommandName[]) {
     Cypress.Commands.add('fill', { prevSubject: ['element'] }, fill);
   if (all || names.includes('component')) {
     if (supportsQueries) {
-      // TODO: author and install the query version of cy.component
       Cypress.Commands.addQuery('component', componentQuery);
     } else {
       Cypress.Commands.add(
