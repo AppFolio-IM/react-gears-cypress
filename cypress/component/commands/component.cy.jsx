@@ -12,12 +12,16 @@ import {
 } from '@appfolio/react-gears';
 
 import * as comp from '../../../src/components';
-import { component as rawComponent } from '../../../src/commands/component';
+import { component as rawCommand } from '../../../src/commands/actions/component';
 
 // Hide/show something after dt has elapsed.
 function Timed({ children, init = false, dt = 2000 }) {
   const [isVisible, setIsVisible] = React.useState(init);
-  if (dt) setTimeout(() => setIsVisible(!isVisible), dt);
+  React.useEffect(() => {
+    let t;
+    if (dt) t = setTimeout(() => setIsVisible(!isVisible), dt);
+    return () => t && clearTimeout(t);
+  }, [])
   return isVisible ? children : null;
 }
 
@@ -149,7 +153,7 @@ describe('cy.component', () => {
           <BlockPanel title="outer subject">
             <Timed>
               <FormLabelGroup label="now you see me">
-                <Input value="some value" />
+                <Input defaultValue="some value" />
               </FormLabelGroup>
             </Timed>
           </BlockPanel>
@@ -166,7 +170,7 @@ describe('cy.component', () => {
           <BlockPanel title="outer subject">
             <Timed init={true}>
               <FormLabelGroup label="now you see me">
-                <Input value="some value" />
+                <Input defaultValue="some value" />
               </FormLabelGroup>
             </Timed>
           </BlockPanel>
@@ -180,17 +184,17 @@ describe('cy.component', () => {
 
   context('invalid parameters', () => {
     it('no Component', () => {
-      expect(() => rawComponent(undefined, undefined, 'Label')).to.throw(
+      expect(() => rawCommand(undefined, undefined, 'Label')).to.throw(
         'invalid component spec'
       );
     });
     it('React component', () => {
-      expect(() => rawComponent(undefined, Button, 'Label')).to.throw(
+      expect(() => rawCommand(undefined, Button, 'Label')).to.throw(
         'React component'
       );
     });
     it('extraneous text', () => {
-      expect(() => rawComponent(undefined, comp.Nav, 'Hi')).to.throw(
+      expect(() => rawCommand(undefined, comp.Nav, 'Hi')).to.throw(
         'does not implement ComponentWithText'
       );
     });
@@ -203,14 +207,14 @@ describe('cy.component', () => {
           <BlockPanel title="A">
             <Alert>A</Alert>
             <FormLabelGroup label="A">
-              <Input value="A" />
+              <Input defaultValue="A" />
             </FormLabelGroup>
             <Button color="primary">A</Button>
           </BlockPanel>
           <BlockPanel title="B">
             <Alert>B</Alert>
             <FormLabelGroup label="B">
-              <Input value="B" />
+              <Input defaultValue="B" />
             </FormLabelGroup>
             <Button color="secondary">B</Button>
           </BlockPanel>
@@ -258,7 +262,7 @@ describe('cy.component', () => {
     });
   });
 
-  context('given timeout:value', () => {
+  context('given a timeout greater than defaultCommandTimeout', () => {
     beforeEach(() => {
       cy.mount(
         <Timed dt={Cypress.config('defaultCommandTimeout') + 1000}>

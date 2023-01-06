@@ -1,5 +1,5 @@
-import { QUIET, FORCE_QUIET } from './internals/constants';
-import { blurIfNecessary, dismissAriaPopup } from './internals/interaction';
+import { QUIET, FORCE_QUIET } from '../internals/constants';
+import { blurIfNecessary, dismissAriaPopup } from '../internals/interaction';
 
 /**
  * Clear a vanilla HTML input or a fancy gears component e.g. Select.
