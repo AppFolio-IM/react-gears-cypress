@@ -34,7 +34,11 @@ export function add(...names: CommandName[]) {
       // TODO: author and install the query version of cy.component
       Cypress.Commands.addQuery('component', componentQuery);
     } else {
-      Cypress.Commands.add('component', { prevSubject: ['optional'] }, componentCommand);
+      Cypress.Commands.add(
+        'component',
+        { prevSubject: ['optional'] },
+        componentCommand
+      );
     }
   }
   if (all || names.includes('select'))
