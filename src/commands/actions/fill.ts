@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import * as match from '../match';
-import { FORCE_QUIET, FORCE_QUICK_QUIET, QUIET } from './internals/constants';
-import { blurIfNecessary, dismissAriaPopup } from './internals/interaction';
+import * as match from '../../match';
+import { FORCE_QUIET, FORCE_QUICK_QUIET, QUIET } from '../internals/constants';
+import { blurIfNecessary, dismissAriaPopup } from '../internals/interaction';
 
 /**
  * Options for the cy.fill command.

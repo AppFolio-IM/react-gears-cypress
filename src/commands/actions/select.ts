@@ -1,6 +1,6 @@
-import * as match from '../match';
-import { FORCE_QUIET, QUIET } from './internals/constants';
+import * as match from '../../match';
 
+import { FORCE_QUIET, QUIET } from '../internals/constants';
 /**
  * Choose a value from a select (either vanilla HTML or gears).
  */

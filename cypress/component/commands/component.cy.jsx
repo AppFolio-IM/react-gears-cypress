@@ -12,7 +12,7 @@ import {
 } from '@appfolio/react-gears';
 
 import * as comp from '../../../src/components';
-import { component as rawComponent } from '../../../src/commands/component';
+import { component as rawCommand } from '../../../src/commands/actions/component';
 
 // Hide/show something after dt has elapsed.
 function Timed({ children, init = false, dt = 2000 }) {
@@ -184,17 +184,17 @@ describe('cy.component', () => {
 
   context('invalid parameters', () => {
     it('no Component', () => {
-      expect(() => rawComponent(undefined, undefined, 'Label')).to.throw(
+      expect(() => rawCommand(undefined, undefined, 'Label')).to.throw(
         'invalid component spec'
       );
     });
     it('React component', () => {
-      expect(() => rawComponent(undefined, Button, 'Label')).to.throw(
+      expect(() => rawCommand(undefined, Button, 'Label')).to.throw(
         'React component'
       );
     });
     it('extraneous text', () => {
-      expect(() => rawComponent(undefined, comp.Nav, 'Hi')).to.throw(
+      expect(() => rawCommand(undefined, comp.Nav, 'Hi')).to.throw(
         'does not implement ComponentWithText'
       );
     });

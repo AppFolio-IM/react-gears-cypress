@@ -7,9 +7,9 @@ import {
   isComponentWithText,
   isReact,
   isText,
-} from '../interfaces';
-import { getFirstDeepestElement } from './internals/driver';
-import { findAllByText, orderByInnerText } from './internals/text';
+} from '../../interfaces';
+import { getFirstDeepestElement } from '../internals/driver';
+import { findAllByText, orderByInnerText } from '../internals/text';
 
 /**
  * Options for the cy.component command.
