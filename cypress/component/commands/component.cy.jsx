@@ -17,7 +17,11 @@ import { component as rawComponent } from '../../../src/commands/component';
 // Hide/show something after dt has elapsed.
 function Timed({ children, init = false, dt = 2000 }) {
   const [isVisible, setIsVisible] = React.useState(init);
-  if (dt) setTimeout(() => setIsVisible(!isVisible), dt);
+  React.useEffect(() => {
+    let t;
+    if (dt) t = setTimeout(() => setIsVisible(!isVisible), dt);
+    return () => t && clearTimeout(t);
+  }, [])
   return isVisible ? children : null;
 }
 
@@ -149,7 +153,7 @@ describe('cy.component', () => {
           <BlockPanel title="outer subject">
             <Timed>
               <FormLabelGroup label="now you see me">
-                <Input value="some value" />
+                <Input defaultValue="some value" />
               </FormLabelGroup>
             </Timed>
           </BlockPanel>
@@ -166,7 +170,7 @@ describe('cy.component', () => {
           <BlockPanel title="outer subject">
             <Timed init={true}>
               <FormLabelGroup label="now you see me">
-                <Input value="some value" />
+                <Input defaultValue="some value" />
               </FormLabelGroup>
             </Timed>
           </BlockPanel>
@@ -203,14 +207,14 @@ describe('cy.component', () => {
           <BlockPanel title="A">
             <Alert>A</Alert>
             <FormLabelGroup label="A">
-              <Input value="A" />
+              <Input defaultValue="A" />
             </FormLabelGroup>
             <Button color="primary">A</Button>
           </BlockPanel>
           <BlockPanel title="B">
             <Alert>B</Alert>
             <FormLabelGroup label="B">
-              <Input value="B" />
+              <Input defaultValue="B" />
             </FormLabelGroup>
             <Button color="secondary">B</Button>
           </BlockPanel>
@@ -258,7 +262,7 @@ describe('cy.component', () => {
     });
   });
 
-  context('given timeout:value', () => {
+  context('given a timeout greater than defaultCommandTimeout', () => {
     beforeEach(() => {
       cy.mount(
         <Timed dt={Cypress.config('defaultCommandTimeout') + 1000}>
