@@ -40,8 +40,12 @@ export function component(
     this.set('timeout', options.timeout);
   }
 
+  // @ts-expect-error cypress(2339) undocumented command
+  const withinSubjectChain = cy.state('withinSubjectChain');
+
   return (prevSubject: JQuery | void) => {
-    const $subject = prevSubject || cy.$$('body');
+    // @ts-expect-error cypress(2339) undocumented command
+    const $subject = prevSubject || cy.getSubjectFromChain(withinSubjectChain) || cy.$$('body');
     let $el: JQuery;
 
     if (text && isComponentWithText(defn)) {

@@ -222,13 +222,13 @@ describe('cy.component', () => {
       );
       cy.component(comp.BlockPanel, 'A').within(() => {
         cy.component(comp.Alert, 'A');
-        cy.component(comp.Input, 'A').should('have.value', 'A');
-        cy.component(comp.Button, 'A').should('have.text', 'A');
+        cy.component(comp.Input).should('have.value', 'A');
+        cy.component(comp.Button).should('have.text', 'A');
       });
       cy.component(comp.BlockPanel, 'B').within(() => {
         cy.component(comp.Alert, 'B');
-        cy.component(comp.Input, 'B').should('have.value', 'B');
-        cy.component(comp.Button, 'B').should('have.text', 'B');
+        cy.component(comp.Input).should('have.value', 'B');
+        cy.component(comp.Button).should('have.text', 'B');
       });
     });
   });
