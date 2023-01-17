@@ -7,6 +7,7 @@ import {
   CardTitle,
   CheckboxGroup,
   CheckboxInput,
+  Combobox,
   Datapair,
   FormGroup,
   FormLabelGroup,
@@ -56,6 +57,21 @@ describe('components', () => {
     cy.component(comp.Card).should('be.visible');
     cy.component(comp.Card, 'some label');
     cy.component(comp.Card, 'other label').should('not.exist');
+  });
+
+  it('Combobox', () => {
+    const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
+      label: o,
+      value: o,
+    }));
+    cy.mount(
+      <FormLabelGroup label="some label">
+        <Combobox options={options} />
+      </FormLabelGroup>
+    );
+    cy.component(comp.Combobox).should('be.visible');
+    cy.component(comp.Combobox, 'some label');
+    cy.component(comp.Combobox, 'other label').should('not.exist');
   });
 
   it('Datapair', () => {

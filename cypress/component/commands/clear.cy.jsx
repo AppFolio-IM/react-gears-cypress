@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Combobox,
   DateInput,
   FormLabelGroup,
   Input,
@@ -45,6 +46,53 @@ describe('cy.clear', () => {
       'aria-expanded',
       'false'
     );
+  });
+
+  context('Combobox component', () => {
+    function Testbed({ initialValue, onChange }) {
+      const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
+        label: o,
+        value: o,
+      }));
+
+      const [value, setValue] = React.useState(initialValue);
+
+      return (
+        <FormLabelGroup label="some label">
+          <Combobox
+            options={options}
+            onChange={(v) => {
+              setValue(v);
+              onChange?.(v);
+            }}
+            value={value}
+          />
+        </FormLabelGroup>
+      );
+    }
+
+    it('clears values', () => {
+      let selected = 'alpha';
+
+      cy.mount(
+        <Testbed
+          initialValue={selected}
+          onChange={(v) => {
+            selected = v;
+          }}
+        />
+      );
+
+      cy.component(comp.Combobox, 'some label').clear();
+      eventually(() => selected === undefined);
+    });
+
+    it('dismisses popups', () => {
+      cy.mount(<Testbed initialValue="alpha" />);
+
+      cy.component(comp.Combobox, 'some label').clear();
+      cy.get('[data-testid=combobox-menu]').should('not.be.visible');
+    });
   });
 
   context('Select component', () => {
