@@ -13,7 +13,7 @@ export type Color =
   | 'danger';
 
 /**
- * Methods for interacting with a specific react-gears component.
+ * Methods for finding the top-level DOM element of a specific react-gears component.
  */
 export interface Component {
   /**
@@ -34,6 +34,18 @@ export interface Component {
   traverse?: ($el: JQuery) => JQuery;
 }
 
+/**
+ * Options for the cy.component command.
+ */
+export interface ComponentOptions {
+  all: boolean;
+  log: boolean;
+  timeout: number;
+}
+
+/**
+ * Methods for finding a specific react-gears component by its textual label.
+ */
 export interface ComponentWithText extends Component {
   /**
    * CSS selector used to find the component's label, title or other characteristic
@@ -47,6 +59,13 @@ export interface ComponentWithText extends Component {
    * If missing, the top level and text element are the same (e.g. Link, Button).
    */
   traverseViaText?: ($el: JQuery) => JQuery;
+}
+
+/**
+ * Options for the cy.fill command.
+ */
+export interface FillOptions {
+  log: boolean;
 }
 
 /**
