@@ -2,7 +2,6 @@
 
 import {
   Component,
-  ComponentOptions,
   isComponent,
   isComponentWithText,
   isReact,
@@ -40,7 +39,7 @@ export function component(
   const consoleProps: Record<string, any> = {
     Component: component.name,
   };
-  let logEntry: any;
+  let logEntry: Cypress.Log | undefined;
   if (options.log !== false) {
     const loggableOptions = getOptions(rest);
     // @ts-expect-error cypress(2339) undocumented command

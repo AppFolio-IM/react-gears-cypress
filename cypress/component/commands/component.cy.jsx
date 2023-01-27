@@ -222,11 +222,13 @@ describe('cy.component', () => {
       );
       cy.component(comp.BlockPanel, 'A').within(() => {
         cy.component(comp.Alert, 'A');
+        cy.get('div.alert').should('have.text', 'A');
         cy.component(comp.Input).should('have.value', 'A');
         cy.component(comp.Button).should('have.text', 'A');
       });
       cy.component(comp.BlockPanel, 'B').within(() => {
         cy.component(comp.Alert, 'B');
+        cy.get('div.alert').should('have.text', 'B');
         cy.component(comp.Input).should('have.value', 'B');
         cy.component(comp.Button).should('have.text', 'B');
       });
