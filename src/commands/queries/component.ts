@@ -93,6 +93,9 @@ export function component(
       if ($el.length && defn.traverse) $el = mapAll($el, defn.traverse);
     }
 
+    consoleProps['Yielded'] = Cypress.dom.getElements($el);
+    consoleProps['Elements'] = $el.length
+    logEntry?.set('$el', $el);
     return $el;
   };
 }
