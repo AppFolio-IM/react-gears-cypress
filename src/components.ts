@@ -90,7 +90,7 @@ export const Select: ComponentWithText = {
     const vanilla = $el.find('select');
     if (vanilla.length) return vanilla;
     throw new Error(
-      `react-gears-cypress: cannot determine a Select inside '${describeSet($el)}'`
+      `react-gears-cypress: cannot determine a Select inside '${describeSet($el)}'; do you need to use Combobox instead?`
     );
   },
 };
