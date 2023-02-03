@@ -256,7 +256,7 @@ describe('cy.component', () => {
     it('chain of length 2', () => {
       cy.mount(
         <>
-          <Card id="card1">
+          <BlockPanel title="Parent">
             <BlockPanel title="A">
               <Alert>A</Alert>
               <FormLabelGroup label="A">
@@ -271,18 +271,18 @@ describe('cy.component', () => {
               </FormLabelGroup>
               <Button color="secondary">B</Button>
             </BlockPanel>
-          </Card>
-          <Card id="card2">
+          </BlockPanel>
+          <BlockPanel title="Decoy">
             <BlockPanel title="A">
               Decoy!
             </BlockPanel>
             <BlockPanel title="B">
               Decoy!
             </BlockPanel>
-          </Card>
+          </BlockPanel>
         </>
       );
-      cy.get('#card1').within(() => {
+      cy.component(comp.BlockPanel, 'Parent').within(() => {
         cy.component(comp.BlockPanel, 'A').within(() => {
           cy.component(comp.Alert, 'A');
           cy.get('div.alert').should('have.text', 'A');
@@ -333,6 +333,55 @@ describe('cy.component', () => {
         cy.component(comp.Input).should('have.value', 'B');
         cy.component(comp.Button).should('have.text', 'B');
       });
+    });
+
+    it('churning chain of length 2', () => {
+      cy.mount(
+        <Churny>
+          <BlockPanel title="Parent">
+            <BlockPanel title="A">
+              <Alert>A</Alert>
+              <FormLabelGroup label="A">
+                <Input defaultValue="A" />
+              </FormLabelGroup>
+              <Button color="primary">A</Button>
+            </BlockPanel>
+            <BlockPanel title="B">
+              <Alert>B</Alert>
+              <FormLabelGroup label="B">
+                <Input defaultValue="B" />
+              </FormLabelGroup>
+              <Button color="secondary">B</Button>
+            </BlockPanel>
+          </BlockPanel>
+          <BlockPanel title="Decoy">
+            <BlockPanel title="A">
+              Decoy!
+            </BlockPanel>
+            <BlockPanel title="B">
+              Decoy!
+            </BlockPanel>
+          </BlockPanel>
+        </Churny>
+      );
+      cy.component(comp.BlockPanel, 'Parent').within(() => {
+        cy.component(comp.BlockPanel, 'A').within(() => {
+          cy.wait(CHURN * 2);
+          cy.get('button').should('have.length', 1).click()
+          cy.component(comp.Alert, 'A');
+          cy.get('div.alert').should('have.text', 'A');
+          cy.component(comp.Input).should('have.value', 'A');
+          cy.component(comp.Button).should('have.text', 'A');
+        });
+        cy.component(comp.BlockPanel, 'B').within(() => {
+          cy.wait(CHURN * 2);
+          cy.get('button').should('have.length', 1).click()
+          cy.component(comp.Alert, 'B');
+          cy.get('div.alert').should('have.text', 'B');
+          cy.component(comp.Input).should('have.value', 'B');
+          cy.component(comp.Button).should('have.text', 'B');
+        });
+      })
     });
   });
 
