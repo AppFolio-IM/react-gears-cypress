@@ -299,7 +299,7 @@ describe('cy.component', () => {
     });
 
     context('that is churning', () => {
-      const it12 = Cypress.addQuery ? it : it.skip;
+      const it12 = Cypress.Commands.addQuery ? it : it.skip;
 
       it12('chain of length 1', () => {
         cy.mount(
