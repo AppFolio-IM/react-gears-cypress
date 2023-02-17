@@ -1,13 +1,21 @@
-import { Component, ComponentOptions, Text, isText } from '../../interfaces';
+import { ComponentOptions, isText } from '../../interfaces';
 
-export function describePseudoSelector(component: Component, text?: Text) {
-  if (!text) return component.query;
-  else if (text instanceof RegExp)
-    return `${component.query}:component-text(${text})`;
-  else return `${component.query}:component-text('${text}')`;
+const DESCRIBE_MAX = 24;
+
+/// Return a string representation of a set of JQuery elements, e.g. for error messages.
+export function describeSet($collection: JQuery) {
+  return $collection.map(function (this) {
+    const html = this?.outerHTML || 'unknown';
+    const end = html.indexOf('>');
+    if (end < DESCRIBE_MAX) {
+      return html.substring(0, end + 1);
+    } else {
+      return html.substring(0, DESCRIBE_MAX) + '…';
+    }
+  }).toArray().join(',');
 }
 
-// Extract the options passed to the command, if any.
+/// Extract the options passed to the command, if any.
 export function getOptions(rest: any[]) {
   switch (rest.length) {
     case 1:
@@ -18,10 +26,10 @@ export function getOptions(rest: any[]) {
   }
 }
 
-// Extract the text paramter passed to the command, if any.
+/// Extract the text paramter passed to the command, if any.
 export const getText = (rest: any[]) => (isText(rest[0]) ? rest[0] : undefined);
 
-// Return a full hash of options w/ default values for anything not overrridden.
+/// Return a full hash of options w/ default values for anything not overrridden.
 export function normalizeOptions(rest: any[]): ComponentOptions {
   // Deliberate copy of defaults every time; Cypress destructively modifies it.
   const defl = {

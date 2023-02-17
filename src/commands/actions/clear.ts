@@ -36,7 +36,7 @@ export function clear(
     return cy
       .wrap(prevSubject, QUIET)
       .find('[data-testid=combobox-input]', QUIET)
-      .focus()
+      .focus(QUIET)
       .type('{backspace}{backspace}', QUIET)
       .then(blurIfNecessary);
   }

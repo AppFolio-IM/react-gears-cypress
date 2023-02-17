@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { describeSet } from './commands/internals/component';
 import { Component, ComponentWithText } from './interfaces';
 
 export const Alert: ComponentWithText = {
@@ -89,7 +90,7 @@ export const Select: ComponentWithText = {
     const vanilla = $el.find('select');
     if (vanilla.length) return vanilla;
     throw new Error(
-      `react-gears-cypress: cannot determine select type for '${$el}'`
+      `react-gears-cypress: cannot determine a Select inside '${describeSet($el)}'; do you need to use Combobox instead?`
     );
   },
 };

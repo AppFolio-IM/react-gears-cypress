@@ -7,7 +7,6 @@ import {
   isReact,
 } from '../../interfaces';
 import {
-  describePseudoSelector,
   getOptions,
   getText,
   mapAll,
@@ -97,10 +96,6 @@ export function component(
       if ($el.length && component.traverse)
         $el = mapAll($el, component.traverse);
     }
-
-    // Make command log more readable by emulating Cypress internal state.
-    // @ts-expect-error cypress(2551) undocumented extension to JQuery interface?
-    if (!$el.selector) $el.selector = describePseudoSelector(component, text);
 
     return $el;
   };
