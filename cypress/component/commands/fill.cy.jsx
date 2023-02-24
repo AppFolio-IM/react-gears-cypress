@@ -124,6 +124,26 @@ describe('cy.fill', () => {
       );
       cy.component(comp.Combobox, 'some label').fill('alpha');
       eventually(() => selected === 'alpha');
+      cy.component(comp.Combobox, 'some label').fill('charlie');
+      eventually(() => selected === 'charlie');
+    });
+
+    it('cooperates with clear', () => {
+      let selected;
+
+      cy.mount(
+        <Testbed
+          onChange={(v) => {
+            selected = v;
+          }}
+        />
+      );
+      cy.component(comp.Combobox, 'some label').fill('alpha');
+      eventually(() => selected === 'alpha');
+      cy.component(comp.Combobox, 'some label').clear();
+      eventually(() => selected === undefined);
+      cy.component(comp.Combobox, 'some label').fill('charlie');
+      eventually(() => selected === 'charlie');
     });
 
     // TODO: figure out how to intercept Cypress command errors

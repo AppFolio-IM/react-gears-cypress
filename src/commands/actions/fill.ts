@@ -56,11 +56,11 @@ export function fill(
         'react-gears-cypress: cy.fill with multiple values is not yet supported; sorry!'
       );
 
+    cy.wrap(prevSubject, QUIET).clear(QUIET);
     cy.wrap(prevSubject, QUIET)
       .find('[data-testid=combobox-input]', QUIET)
       .focus()
-      .type('{backspace}{backspace}', QUIET)
-      .type(value, FORCE_QUIET);
+      .type(value, FORCE_QUICK_QUIET);
     return cy
       .contains('button.dropdown-item.active', value, QUIET)
       .click(QUIET);
@@ -71,9 +71,6 @@ export function fill(
         'react-gears-cypress: cy.fill with multiple values is not yet supported; sorry!'
       );
 
-    // NB repeatedly re-finding elements relative to subject in order to
-    // deal with DOM churn
-    // TODO: is this useful anymore under Cypress 12?
     cy.wrap(prevSubject, QUIET).clear(QUIET);
     cy.wrap(prevSubject, QUIET)
       .find('input', QUIET)

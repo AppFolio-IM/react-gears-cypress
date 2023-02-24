@@ -93,10 +93,28 @@ describe('cy.clear', () => {
       cy.component(comp.Combobox, 'some label').clear();
       cy.get('[data-testid=combobox-menu]').should('not.be.visible');
     });
+
+    it.only('cooperates with fill', () => {
+      let selected = 'alpha';
+
+      cy.mount(
+        <Testbed
+          initialValue={selected}
+          onChange={(v) => {
+            selected = v;
+          }}
+        />
+      );
+
+      cy.component(comp.Combobox, 'some label').fill('alpha');
+      eventually(() => selected === 'alpha');
+      cy.component(comp.Combobox, 'some label').clear();
+      eventually(() => selected === undefined);
+    });
   });
 
   context('Select component', () => {
-    it('clears values', () => {
+    it.only('clears values', () => {
       const options = ['alpha', 'bravo', 'charlie'].map((o) => ({
         label: o,
         value: o,
