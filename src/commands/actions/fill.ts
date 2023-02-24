@@ -59,7 +59,6 @@ export function fill(
     cy.wrap(prevSubject, QUIET).clear(QUIET);
     cy.wrap(prevSubject, QUIET)
       .find('[data-testid=combobox-input]', QUIET)
-      .focus()
       .type(value, FORCE_QUICK_QUIET);
     return cy
       .contains('button.dropdown-item.active', value, QUIET)
@@ -74,7 +73,6 @@ export function fill(
     cy.wrap(prevSubject, QUIET).clear(QUIET);
     cy.wrap(prevSubject, QUIET)
       .find('input', QUIET)
-      .focus(QUIET)
       .type(value, FORCE_QUICK_QUIET);
     cy.wrap(prevSubject, QUIET)
       .parent(QUIET)
