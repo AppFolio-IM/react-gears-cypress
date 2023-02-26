@@ -61,7 +61,7 @@ export function fill(
       .find('[data-testid=combobox-input]', QUIET)
       .type(value, FORCE_QUICK_QUIET);
     return cy
-      .contains('button.dropdown-item.active', value, QUIET)
+      .contains('button.dropdown-item', value, QUIET)
       .click(QUIET);
   } else if (isGearsSelect) {
     if (logEntry) consoleProps.Type = 'React Select';

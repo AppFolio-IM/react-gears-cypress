@@ -44,7 +44,7 @@ export function select(
         //.clear(FORCE_QUIET)
         .type(valueOrTextOrIndex, FORCE_QUIET);
       cy.contains(
-        'button.dropdown-item.active',
+        'button.dropdown-item',
         valueOrTextOrIndex,
         QUIET
       ).click(QUIET);
