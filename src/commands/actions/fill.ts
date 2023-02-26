@@ -62,7 +62,7 @@ export function fill(
       .type(value, FORCE_QUICK_QUIET);
     return cy
       .contains('button.dropdown-item', value, QUIET)
-      .click(QUIET);
+      .click(FORCE_QUIET);
   } else if (isGearsSelect) {
     if (logEntry) consoleProps.Type = 'React Select';
     if (Array.isArray(value))
@@ -78,7 +78,7 @@ export function fill(
       .parent(QUIET)
       .get('.Select-menu', QUIET)
       .contains('button', match.exact(value), QUIET)
-      .click(QUIET);
+      .click(FORCE_QUIET);
   } else if (isTextInput) {
     if (logEntry) consoleProps.Type = 'HTML input';
     return (
