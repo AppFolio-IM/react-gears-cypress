@@ -18,8 +18,8 @@ export const BlockPanel: ComponentWithText = {
 
 export const Button: ComponentWithText = {
   name: 'Button',
-  query: 'button',
-  textQuery: 'button',
+  query: 'button,a.btn',
+  textQuery: 'button,a.btn',
 };
 
 export const Card: ComponentWithText = {
