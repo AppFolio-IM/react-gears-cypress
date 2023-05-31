@@ -9,6 +9,16 @@ export const Alert: ComponentWithText = {
   textQuery: 'div.alert',
 };
 
+/// Fork of Block with identical styling & similar behavior, used by
+/// some projects that have adopted Gears. Included here as a convenience.
+export const Block: ComponentWithText = {
+  name: 'Block',
+  query: '.card',
+  textQuery: '.card .card-title',
+  traverseViaText: ($el: JQuery) => $el.closest('.card'),
+};
+
+/// Canonical component from Gears design system.
 export const BlockPanel: ComponentWithText = {
   name: 'BlockPanel',
   query: '.card',
@@ -22,6 +32,8 @@ export const Button: ComponentWithText = {
   textQuery: 'button,a.btn',
 };
 
+/// Functionally identical to Block, but semantically different according to
+/// the gears design system.
 export const Card: ComponentWithText = {
   name: 'Card',
   query: '.card',
