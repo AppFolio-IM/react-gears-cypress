@@ -28,7 +28,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@appfolio/react-gears": "^5.19.2",
+    "@appfolio/react-gears": "^8.4.0",
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.20.5",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
