@@ -33,12 +33,20 @@ export function clear(
     });
 
   if (isGearsCombobox) {
-    return cy
-      .wrap(prevSubject, QUIET)
-      .find('[data-testid=combobox-input]', QUIET)
-      .focus()
-      .type('{backspace}{backspace}', QUIET)
-      .then(blurIfNecessary);
+    const btn = prevSubject.find('[data-testid=combobox-clear]');
+    if (btn.length === 1 && !btn.prop('disabled')) {
+      // testing hook is present; use it for maximum stability
+      return cy
+        .wrap(btn, QUIET).click().wrap(prevSubject, QUIET).then(blurIfNecessary);
+    } else {
+      // fall back to UI gesture that should work in most cases
+      return cy
+        .wrap(prevSubject, QUIET)
+        .find('[data-testid=combobox-input]', QUIET)
+        .focus(QUIET)
+        .type('{backspace}{backspace}', QUIET)
+        .then(blurIfNecessary);
+    }
   }
 
   if (isGearsSelect) {

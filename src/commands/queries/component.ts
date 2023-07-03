@@ -7,7 +7,7 @@ import {
   isReact,
 } from '../../interfaces';
 import {
-  describePseudoSelector,
+  getOptions,
   getText,
   mapAll,
   normalizeOptions,
@@ -43,9 +43,42 @@ export function component(
   // @ts-expect-error cypress(2339) undocumented command
   const withinSubjectChain = cy.state('withinSubjectChain');
 
+  const consoleProps: Record<string, any> = {
+    Component: defn.name,
+  };
+  let logEntry: Cypress.Log | undefined;
+  if (options.log !== false) {
+    const loggableOptions = getOptions(rest);
+    const message: any[] = [defn.name];
+    if (text) {
+      message.push(text);
+      consoleProps.Text = text;
+    }
+    if (loggableOptions) {
+      message.push(loggableOptions);
+      consoleProps.Options = loggableOptions;
+    }
+
+    logEntry = Cypress.log({
+      name: 'component',
+      message,
+      consoleProps: () => {
+        return consoleProps;
+      },
+    });
+  }
+
   return (prevSubject: JQuery | void) => {
     // @ts-expect-error cypress(2339) undocumented command
-    const $subject = prevSubject || cy.getSubjectFromChain(withinSubjectChain) || cy.$$('body');
+    const withinSubject = cy.getSubjectFromChain(withinSubjectChain);
+
+    consoleProps['Applies To'] = Cypress.dom.getElements(
+      prevSubject || withinSubject
+    );
+    logEntry?.set('type', prevSubject || withinSubject ? 'child' : 'parent')
+
+
+    const $subject = prevSubject || withinSubject || cy.$$('body');
     let $el: JQuery;
 
     if (text && isComponentWithText(defn)) {
@@ -60,10 +93,9 @@ export function component(
       if ($el.length && defn.traverse) $el = mapAll($el, defn.traverse);
     }
 
-    // Make command log more readable by emulating Cypress internal state.
-    // @ts-expect-error cypress(2551) undocumented extension to JQuery interface?
-    if (!$el.selector) $el.selector = describePseudoSelector(defn, text);
-
+    consoleProps['Yielded'] = Cypress.dom.getElements($el);
+    consoleProps['Elements'] = $el.length
+    logEntry?.set('$el', $el);
     return $el;
   };
 }

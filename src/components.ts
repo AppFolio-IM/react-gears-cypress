@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { describeSet } from './commands/internals/component';
 import { Component, ComponentWithText } from './interfaces';
 
 export const Alert: ComponentWithText = {
@@ -8,6 +9,16 @@ export const Alert: ComponentWithText = {
   textQuery: 'div.alert',
 };
 
+/// Fork of Block with identical styling & similar behavior, used by
+/// some projects that have adopted Gears. Included here as a convenience.
+export const Block: ComponentWithText = {
+  name: 'Block',
+  query: '.card',
+  textQuery: '.card .card-title',
+  traverseViaText: ($el: JQuery) => $el.closest('.card'),
+};
+
+/// Canonical component from Gears design system.
 export const BlockPanel: ComponentWithText = {
   name: 'BlockPanel',
   query: '.card',
@@ -17,10 +28,12 @@ export const BlockPanel: ComponentWithText = {
 
 export const Button: ComponentWithText = {
   name: 'Button',
-  query: 'button',
-  textQuery: 'button',
+  query: 'button,a.btn',
+  textQuery: 'button,a.btn',
 };
 
+/// Functionally identical to Block, but semantically different according to
+/// the gears design system.
 export const Card: ComponentWithText = {
   name: 'Card',
   query: '.card',
@@ -89,7 +102,7 @@ export const Select: ComponentWithText = {
     const vanilla = $el.find('select');
     if (vanilla.length) return vanilla;
     throw new Error(
-      `react-gears-cypress: cannot determine select type for '${$el}'`
+      `react-gears-cypress: cannot determine a Select inside '${describeSet($el)}'; do you need to use Combobox instead?`
     );
   },
 };

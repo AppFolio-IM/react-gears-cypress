@@ -41,12 +41,21 @@ describe('components', () => {
     cy.component(comp.BlockPanel, 'other label').should('not.exist');
   });
 
-  it('Button', () => {
-    cy.mount(<Button>some label</Button>);
-    cy.component(comp.Button).should('be.visible');
-    cy.component(comp.Button, 'some label');
-    cy.component(comp.Button, 'other label').should('not.exist');
-  });
+  context('Button', () => {
+    it('vanilla HTML', () => {
+      cy.mount(<Button>some label</Button>);
+      cy.component(comp.Button).should('be.visible');
+      cy.component(comp.Button, 'some label');
+      cy.component(comp.Button, 'other label').should('not.exist');
+    });
+
+    it('button-styled link', () => {
+      cy.mount(<a className="btn btn-secondary">some label</a>);
+      cy.component(comp.Button).should('be.visible');
+      cy.component(comp.Button, 'some label');
+      cy.component(comp.Button, 'other label').should('not.exist');
+    })
+  })
 
   it('Card', () => {
     cy.mount(

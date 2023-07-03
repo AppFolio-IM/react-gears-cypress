@@ -10,6 +10,9 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "react",
+    "types": [
+      "cypress"
+    ]
   },
   "include": [
     "src"
